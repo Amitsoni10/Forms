@@ -61,7 +61,7 @@ export class MyElement extends LitElement {
             </div>
 
             <div class="label-container">
-              <label>Emp Code</label>
+              <label>Employee Code</label>
               <input
                 class="${this.employeeForm.empCode.errorMessage
                   ? "boxerror"
@@ -122,6 +122,7 @@ export class MyElement extends LitElement {
             </div>
 
             <div class="label-container">
+              <h4>Contact Info</h4>
               <label>Primary Number</label>
               <input
                 class="${this.employeeForm.contact.primary.errorMessage
@@ -134,6 +135,41 @@ export class MyElement extends LitElement {
               />
               <span class="error"
                 >${this.employeeForm.contact.primary.errorMessage}</span
+              ><br />
+            </div>
+
+
+            <div class="label-container">
+
+              <label>Secondary Number</label>
+              <input
+                class="${this.employeeForm.contact.secondary.errorMessage
+                  ? "boxerror"
+                  : ""}"
+                type=""
+                id="primary"
+                @input=${(e) => this.validateForm(e, "secondary")}
+                autocomplete="off"
+              />
+              <span class="error"
+                >${this.employeeForm.contact.secondary.errorMessage}</span
+              ><br />
+            </div>
+
+            <div class="label-container">
+
+              <label>Emergency Number</label>
+              <input
+                class="${this.employeeForm.contact.emergency.errorMessage
+                  ? "boxerror"
+                  : ""}"
+                type=""
+                id="primary"
+                @input=${(e) => this.validateForm(e, "emergency")}
+                autocomplete="off"
+              />
+              <span class="error"
+                >${this.employeeForm.contact.emergency.errorMessage}</span
               ><br />
             </div>
 
@@ -370,64 +406,168 @@ export class MyElement extends LitElement {
       // validation for primary number
       case "primary":
         {
-          this.employeeForm.contact = {
-            ...this.employeeForm.contact,
-            primary: {
-              value: `${e.target.value}`,
-              isValidName: false,
-              errorMessage: "",
+          this.employeeForm = {
+            ...this.employeeForm,
+            contact: { ...this.employeeForm.contact,
+              primary:{value: `${e.target.value}`,
+            isValidName: false,
+            errorMessage: "",}
+              
             },
           };
-          console.log(this.employeeForm);
 
           if (!this.employeeForm.contact.primary.value) {
-            this.employeeForm.contact = {
-              ...this.employeeForm.contact,
-              primary: {
-                value: `${e.target.value}`,
-                isValidName: false,
-                errorMessage: "Please Enter your number",
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                primary:{value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "Can't be Empty",}
+                
               },
             };
+
           } else if (
             this.employeeForm.contact.primary.value.length > 10 ||
             this.employeeForm.contact.primary.value.length < 10 ||
             !this.employeeForm.contact.primary.value.match(/[0-9]{10}/)
           ) {
-            this.employeeForm.contact = {
-              ...this.employeeForm.contact,
-              primary: {
-                value: `${e.target.value}`,
-                isValidName: false,
-                errorMessage: "Invalid Number",
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                primary:{value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "Invalid Number",}
+                
               },
             };
           } else if (
             this.employeeForm.contact.primary.value.match(/[0-9]{10}/)
           ) {
-            this.employeeForm.contact = {
-              ...this.employeeForm.contact,
-              primary: {
-                value: `${e.target.value}`,
-                isValidName: true,
-                errorMessage: "",
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                primary:{value: `${e.target.value}`,
+              isValidName: true,
+              errorMessage: "",}
+                
               },
             };
           }
-          // else {
-          //   this.employeeForm = {
-          //     ...this.employeeForm,
-          //     name: {
-          //       value: `${e.target.value}`,
-          //       isValidName: true,
-          //       errorMessage: "",
-          //     },
-
-          //   };
-
-          // }
         }
         break;
+
+
+      // Validation for secondary number
+      case "secondary":
+        {
+          this.employeeForm = {
+            ...this.employeeForm,
+            contact: { ...this.employeeForm.contact,
+              secondary:{value: `${e.target.value}`,
+            isValidName: false,
+            errorMessage: "",}
+              
+            },
+          };
+
+          if (!this.employeeForm.contact.secondary.value) {
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                secondary:{value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "Can't be Empty",}
+                
+              },
+            };
+
+          } else if (
+            this.employeeForm.contact.secondary.value.length > 10 ||
+            this.employeeForm.contact.secondary.value.length < 10 ||
+            !this.employeeForm.contact.secondary.value.match(/[0-9]{10}/)
+          ) {
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                secondary:{value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "Invalid Number",}
+                
+              },
+            };
+          } else if (
+            this.employeeForm.contact.secondary.value.match(/[0-9]{10}/)
+          ) {
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                secondary:{value: `${e.target.value}`,
+              isValidName: true,
+              errorMessage: "",}
+                
+              },
+            };
+          }
+        }
+        break;
+
+
+      // Validation for emergency number  
+      case "emergency":
+        {
+          this.employeeForm = {
+            ...this.employeeForm,
+            contact: { ...this.employeeForm.contact,
+              emergency:{value: `${e.target.value}`,
+            isValidName: false,
+            errorMessage: "",}
+              
+            },
+          };
+
+          if (!this.employeeForm.contact.emergency.value) {
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                emergency:{value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "Can't be Empty",}
+                
+              },
+            };
+
+          } else if (
+            this.employeeForm.contact.emergency.value.length > 10 ||
+            this.employeeForm.contact.emergency.value.length < 10 ||
+            !this.employeeForm.contact.emergency.value.match(/[0-9]{10}/)
+          ) {
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                emergency:{value: `${e.target.value}`,
+              isValidName: false,
+              errorMessage: "Invalid Number",}
+                
+              },
+            };
+          } else if (
+            this.employeeForm.contact.emergency.value.match(/[0-9]{10}/)
+          ) {
+            this.employeeForm = {
+              ...this.employeeForm,
+              contact: { ...this.employeeForm.contact,
+                emergency:{value: `${e.target.value}`,
+              isValidName: true,
+              errorMessage: "",}
+                
+              },
+            };
+          }
+        }
+        break;
+
+
     }
   }
 
@@ -496,14 +636,41 @@ export class MyElement extends LitElement {
     } 
 
     if (!this.employeeForm.contact.primary.value) {
-      this.employeeForm.contact = {
-        ...this.employeeForm.contact,
-        primary: {
-          value: `${e.target.value}`,
-          isValidName: false,
-          errorMessage: "Please Enter your number",
+      this.employeeForm = {
+        ...this.employeeForm,
+        contact: { ...this.employeeForm.contact,
+          primary:{value: `${e.target.value}`,
+        isValidName: false,
+        errorMessage: "Can't be Empty",}
+          
         },
       };
+
+    }
+
+    if (!this.employeeForm.contact.secondary.value) {
+      this.employeeForm = {
+        ...this.employeeForm,
+        contact: { ...this.employeeForm.contact,
+          secondary:{value: `${e.target.value}`,
+        isValidName: false,
+        errorMessage: "Can't be Empty",}
+          
+        },
+      };
+
+    } 
+    if (!this.employeeForm.contact.emergency.value) {
+      this.employeeForm = {
+        ...this.employeeForm,
+        contact: { ...this.employeeForm.contact,
+          emergency:{value: `${e.target.value}`,
+        isValidName: false,
+        errorMessage: "Can't be Empty",}
+          
+        },
+      };
+
     } 
     
 
@@ -513,7 +680,9 @@ export class MyElement extends LitElement {
       this.employeeForm.empCode.isValidName === true &&
       this.employeeForm.department.isValidName === true &&
       this.employeeForm.designation.isValidName === true &&
-      this.employeeForm.contact.primary.isValidName === true 
+      this.employeeForm.contact.primary.isValidName === true &&
+      this.employeeForm.contact.secondary.isValidName === true &&
+      this.employeeForm.contact.emergency.isValidName === true  
     ) {
       const form = this.renderRoot.querySelector("form");
       form.reset();
