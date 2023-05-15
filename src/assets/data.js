@@ -26,3 +26,25 @@ export const emaildata = [
     {email:"Personal"},
     {email:"Official"},
 ]
+
+export const country=[
+    {country:""},
+    {country:"India"},
+    {country:"America"},
+    {country:"Australia"},
+    {country:"Japan"},
+]
+
+export const state=[
+    {state:""},
+    {state:"Delhi"},
+    {state:"Mumbai"},
+    {state:"Chennai"},
+    {state:"Banglore"},
+    {state:"Hyderabad"},
+]
+export const city=[
+    {city:""},
+    {city:"new delhi"},
+    {city:"delhi"},
+]
