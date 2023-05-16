@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  color:radial-gradient(rgba(88, 255, 241, 0.952),rgba(113, 82, 255, 0.973))
 }
 
 body {
