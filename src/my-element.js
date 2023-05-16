@@ -71,7 +71,7 @@ export class MyElement extends LitElement {
             <h2>Employee Data Form</h2>
             <div class="first">
               <div class="label-container">
-                <label for="name">*Name</label>
+                <label for="name">Name*</label>
                 <input
                   class="${this.employeeForm.name.errorMessage
                     ? "boxerror"
@@ -88,7 +88,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="label-container">
-                <label for="empcode">*Employee Code</label>
+                <label for="empcode">Employee Code*</label>
                 <input
                   class="${this.employeeForm.empCode.errorMessage
                     ? "boxerror"
@@ -108,7 +108,7 @@ export class MyElement extends LitElement {
 
             <div class="first">
               <div class="label-container">
-                <label for="emailtype">*Email Type </label>
+                <label for="emailtype">Email Type* </label>
                 <select
                   name="emailtype"
                   id="emailtype"
@@ -125,7 +125,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="label-container">
-                <label for="email">*Email</label>
+                <label for="email">Email*</label>
                 <input
                   type=""
                   disabled
@@ -145,7 +145,7 @@ export class MyElement extends LitElement {
 
             <div class="first">
               <div class="label-container">
-                <label for="designation">*Choose a Designation </label>
+                <label for="designation">Choose a Designation* </label>
                 <select
                   name="designation"
                   id="designation"
@@ -169,7 +169,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="label-container">
-                <label for="department">*Choose a Department </label>
+                <label for="department">Choose a Department* </label>
                 <select
                   name="department"
                   id="department"
@@ -198,7 +198,7 @@ export class MyElement extends LitElement {
               <div class="address">
                 <div class="label-container">
                   <h3>Correspondence Address</h3>
-                  <label for="correspondenceaddressline1">*Address Line 1</label>
+                  <label for="correspondenceaddressline1">Address Line 1*</label>
                   <input
                     type="text"
                     id="correspondenceaddressline1"
@@ -229,7 +229,7 @@ export class MyElement extends LitElement {
                 </div>
 
                 <div class="label-container">
-                  <label for="correspondencelandmark">*Landmark</label>
+                  <label for="correspondencelandmark">Landmark*</label>
                   <input
                     type="text"
                     id="correspondencelandmark"
@@ -249,7 +249,7 @@ export class MyElement extends LitElement {
                 </div>
 
                 <div class="label-container">
-                  <label for="correspondencecountry">*Country</label>
+                  <label for="correspondencecountry">Country*</label>
                   <select
                   id="correspondencecountry"
                   name="correspondencecountry"
@@ -269,7 +269,7 @@ export class MyElement extends LitElement {
                 </div>
 
                 <div class="label-container">
-                  <label for="correspondencestate">*State</label>
+                  <label for="correspondencestate">State*</label>
                   <select
                     @input=${(e) => this.validateForm(e, "state")}
                     id="correspondencestate"
@@ -288,7 +288,7 @@ export class MyElement extends LitElement {
                 </div>
 
                 <div class="label-container">
-                  <label for="correspondencecity">*City</label>
+                  <label for="correspondencecity">City*</label>
                   <select
                    @input=${(e) => this.validateForm(e, "city")}
                    id="correspondencecity"
@@ -307,7 +307,7 @@ export class MyElement extends LitElement {
                 </div>
 
                 <div class="label-container">
-                  <label for="correspondencezipcode">*Zip Code</label>
+                  <label for="correspondencezipcode">Zip Code*</label>
                   <input
                     @input=${(e) => this.validateForm(e, "zipcode")}
                     id="correspondencezipcode"
@@ -462,7 +462,7 @@ export class MyElement extends LitElement {
             <h3>Contact Information</h3>
             <div class="contact">
               <div class="label-container">
-                <label for="primarynumber">*Primary Number</label>
+                <label for="primarynumber">Primary Number*</label>
                 <input
                   class="${this.employeeForm.contact.primary.errorMessage
                     ? "boxerror"
@@ -480,7 +480,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="label-container">
-                <label for="secondarynumber">*Secondary Number</label>
+                <label for="secondarynumber">Secondary Number*</label>
                 <input
                   class="${this.employeeForm.contact.secondary.errorMessage
                     ? "boxerror"
@@ -498,7 +498,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="label-container">
-                <label for="emergencynumber">*Emergency Number</label>
+                <label for="emergencynumber">Emergency Number*</label>
                 <input
                   class="${this.employeeForm.contact.emergency.errorMessage
                     ? "boxerror"
