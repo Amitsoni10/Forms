@@ -13,7 +13,7 @@ export class MyElement extends LitElement {
   static get properties() {
     return {
       employeeForm: { type: Object },
-      employeedata:{type:Object},
+      employeedata:{type:Array},
       emailtype1: { type: String },
       countries: { type: Array },
     };
@@ -21,16 +21,13 @@ export class MyElement extends LitElement {
 
   constructor() {
     super();
-    this.employeedata={};
+    this.employeedata=[];
     this.countries = [];
     this.emailtype1 = "";
 
     this.employeeForm = {
       name: { value: "", isValidName: false, errorMessage: "" },
-      emailtype: {
-        personal: { value: "", isValidName: false, errorMessage: "" },
-        official: { value: "", isValidName: false, errorMessage: "" },
-      },
+      email:{value: "", isValidName: false, errorMessage: "" },
       empCode: { value: "", isValidName: false, errorMessage: "" },
       designation: { value: "", isValidName: false, errorMessage: "" },
       department: { value: "", isValidName: false, errorMessage: "" },
@@ -137,8 +134,7 @@ export class MyElement extends LitElement {
                   autocomplete="off"
                 />
                 <span class="error" id="emailerror"
-                  >${this.employeeForm.emailtype.personal.errorMessage ||
-                  this.employeeForm.emailtype.official.errorMessage}</span
+                  >${this.employeeForm.email.errorMessage}</span
                 ><br />
               </div>
             </div>
@@ -703,111 +699,94 @@ export class MyElement extends LitElement {
           if (this.emailtype1 === "Personal") {
             this.employeeForm = {
               ...this.employeeForm,
-              emailtype: {
-                ...this.employeeForm.emailtype,
-                personal: {
+                email: {
                   value: `${e.target.value}`,
                   isValidName: false,
                   errorMessage: "",
-                },
+                
               },
             };
-            if (!this.employeeForm.emailtype.personal.value) {
+            if (!this.employeeForm.email.value) {
               this.employeeForm = {
-                ...this.employeeForm,
-                emailtype: {
-                  ...this.employeeForm.emailtype,
-                  personal: {
+                ...this.employeeForm, 
+                email: {
                     value: `${e.target.value}`,
                     isValidName: false,
                     errorMessage: "Can't be Empty",
                   },
-                },
+                
               };
             } else if (
-              this.employeeForm.emailtype.personal.value.match(
+              this.employeeForm.email.value.match(
                 /^[^\s@]+@gmail\.com$/
               )
             ) {
               this.employeeForm = {
                 ...this.employeeForm,
-                emailtype: {
-                  ...this.employeeForm.emailtype,
-                  personal: {
+
+                email: {
                     value: `${e.target.value}`,
                     isValidName: true,
                     errorMessage: "",
                   },
-                },
+                
               };
             } else {
               this.employeeForm = {
                 ...this.employeeForm,
-                emailtype: {
-                  ...this.employeeForm.emailtype,
-                  personal: {
+                email: {
                     value: `${e.target.value}`,
                     isValidName: false,
                     errorMessage: "Invalid",
                   },
-                },
               };
             }
           } else if (this.emailtype1 === "Official") {
             this.employeeForm = {
               ...this.employeeForm,
-              emailtype: {
-                ...this.employeeForm.emailtype,
-                official: {
+
+              email: {
                   value: `${e.target.value}`,
                   isValidName: false,
                   errorMessage: "",
                 },
-              },
+              
             };
-            if (!this.employeeForm.emailtype.official.value) {
+            if (!this.employeeForm.email.value) {
               this.employeeForm = {
                 ...this.employeeForm,
-                emailtype: {
-                  ...this.employeeForm.emailtype,
-                  official: {
+                email: {
                     value: `${e.target.value}`,
                     isValidName: false,
                     errorMessage: "Can't be Empty",
                   },
-                },
               };
             } else if (
-              this.employeeForm.emailtype.official.value.match(
+              this.employeeForm.email.value.match(
                 /^[^\s@]+@annalect\.com$/
               )
             ) {
               this.employeeForm = {
                 ...this.employeeForm,
-                emailtype: {
-                  ...this.employeeForm.emailtype,
-                  official: {
+                email: {
                     value: `${e.target.value}`,
                     isValidName: true,
                     errorMessage: "",
                   },
-                },
               };
             } else {
               this.employeeForm = {
                 ...this.employeeForm,
-                emailtype: {
-                  ...this.employeeForm.emailtype,
-                  official: {
+
+                email: {
                     value: `${e.target.value}`,
                     isValidName: false,
                     errorMessage: "Invalid",
                   },
-                },
+
               };
             }
-          } else {
-          }
+          } 
         }
         break;
 
@@ -1734,8 +1713,7 @@ export class MyElement extends LitElement {
 
     if (
       this.employeeForm.name.isValidName === true &&
-      (this.employeeForm.emailtype.official.isValidName === true ||
-        this.employeeForm.emailtype.personal.isValidName === true) &&
+      this.employeeForm.email.isValidName === true &&
       this.employeeForm.empCode.isValidName === true &&
       this.employeeForm.department.isValidName === true &&
       this.employeeForm.designation.isValidName === true &&
@@ -1747,12 +1725,11 @@ export class MyElement extends LitElement {
       this.employeeForm.address.correspondence.landmark.isValidName === true &&
       this.employeeForm.address.correspondence.zipcode.isValidName === true
     ) {
-      this.employeedata={
+      let userdata={
         Name:this.employeeForm.name.value,
         EmployeeCode:this.employeeForm.empCode.value,
         EmailType:this.emailtype1,
-        PersonalEmail:this.employeeForm.emailtype.personal.value,
-        OfficialEmail:this.employeeForm.emailtype.official.value,
+        Email:this.employeeForm.email.value,
         Designation:this.employeeForm.designation.value,
         Department:this.employeeForm.department.value,
         CorrespondenceAddressLine1:this.employeeForm.address.correspondence.addressline1.value,
@@ -1773,12 +1750,26 @@ export class MyElement extends LitElement {
         SecondaryNumber:this.employeeForm.contact.secondary.value,
         EmergencyNumber:this.employeeForm.contact.emergency.value,
       }
-      const form = this.renderRoot.querySelector("form");
-      form.submit();
-      alert("Form Submitted Successfully");
-      
+      this.employeedata.push(userdata)
       localStorage.setItem("MyEmployeeList", JSON.stringify(this.employeedata));
+      const form = this.renderRoot.querySelector("form");
+     
+      this.employeeForm.address.correspondence.addressline2.value="",
+      this.employeeForm.address.permanent.addressline1.value="",
+      this.employeeForm.address.permanent.addressline2.value="",
+      this.employeeForm.address.permanent.landmark.value="",
+      this.employeeForm.address.permanent.country.value=""
+      this.employeeForm.address.permanent.state.value="",
+      this.employeeForm.address.permanent.city.value="",
+      this.employeeForm.address.permanent.zipcode.value="",
+      alert("Form Submitted Successfully");
+      form.reset();
+    
+    
+    
     }
+  
+    
   }
 
   static get styles() {
