@@ -111,7 +111,7 @@ export class MyElement extends LitElement {
                   id="emailtype"
                   required
                   @input=${(e) => this.validateForm(e, "emailtype")}
-                >
+                ><option></option>
                   ${repeat(
                     emaildata,
                     (items) =>
@@ -1764,6 +1764,7 @@ export class MyElement extends LitElement {
       this.employeeForm.address.permanent.zipcode.value="",
       alert("Form Submitted Successfully");
       form.reset();
+      this.requestUpdate();
     
     
     

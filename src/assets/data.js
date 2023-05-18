@@ -22,7 +22,7 @@ export const designation = [
 ]
 
 export const emaildata = [
-    {email:""},
+    // {email:""},
     {email:"Personal"},
     {email:"Official"},
 ]
