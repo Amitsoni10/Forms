@@ -1,4 +1,5 @@
 import { LitElement, css, html } from "lit";
+
 import {
   designation,
   department,
@@ -22,39 +23,14 @@ export class UserData extends LitElement {
 
   constructor() {
     super();
-    this.sortAscending = true;
-    this.editData = {
-      // editName:"",
-      // editEmpCode:"",
-      // editEmailType:"",
-      // editEmail:"",
-      // editDesignation:"",
-      // editDepartment:"",
-      // editCorrespondenceLine1:"",
-      // editCorrespondenceLine2:"",
-      // editCorrespondenceLandmark:"",
-      // editCorrespondenceCountry:"",
-      // editCorrespondenceState:"",
-      // editCorrespondenceCity:"",
-      // editCorrespondenceZipCode:"",
-      // editPermanentLine1:"",
-      // editPermanentLine2:"",
-      // editPermanentLandmark:"",
-      // editPermanentCountry:"",
-      // editPermanentState:"",
-      // editPermanentCity:"",
-      // editPermanentZipCode:"",
-      // editPrimaryNumber:"",
-      // editSecondaryNumber:"",
-      // editEmergencyNumber:"",
-    };
+    this.sortAscending = false;
+    this.editData = {};
     this.countries = [];
     this.editingIndex = -1;
     this.data = [];
   }
   connectedCallback() {
     super.connectedCallback();
-    // console.log(this.data);
     this.loadCountries();
     this.loadData();
   }
@@ -76,48 +52,74 @@ export class UserData extends LitElement {
 
   render() {
     return html`
-
-            <dialog class="modal" id="modal">
-            <form method="dialog">
-                <div class="h-block">
-                  <h2>Update Details</h2>
-                <label>Name</label>
-                <input type="text" id="name" value=${
-                  this.editData.Name
-                }  @input=${(e) => (this.editData.Name = e.target.value)}/>
-
-                <label>Employee Code</label>
-                <input type="text" id="empcode" value=${
-                  this.editData.EmployeeCode
-                }   @input=${(e) =>
-      (this.editData.EmployeeCode = e.target.value)}/>
+      <div id="alertbox" class="invisible">
+        <div class="alert">
+          <span class="closebtn" @click=${this.toggleAlert}>&times;</span>
+          <strong>Data Deleted Successfully!!!</strong>
+        </div>
       </div>
-      <div class="h1-block">
-                <label >Email Type</label>
-                <select 
+
+      <dialog class="modal" id="modal">
+        <section class="form-header">
+          <h2 id="form-heading">Edit Details of ${this.editData.Name}</h2>
+        </section>
+        <form>
+          <div class="form">
+            <div class="h-block">
+              <div class="blocks">
+                <label>Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  value=${this.editData.Name}
+                  autocomplete="off"
+                  @input=${(e) => (this.editData.Name = e.target.value)}
+                />
+              </div>
+              <div class="blocks">
+                <label>Employee Code</label>
+                <input
+                  type="text"
+                  id="empcode"
+                  value=${this.editData.EmployeeCode}
+                  @input=${(e) => (this.editData.EmployeeCode = e.target.value)}
+                />
+              </div>
+            </div>
+            <div class="h1-block">
+              <div class="blocks">
+                <label>Email Type</label>
+                <select
                   id="emailtype"
                   @input=${(e) => (this.editData.EmailType = e.target.value)}
-                ><option>${this.editData.EmailType}</option>
+                >
+                  <option>${this.editData.EmailType}</option>
                   ${repeat(
                     emaildata,
                     (items) =>
                       html`<option class="options">${items.email}</option>`
                   )}
                 </select>
-                  
-                
+              </div>
+
+              <div class="blocks">
                 <label>Email</label>
-                <input type="text" id="email" value=${
-                  this.editData.Email
-                }   @input=${(e) =>
-      (this.editData.Email = e.target.value)}/>
-        </div>
-        <div class="h2-block">
-                <label >Choose a Designation </label>
-                <select 
+                <input
+                  type="text"
+                  id="email"
+                  value=${this.editData.Email}
+                  @input=${(e) => (this.editData.Email = e.target.value)}
+                />
+              </div>
+            </div>
+            <div class="h2-block">
+              <div class="blocks">
+                <label>Choose a Designation </label>
+                <select
                   id="designation"
                   @input=${(e) => (this.editData.Designation = e.target.value)}
-                ><option >${this.editData.Designation}</option>
+                >
+                  <option>${this.editData.Designation}</option>
                   ${repeat(
                     designation,
                     (items) =>
@@ -126,286 +128,336 @@ export class UserData extends LitElement {
                       </option>`
                   )}
                 </select>
+              </div>
 
-                <label >Choose a Department </label>
+              <div class="blocks">
+                <label>Choose a Department </label>
                 <select
                   id="department"
                   @input=${(e) => (this.editData.Department = e.target.value)}
-                ><option >${this.editData.Department}</option>
+                >
+                  <option>${this.editData.Department}</option>
                   ${repeat(
                     department,
                     (items) =>
                       html`<option class="options">${items.department}</option>`
                   )}
                 </select>
-                  </div>
-                
-                    <div class="contain">
-                      <div class="block1">
+              </div>
+            </div>
+
+            <div class="contain">
+              <div class="block1">
                 <h3>Correspondence Address</h3>
-                  <label >Address Line 1</label>
-                  <input
-                    type="text"
-                    id="correspondenceaddressline1"
-                    value=${this.editData.CorrespondenceAddressLine1}
-                    @input=${(e) =>
-                      (this.editData.CorrespondenceAddressLine1 =
-                        e.target.value)}
-                    autocomplete="off"
-                  />
+                <label>Address Line 1</label>
+                <input
+                  type="text"
+                  id="correspondenceaddressline1"
+                  value=${this.editData.CorrespondenceAddressLine1}
+                  @input=${(e) =>
+                    (this.editData.CorrespondenceAddressLine1 = e.target.value)}
+                  autocomplete="off"
+                />
 
-                  <label >Address Line 2</label>
-                  <input
-                    type="text"
-                    id="correspondenceaddressline2"
-                    value=${this.editData.CorrespondenceAddressLine2}
-                    @input=${(e) =>
-                      (this.editData.CorrespondenceAddressLine2 =
-                        e.target.value)}
-                    autocomplete="off"
-                  />
+                <label>Address Line 2</label>
+                <input
+                  type="text"
+                  id="correspondenceaddressline2"
+                  value=${this.editData.CorrespondenceAddressLine2}
+                  @input=${(e) =>
+                    (this.editData.CorrespondenceAddressLine2 = e.target.value)}
+                  autocomplete="off"
+                />
 
-                  <label >Landmark</label>
-                  <input
-                    type="text"
-                    id="correspondencelandmark"
-                    value=${this.editData.CorrespondenceLandmark}
-                    @input=${(e) =>
-                      (this.editData.CorrespondenceLandmark = e.target.value)}
-                    autocomplete="off"
-                  />
-                  <label>Country</label>
-                  <select
+                <label>Landmark</label>
+                <input
+                  type="text"
+                  id="correspondencelandmark"
+                  value=${this.editData.CorrespondenceLandmark}
+                  @input=${(e) =>
+                    (this.editData.CorrespondenceLandmark = e.target.value)}
+                  autocomplete="off"
+                />
+                <label>Country</label>
+                <select
                   @input=${(e) =>
                     (this.editData.CorrespondenceCountry = e.target.value)}
-                  id="correspondencecountry">
-                    <option>${this.editData.CorrespondenceCountry}</option>
-                    ${repeat(
-                      this.countries,
-                      (items) =>
-                        html`<option class="options">${items.name}</option>`
-                    )}
-                  </select>
+                  id="correspondencecountry"
+                >
+                  <option>${this.editData.CorrespondenceCountry}</option>
+                  ${repeat(
+                    this.countries,
+                    (items) =>
+                      html`<option class="options">${items.name}</option>`
+                  )}
+                </select>
 
-                  <label >State</label>
-                  <select  
+                <label>State</label>
+                <select
                   @input=${(e) =>
-                    (this.editData.CorrespondenceState = e.target.value)}  
-                    id="correspondencestate"
-                  >
-                    <option>${this.editData.CorrespondenceState}</option>
-                    ${repeat(
-                      state,
-                      (items) =>
-                        html`<option class="options">${items.state}</option>`
-                    )}
-                  </select>
+                    (this.editData.CorrespondenceState = e.target.value)}
+                  id="correspondencestate"
+                >
+                  <option>${this.editData.CorrespondenceState}</option>
+                  ${repeat(
+                    state,
+                    (items) =>
+                      html`<option class="options">${items.state}</option>`
+                  )}
+                </select>
 
-                  <label >City</label>
-                  <select
-                   id="correspondencecity"
-                   @input=${(e) =>
-                     (this.editData.CorrespondenceCity = e.target.value)}  
-                   >
-                    <option>${this.editData.CorrespondenceCity}</option>
-                    ${repeat(
-                      city,
-                      (items) =>
-                        html`<option class="options">${items.city}</option>`
-                    )}
-                  </select>
-
-                  <label >Zip Code</label>
-                  <input
-                    type="number"
-                    @input=${(e) =>
-                      (this.editData.CorrespondenceZipCode = e.target.value)}  
-                    value=${this.editData.CorrespondenceZipCode}
-                    id="correspondencezipcode"   
-                  />
-                    </div>
-                  <div class="block2">
-                <h3>Permanent Address</h3>
-                  <label >Address Line 1</label>
-                  <input
-                    type="text"
-                    id="permanentaddressline1"
-                    value=${this.editData.PermanentAddressLine1}
-                    @input=${(e) =>
-                      (this.editData.PermanentAddressLine1 = e.target.value)} 
-                    autocomplete="off"
-                  />
-
-                  <label >Address Line 2</label>
-                  <input
-                    type="text"
-                    id="permanentaddressline2"
-                    value=${this.editData.PermanentAddressLine2}
-                    @input=${(e) =>
-                      (this.editData.PermanentAddressLine2 = e.target.value)} 
-                    autocomplete="off"
-                  />
-
-                  <label >Landmark</label>
-                  <input
-                    type="text"
-                    id="permanentlandmark"
-                    value=${this.editData.PermanentLandmark}
-                    @input=${(e) =>
-                      (this.editData.PermanentLandmark = e.target.value)} 
-                    autocomplete="off"
-                  />
-
-                  <label>Country</label>
-                  <select
+                <label>City</label>
+                <select
+                  id="correspondencecity"
                   @input=${(e) =>
-                    (this.editData.PermanentCountry = e.target.value)} 
-                  id="permanentcountry">
-                    <option>${this.editData.PermanentCountry}</option>
-                    ${repeat(
-                      this.countries,
-                      (items) =>
-                        html`<option class="options">${items.name}</option>`
-                    )}
-                  </select>
+                    (this.editData.CorrespondenceCity = e.target.value)}
+                >
+                  <option>${this.editData.CorrespondenceCity}</option>
+                  ${repeat(
+                    city,
+                    (items) =>
+                      html`<option class="options">${items.city}</option>`
+                  )}
+                </select>
 
-                  <label >State</label>
-                  <select   
-                  @input=${(e) =>
-                    (this.editData.PermanentState = e.target.value)}  
-                    id="permanentstate"
-                  >
-                    <option>${this.editData.PermanentState}</option>
-                    ${repeat(
-                      state,
-                      (items) =>
-                        html`<option class="options">${items.state}</option>`
-                    )}
-                  </select>
-
-                  <label >City</label>
-                  <select
-                  @input=${(e) =>
-                    (this.editData.PermanentCity = e.target.value)}  
-                   id="permanentcity"
-                   >
-                    <option>${this.editData.PermanentCity}</option>
-                    ${repeat(
-                      city,
-                      (items) =>
-                        html`<option class="options">${items.city}</option>`
-                    )}
-                  </select>
-
-                  <label >Zip Code</label>
-                  <input
-                    type="number"
-                    value=${this.editData.PermanentZipCode}
-                    @input=${(e) =>
-                      (this.editData.PermanentZipCode = e.target.value)} 
-                    id="permanentzipcode"   
-                  />
-                    </div>
-                    </div>
-                  <div class="f-block">
-                    <h3>Contact Details</h3>
-                  <label >Primary Number</label>
+                <label>Zip Code</label>
                 <input
-                  id="primarynumber"
-                  value=${this.editData.PrimaryNumber}
+                  type="number"
                   @input=${(e) =>
-                    (this.editData.PrimaryNumber = e.target.value)}  
-                />
-
-                  <label >Secondary Number</label>
-                <input
-                  id="secondarynumber"
-                  value=${this.editData.SecondaryNumber}
-                  @input=${(e) =>
-                    (this.editData.SecondaryNumber = e.target.value)}  
-                />
-
-                  <label >Emergency Number</label>
-                <input
-                  id="emergencynumber"
-                  value=${this.editData.EmergencyNumber}
-                  @input=${(e) =>
-                    (this.editData.EmergencyNumber = e.target.value)} 
+                    (this.editData.CorrespondenceZipCode = e.target.value)}
+                  value=${this.editData.CorrespondenceZipCode}
+                  id="correspondencezipcode"
                 />
               </div>
+              <div class="block2">
+                <h3>Permanent Address</h3>
+                <label>Address Line 1</label>
+                <input
+                  type="text"
+                  id="permanentaddressline1"
+                  value=${this.editData.PermanentAddressLine1}
+                  @input=${(e) =>
+                    (this.editData.PermanentAddressLine1 = e.target.value)}
+                  autocomplete="off"
+                />
 
-                <button  @click=${this.cancelEdit}>Cancel</button>
-                <button  @click=${this.saveEdit}>Save</button>
-            </form>
-          </dialog> 
-      <div >
+                <label>Address Line 2</label>
+                <input
+                  type="text"
+                  id="permanentaddressline2"
+                  value=${this.editData.PermanentAddressLine2}
+                  @input=${(e) =>
+                    (this.editData.PermanentAddressLine2 = e.target.value)}
+                  autocomplete="off"
+                />
+
+                <label>Landmark</label>
+                <input
+                  type="text"
+                  id="permanentlandmark"
+                  value=${this.editData.PermanentLandmark}
+                  @input=${(e) =>
+                    (this.editData.PermanentLandmark = e.target.value)}
+                  autocomplete="off"
+                />
+
+                <label>Country</label>
+                <select
+                  @input=${(e) =>
+                    (this.editData.PermanentCountry = e.target.value)}
+                  id="permanentcountry"
+                >
+                  <option>${this.editData.PermanentCountry}</option>
+                  ${repeat(
+                    this.countries,
+                    (items) =>
+                      html`<option class="options">${items.name}</option>`
+                  )}
+                </select>
+
+                <label>State</label>
+                <select
+                  @input=${(e) =>
+                    (this.editData.PermanentState = e.target.value)}
+                  id="permanentstate"
+                >
+                  <option>${this.editData.PermanentState}</option>
+                  ${repeat(
+                    state,
+                    (items) =>
+                      html`<option class="options">${items.state}</option>`
+                  )}
+                </select>
+
+                <label>City</label>
+                <select
+                  @input=${(e) =>
+                    (this.editData.PermanentCity = e.target.value)}
+                  id="permanentcity"
+                >
+                  <option>${this.editData.PermanentCity}</option>
+                  ${repeat(
+                    city,
+                    (items) =>
+                      html`<option class="options">${items.city}</option>`
+                  )}
+                </select>
+
+                <label>Zip Code</label>
+                <input
+                  type="number"
+                  value=${this.editData.PermanentZipCode}
+                  @input=${(e) =>
+                    (this.editData.PermanentZipCode = e.target.value)}
+                  id="permanentzipcode"
+                />
+              </div>
+            </div>
+          </div>
+          <h3 id="contact">Contact Details</h3>
+          <div class="f-block">
+            <div class="blocks">
+              <label>Primary Number</label>
+              <input
+                id="primarynumber"
+                value=${this.editData.PrimaryNumber}
+                @input=${(e) => (this.editData.PrimaryNumber = e.target.value)}
+              />
+            </div>
+
+            <div class="blocks">
+              <label>Secondary Number</label>
+              <input
+                id="secondarynumber"
+                value=${this.editData.SecondaryNumber}
+                @input=${(e) =>
+                  (this.editData.SecondaryNumber = e.target.value)}
+              />
+            </div>
+
+            <div class="blocks">
+              <label>Emergency Number</label>
+              <input
+                id="emergencynumber"
+                value=${this.editData.EmergencyNumber}
+                @input=${(e) =>
+                  (this.editData.EmergencyNumber = e.target.value)}
+              />
+            </div>
+          </div>
+          <div class="btn-block">
+            <button id="cancel-btn" @click=${this.cancelEdit}>Cancel</button>
+            <button id="save-btn" @click=${this.saveEdit}>Save</button>
+          </div>
+        </form>
+      </dialog>
 
       <!-- Main Data display  -->
-        <table>
-        <tr >
-          <th>Name<button @click=${this.sort}>↑</button></th>
-          <th>Emp Code</th>
-          <th>Email Type</th>
-          <th>Email</th>
-          <th>Designation</th>
-          <th>Department</th>
-          <th>Correspondence Address</th>
-          <th>Permanent Address</th>
-          <th>Contact Details</th>
-          <!-- <th>Secondary Number</th>
-          <th>Emergency Number</th> -->
-          <th>Action</th>
+      <div class="main-table">
+        <main class="table">
+          <section class="table_header">
+            <h1>Employee Details</h1>
+          </section>
+          <section class="table_body">
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Name<button id="sort-btn" @click=${this.sort}>⇵</button>
+                  </th>
+                  <th>Emp Code</th>
+                  <th>Email Type</th>
+                  <th>Email</th>
+                  <th>Designation</th>
+                  <th>Department</th>
+                  <th>Correspondence Address</th>
+                  <th>Permanent Address</th>
+                  <th>Contact Details</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${repeat(
+                  this.data,
+                  (items, index) => html`<tr>
+                    <td>${items.Name}</td>
+                    <td>${items.EmployeeCode}</td>
+                    <td>${items.EmailType}</td>
+                    <td>${items.Email}</td>
 
-        </tr>
+                    <td>${items.Designation}</td>
+                    <td>${items.Department}</td>
+                    <td class="address">
+                      <p>
+                        <strong>AddressLine1: </strong
+                        >${items.CorrespondenceAddressLine1}
+                      </p>
+                      <p>
+                        <strong>AddressLine2: </strong
+                        >${items.CorrespondenceAddressLine2}
+                      </p>
+                      <p>
+                        <strong>Landmark: </strong
+                        >${items.CorrespondenceLandmark}
+                      </p>
+                      <p>
+                        <strong>Country: </strong>${items.CorrespondenceCountry}
+                      </p>
+                      <p>
+                        <strong>State: </strong>${items.CorrespondenceState}
+                      </p>
+                      <p><strong>City: </strong>${items.CorrespondenceCity}</p>
+                      <p>
+                        <strong>ZipCode: </strong>${items.CorrespondenceZipCode}
+                      </p>
+                    </td>
+                    <td class="address">
+                      <p>
+                        <strong>AddressLine1: </strong
+                        >${items.PermanentAddressLine1}
+                      </p>
+                      <p>
+                        <strong>AddressLine2: </strong
+                        >${items.PermanentAddressLine2}
+                      </p>
+                      <p>
+                        <strong>Landmark: </strong>${items.PermanentLandmark}
+                      </p>
+                      <p><strong>Country: </strong>${items.PermanentCountry}</p>
+                      <p><strong>State: </strong>${items.PermanentState}</p>
+                      <p><strong>City: </strong>${items.PermanentCity}</p>
+                      <p><strong>ZipCode: </strong>${items.PermanentZipCode}</p>
+                    </td>
 
-        ${repeat(
-          this.data,
-          (items, index) => html` <tr>
-            <td>${items.Name}</td>
-            <td>${items.EmployeeCode}</td>
-            <td>${items.EmailType}</td>
-            <td>${items.Email}</td>
-
-            <td>${items.Designation}</td>
-            <td>${items.Department}</td>
-            <td class="address">
-              <p><strong>AddressLine1 </strong>${
-                items.CorrespondenceAddressLine1
-              }</p>
-              <p><strong>AddressLine2 </strong>${
-                items.CorrespondenceAddressLine2
-              }</p>
-              <p><strong>Landmark </strong>${items.CorrespondenceLandmark}</p>
-              <p><strong>Country </strong>${items.CorrespondenceCountry}</p>
-              <p><strong>State </strong>${items.CorrespondenceState}</p>
-              <p><strong>City </strong>${items.CorrespondenceCity}</p>
-              <p><strong>ZipCode </strong>${items.CorrespondenceZipCode}</p>
-            </td>
-            <td class="address">
-            <p ><strong>AddressLine1 </strong>${items.PermanentAddressLine1}</p>
-             <p> <strong>AddressLine2 </strong>${
-               items.PermanentAddressLine2
-             }</p>
-              <p><strong>Landmark </strong>${items.PermanentLandmark}</p>
-             <p> <strong>Country </strong>${items.PermanentCountry}</p>
-             <p> <strong>State </strong>${items.PermanentState}</p>
-             <p> <strong>City </strong>${items.PermanentCity}</p>
-             <p> <strong>ZipCode </strong>${items.PermanentZipCode}</p>
-              <td><p><strong>Primary </strong>${items.PrimaryNumber}</p><br>
-              <p><strong>Secondary </strong>${items.SecondaryNumber}</p><br>
-              <p><strong>Emergency </strong>${items.EmergencyNumber}</p></td>
-            <td>
-              <button  id="editbtn" @click=${() =>
-                this.editItem(index)}>Edit</button>
-              <button id="dltbtn"  @click=${() =>
-                this.DeleteConfirmation(items)}>Delete</button>
-            </td>
-          </tr>
-          </table>`
-        )}              
+                    <td>
+                      <p><strong>Primary: </strong>${items.PrimaryNumber}</p>
+                      <br />
+                      <p>
+                        <strong>Secondary: </strong>${items.SecondaryNumber}
+                      </p>
+                      <br />
+                      <p>
+                        <strong>Emergency: </strong>${items.EmergencyNumber}
+                      </p>
+                    </td>
+                    <td>
+                      <button id="editbtn" @click=${() => this.editItem(index)}>
+                        Edit
+                      </button>
+                      <button
+                        id="dltbtn"
+                        @click=${() => this.DeleteConfirmation(items)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr> `
+                )}
+              </tbody>
+            </table>
+          </section>
+        </main>
       </div>
-
- 
     `;
   }
 
@@ -429,37 +481,24 @@ export class UserData extends LitElement {
     this.requestUpdate();
   }
 
+  toggleAlert() {
+    let alertbox = this.renderRoot.querySelector("#alertbox");
+    alertbox.classList.remove("visible");
+    alertbox.classList.add("invisible");
+  }
+
+  alert() {
+    let alertbox = this.renderRoot.querySelector("#alertbox");
+    alertbox.classList.remove("invisible");
+    alertbox.classList.add("visible");
+    this.requestUpdate();
+  }
+
   editItem(index) {
     this.editingIndex = index;
     const item = this.data[index];
     console.log(item);
     this.editData = item;
-    // this.editData.editName = item.Name;
-    // this.editData.editEmpCode = item.EmployeeCode
-    // this.editData.editEmailType = item.EmailType
-    // this.editData.editEmail = item.Email;
-    // this.editData.editDesignation = item.Designation
-    // this.editData.editDepartment = item.Department
-
-    // this.editData.editCorrespondenceLine1 = item.CorrespondenceAddressLine1
-    // this.editData.editCorrespondenceLine2 = item.CorrespondenceAddressLine2
-    // this.editData.editCorrespondenceLandmark = item.CorrespondenceLandmark
-    // this.editData.editCorrespondenceCountry = item.CorrespondenceCountry
-    // this.editData.editCorrespondenceState = item.CorrespondenceState
-    // this.editData.editCorrespondenceCity = item.CorrespondenceCity
-    // this.editData.editCorrespondenceZipCode = item.CorrespondenceZipCode
-
-    // this.editData.editPermanentLine1 = item.PermanentAddressLine1
-    // this.editData.editPermanentLine2 = item.PermanentAddressLine2
-    // this.editData.editPermanentLandmark = item.PermanentLandmark
-    // this.editData.editPermanentCountry = item.PermanentCountry
-    // this.editData.editPermanentState = item.PermanentState
-    // this.editData.editPermanentCity = item.PermanentCity
-    // this.editData.editPermanentZipCode = item.PermanentZipCode
-
-    // this.editData.editPrimaryNumber = item.PrimaryNumber
-    // this.editData.editSecondaryNumber = item.SecondaryNumber
-    // this.editData.editEmergencyNumber = item.EmergencyNumber
     this.openmodal();
   }
 
@@ -470,63 +509,10 @@ export class UserData extends LitElement {
   }
 
   saveEdit() {
-    // e.preventDefault();
-    // const newName = this.renderRoot.querySelector("#name").value;
-    // const newEmpCode = this.renderRoot.querySelector("#empcode").value;
-    // const newEmailType = this.renderRoot.querySelector("#emailtype").value;
-    // const newEmail = this.renderRoot.querySelector("#email").value;
-    // const newDesignation = this.renderRoot.querySelector("#designation").value;
-    // const newDepartment = this.renderRoot.querySelector("#department").value;
-    // const newCorrespondenceLine1 = this.renderRoot.querySelector("#correspondenceaddressline1").value;
-    // const newCorrespondenceLine2 = this.renderRoot.querySelector("#correspondenceaddressline2").value;
-    // const newCorrespondenceLandmark = this.renderRoot.querySelector("#correspondencelandmark").value;
-    // const newCorrespondenceCountry = this.renderRoot.querySelector("#correspondencecountry").value;
-    // const newCorrespondenceState = this.renderRoot.querySelector("#correspondencestate").value;
-    // const newCorrespondenceCity = this.renderRoot.querySelector("#correspondencecity").value;
-    // const newCorrespondenceZipcode = this.renderRoot.querySelector("#correspondencezipcode").value;
-    // const newPermanentLine1 = this.renderRoot.querySelector("#permanentaddressline1").value;
-    // const newPermanentLine2 = this.renderRoot.querySelector("#permanentaddressline2").value;
-    // const newPermanentLandmark = this.renderRoot.querySelector("#permanentlandmark").value;
-    // const newPermanentCountry = this.renderRoot.querySelector("#permanentcountry").value;
-    // const newPermanentState = this.renderRoot.querySelector("#permanentstate").value;
-    // const newPermanentCity = this.renderRoot.querySelector("#permanentcity").value;
-    // const newPermanentZipcode = this.renderRoot.querySelector("#permanentzipcode").value;
-    // const newPrimaryNumber = this.renderRoot.querySelector("#primarynumber").value;
-    // const newSecondaryNumber = this.renderRoot.querySelector("#secondarynumber").value;
-    // const newEmergencyNumber = this.renderRoot.querySelector("#emergencynumber").value;
-
-    // if(this.renderRoot.querySelector("#name").value.trim() !==""){
-    //   const item = this.data[this.editingIndex];
-
-    //   item.Name = this.renderRoot.querySelector("#name").value;
-    //   item.EmployeeCode = this.renderRoot.querySelector("#empcode").value;
-    //   item.EmailType = this.renderRoot.querySelector("#emailtype").value;
-    //   item.Email = this.renderRoot.querySelector("#email").value;
-    //   item.Designation = this.renderRoot.querySelector("#designation").value;
-    //   item.Department = this.renderRoot.querySelector("#department").value;
-    //   item.CorrespondenceAddressLine1 = this.renderRoot.querySelector("#correspondenceaddressline1").value;
-    //   item.CorrespondenceAddressLine2 = this.renderRoot.querySelector("#correspondenceaddressline2").value;
-    //   item.CorrespondenceLandmark = this.renderRoot.querySelector("#correspondencelandmark").value;
-    //   item.CorrespondenceCountry = this.renderRoot.querySelector("#correspondencecountry").value;
-    //   item.CorrespondenceState = this.renderRoot.querySelector("#correspondencestate").value;
-    //   item.CorrespondenceCity = this.renderRoot.querySelector("#correspondencecity").value;
-    //   item.CorrespondenceZipCode = this.renderRoot.querySelector("#correspondencezipcode").value;
-    //   item.PermanentAddressLine1 = this.renderRoot.querySelector("#permanentaddressline1").value;
-    //   item.PermanentAddressLine2 = this.renderRoot.querySelector("#permanentaddressline2").value;
-    //   item.PermanentLandmark =  this.renderRoot.querySelector("#permanentlandmark").value;
-    //   item.PermanentCountry = this.renderRoot.querySelector("#permanentcountry").value;
-    //   item.PermanentState = this.renderRoot.querySelector("#permanentstate").value;
-    //   item.PermanentCity = this.renderRoot.querySelector("#permanentcity").value;
-    //   item.PermanentZipCode = this.renderRoot.querySelector("#permanentzipcode").value;
-    //   item.PrimaryNumber = this.renderRoot.querySelector("#primarynumber").value;
-    //   item.SecondaryNumber = this.renderRoot.querySelector("#secondarynumber").value;
-    //   item.EmergencyNumber = this.renderRoot.querySelector("#emergencynumber").value;
-
     this.storeData();
     window.location.reload();
     this.requestUpdate();
     this.closemodel();
-    // }
   }
 
   DeleteConfirmation(items) {
@@ -541,11 +527,11 @@ export class UserData extends LitElement {
 
   deleteItem(items) {
     const index = this.data.indexOf(items);
-    if (index > this.editingIndex) {
+    if (index > -1) {
       this.data.splice(index, 1);
       this.storeData();
-      window.location.reload();
       this.requestUpdate();
+      this.alert();
     }
   }
 
@@ -557,91 +543,335 @@ export class UserData extends LitElement {
         padding: 0;
         box-sizing: border-box;
       }
+
+      .invisible{
+        display:none;
+      }
+      .visible{
+        display:block;
+      }
+
+      .alert {
+        text-align:center;
+        padding: 20px;
+        background-color: #d30606;
+        color: white;
+      }
+
+      .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .closebtn:hover {
+        color: black;
+      }
+
+      .form{
+        padding-left:70px;
+      }
+
       .modal{
         border:2px solid #1b1818;
         padding:1em;
-        border-radius:5px;
-        width:60%;
-        margin:20px auto;
+        border-radius:10px;
+        width:50%;
+        height:80%;
+        margin:70px auto;
         /* display:inline-block; */
+        overflow-y:scroll;
+        background-image:linear-gradient(45deg, #bbb4b4,#ff1046);
+        backdrop-filter:blur(5px);
+        box-shadow:0.4rem .8rem #2c2b2ba3;
       }
+      .modal::-webkit-scrollbar{
+        width:0.5rem;
+        height:0.5rem;
+      }
+      .modal::-webkit-scrollbar-thumb{
+          border-radius:.5rem;
+          background-color:#0004;
+        }
+
       .modal::backdrop{
         background:#585555;
-        opacity:.2;
+        opacity:.7;
       }
+      .form-header{
+          width:100%;
+          height:10%;
+          margin-bottom:15px;
+          background-image:linear-gradient(to right, #020202, #3d3b3b,#020202);
+          text-align:center;
+          padding:.4rem 1rem;
+          color:#fff;
+          font-family: 'Lora', serif;
+          border-top-left-radius:8px;
+          border-top-right-radius:8px;
+      }
+
       .contain{
         display:flex;
+        margin:20px 0px;
+        gap:16px
+        font-family: 'Poppins', sans-serif;
+        padding: 0px 8px
+        
       }
       .block2{
-        display:block;
-        width:50%;
+        display:flex;
+        flex-direction:column;
+        gap:5px;
       }
       .block2 input{
-        display:block;
-        width:50%;
+        width:70%;
+        height:30px;
+        border:1px solid black;
+        border-radius:3px;
+        background:#ffffff96;
+        padding:0px 5px;
       }
       .block2 select{
-        display:block;
-        width:50%;
+        width:70%;
+        height:30px;
+        border-radius:3px;
+        border:1px solid black;
+        background:#ffffff96;
+        padding:0px 5px;
       }
       .block1{
-        display:block;
-        width:50%;
+        display:flex;
+        flex-direction:column; 
+        gap:5px;
       }
       .block1 input{
-        display:block;
-        width:50%;
+        width:70%;
+        height:30px;
+        border-radius:3px;
+        border:1px solid black;
+        background:#ffffff96;
+        padding:0px 5px;
       }
       .block1 select{
-        display:block;
-        width:50%;
+        width:70%;
+        height:30px;
+        border-radius:3px;
+        border:1px solid black;
+        background:#ffffff96;
+        padding:0px 5px;
+      }
+      .h-block{
+        display: flex;
+        gap: 5px;
       }
       .h-block input{
-        display:inline-flex;
-        width:25%;
+        width:70%;
+        height:30px;
+        border:1px solid black;
+        border-radius:3px;
+        background:#ffffff96;
+        padding:0px 5px;
       }
-      .h-block select{
-        display:inline-flex;
-        width:20%;
+      .h1-block{
+        display: flex;
+        gap: 5px;
       }
       .h1-block input{
-        display:inline-flex;
-        width:25%;
+        width:70%;
+        height:30px;
+        border:1px solid black;
+        border-radius:3px;
+        background:#ffffff96;
+        padding:0px 5px;
       }
       .h1-block select{
-        display:inline-flex;
-        width:14%;
+        width:70%;
+        height:30px;
+        border:1px solid black;
+        border-radius:3px;
+        background:#ffffff96;
+        padding:0px 5px;
       }
-      table {
-        border-collapse: collapse;
-        margin:5px;
+      .h2-block{
+        display: flex;
+        gap: 5px;
       }
-      
-      th {
-        text-align: left;
+      .h2-block select{
+        width:70%;
+        height:30px;
+        border:1px solid black;
+        border-radius:3px;
+        background:#ffffff96;
+        padding:0px 5px;
+      }
+      .blocks{
+        margin: 0px auto;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+      }
+      #contact{
         font-family: 'Poppins', sans-serif;
-        padding: 8px;
-        border-right:4px solid #fff;
-        background-color: #8d8d8d;
       }
-      
-      
-      td {
-        text-align: left;
+      .f-block{
+        display:flex;
+        flex-direction:column;
+        gap:5px;
+        font-family: 'Poppins', sans-serif;
+      }
+      .f-block input{
+        height:30px;
+        width:155%;
+        margin-left:-90px;
+        border-radius:3px;
+        border:1px solid black;
+        background:#ffffff96;
+        padding:0px 5px;
+      }
+      .f-block label{
+        margin-left:-90px;
+      }
+      #contact{
+        margin-left:250px;
+      }
+      .btn-block{
+        display:flex;
+        gap: 109px;
+        margin: 27px 125px;
+        font-family: 'Poppins', sans-serif;
+
+      }
+      form label{
         font-family: 'Lora', serif;
-        padding: 8px;
-        border-right:4px solid #fff;
+        /* color:#fff; */
+        font-weight:bold;
       }
-      
-      tr{
-        background-color: #ececec;
-        border-bottom:4px solid #ffffff;
+      #cancel-btn{
+          padding:2px;
+          margin:5px 2px;
+          width:50%;
+          height:35px;
+          font-weight:bold;
+          cursor:pointer;
+          color:#fff;
+          border-radius:6px;
+          font-family: 'Lora', serif;
+          background-image:linear-gradient(to right, #020202, #2c2a2a,#3d3b3b);
         }
+        #cancel-btn:hover{
+          color:#ffffff;
+          background-image:linear-gradient(to right, #fa0b0bed, #ff2727e6,#f84c4c);
+        }
+       #save-btn{
+          padding:2px;
+          margin:5px 2px;
+          width:50%;
+          height:35px;
+          font-weight:bold;
+          cursor:pointer;
+          color:#fff;
+          border-radius:6px;
+          font-family: 'Lora', serif;
+          background-image:linear-gradient(to right, #020202, #2c2a2a,#3d3b3b);
+        }
+        #save-btn:hover{
+          color:#ffffff;
+          background-image:linear-gradient(to right, #174b09, #298310,#2aaa10);
+        }
+
+        .main-table{
+          background: url(https://images.unsplash.com/photo-1550684376-efcbd6e3f031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80) center/cover;
+          padding:6px 0px;
+
+        }
+
+        table,th,td{
+          padding:1rem;
+          border-collapse:collapse;
+          
+        }
+        main.table{
+          margin:0px auto;
+          width:93vw;
+          height:90vh;
+          background-color:#807b7b40;  
+          backdrop-filter:blur(2px);
+          border-radius:0.8rem;
+          overflow:hidden;
+          border:2px solid #02020275;
+        }
+
+        .table_header{
+          width:100%;
+          height:10%;
+          background-color:#070707f0;
+          padding:.8rem 1rem;
+          color:#fff;
+          font-family: 'Lora', serif;         
+        }
+        .table_body{
+          width:97%;
+          max-height:86%;
+          background-color:#ffffffc0;
+          margin:.8rem auto;
+          border-radius:.6rem;
+          overflow:auto;
+
+        }
+        .table_body::-webkit-scrollbar{
+          width:0rem;
+          height:0rem;
+        }
+        .table_body::-webkit-scrollbar-thumb{
+          border-radius:.5rem;
+          background-color:#0004;
+          visibility:hidden;
+        }
+        .table_body:hover::-webkit-scrollbar-thumb{
+          visibility:visible;
+ 
+        }
+        table{
+          width:100%;
+        }
+        thead th{
+          position:sticky;
+          top:0;
+          left:0;
+          background-color:#ff1046;
+          font-family: 'Lora', serif;
+
+
+        }
+       tbody tr:nth-child(even){
+          background-color:#00000032;
+        }
+        tbody tr:hover{
+          background-color:#ffffff81;
+
+        }
+        tbody tr{
+          font-size:14px;
+          font-family: 'Lora', serif;
+                  
+        }
+        #sort-btn{
+          border:none;
+          background:none;
+          cursor:pointer;
+        }   
+    
         #dltbtn{
           padding:2px;
           margin:5px 2px;
           width:100%;
-          background:#ff0000;
+          background-image:linear-gradient(to right, #f01414f9, #ff2727fb,#ec3939);
           color:#fff;
           cursor:pointer;
           font-family: 'Lora', serif;
@@ -655,16 +885,16 @@ export class UserData extends LitElement {
           color:#fff;
           border-radius:6px;
           font-family: 'Lora', serif;
-          background:#6e6863;
+          background-image:linear-gradient(to right, #f01414f9, #ff2727fb,#ec3939);
         }
         #editbtn:hover{
           background:#d1d1d1;
-          color:#6e6863;
+          color:#1a7408;
         }
         #dltbtn:hover{
           color:#ff0000;
           background:#d1d1d1;;
-        }
+        } 
         .address p{
           padding:3px;
         }
