@@ -619,9 +619,9 @@ export class UserData extends LitElement {
       .contain{
         display:flex;
         margin:20px 0px;
-        gap:16px
+        gap:50px;
         font-family: 'Poppins', sans-serif;
-        padding: 0px 8px
+        padding: 0px 8px;
         
       }
       .block2{
@@ -630,7 +630,7 @@ export class UserData extends LitElement {
         gap:5px;
       }
       .block2 input{
-        width:70%;
+        width:100%;
         height:30px;
         border:1px solid black;
         border-radius:3px;
@@ -638,7 +638,7 @@ export class UserData extends LitElement {
         padding:0px 5px;
       }
       .block2 select{
-        width:70%;
+        width:100%;
         height:30px;
         border-radius:3px;
         border:1px solid black;
@@ -651,7 +651,7 @@ export class UserData extends LitElement {
         gap:5px;
       }
       .block1 input{
-        width:70%;
+        width:80%;
         height:30px;
         border-radius:3px;
         border:1px solid black;
@@ -659,7 +659,7 @@ export class UserData extends LitElement {
         padding:0px 5px;
       }
       .block1 select{
-        width:70%;
+        width:80%;
         height:30px;
         border-radius:3px;
         border:1px solid black;
