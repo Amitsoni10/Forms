@@ -36,7 +36,7 @@ export class Navbar extends LitElement {
       }
         #nav{
             height:50px;
-            background-color:#272525;
+            background-color:#181529;
         }
         #nav-ul{
             display:flex;

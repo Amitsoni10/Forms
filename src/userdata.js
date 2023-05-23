@@ -60,15 +60,16 @@ export class UserData extends LitElement {
       </div>
 
       <dialog class="modal" id="modal">
-        <section class="form-header">
-          <h2 id="form-heading">Edit Details of ${this.editData.Name}</h2>
-        </section>
-        <form>
+        <form class>
+          <section class="form-header">
+            <h2 id="form-heading">Edit Details of ${this.editData.Name}</h2>
+          </section>
           <div class="form">
             <div class="h-block">
               <div class="blocks">
-                <label>Name</label>
+                <label for="name">Name</label>
                 <input
+                  name="name"
                   type="text"
                   id="name"
                   value=${this.editData.Name}
@@ -77,8 +78,9 @@ export class UserData extends LitElement {
                 />
               </div>
               <div class="blocks">
-                <label>Employee Code</label>
+                <label for="empcode">Employee Code</label>
                 <input
+                  name="empcode"
                   type="text"
                   id="empcode"
                   value=${this.editData.EmployeeCode}
@@ -88,8 +90,9 @@ export class UserData extends LitElement {
             </div>
             <div class="h1-block">
               <div class="blocks">
-                <label>Email Type</label>
+                <label for="emailtype">Email Type</label>
                 <select
+                  name="emailtype"
                   id="emailtype"
                   @input=${(e) => (this.editData.EmailType = e.target.value)}
                 >
@@ -103,8 +106,9 @@ export class UserData extends LitElement {
               </div>
 
               <div class="blocks">
-                <label>Email</label>
+                <label for="email">Email</label>
                 <input
+                  name="email"
                   type="text"
                   id="email"
                   value=${this.editData.Email}
@@ -114,8 +118,9 @@ export class UserData extends LitElement {
             </div>
             <div class="h2-block">
               <div class="blocks">
-                <label>Choose a Designation </label>
+                <label for="designation">Choose a Designation </label>
                 <select
+                  name="designation"  
                   id="designation"
                   @input=${(e) => (this.editData.Designation = e.target.value)}
                 >
@@ -131,8 +136,9 @@ export class UserData extends LitElement {
               </div>
 
               <div class="blocks">
-                <label>Choose a Department </label>
+                <label for="department">Choose a Department </label>
                 <select
+                  name="department"
                   id="department"
                   @input=${(e) => (this.editData.Department = e.target.value)}
                 >
@@ -149,9 +155,10 @@ export class UserData extends LitElement {
             <div class="contain">
               <div class="block1">
                 <h3>Correspondence Address</h3>
-                <label>Address Line 1</label>
+                <label for="correspondenceaddressline1">Address Line 1</label>
                 <input
                   type="text"
+                  name="correspondenceaddressline1"
                   id="correspondenceaddressline1"
                   value=${this.editData.CorrespondenceAddressLine1}
                   @input=${(e) =>
@@ -159,9 +166,10 @@ export class UserData extends LitElement {
                   autocomplete="off"
                 />
 
-                <label>Address Line 2</label>
+                <label for="correspondenceaddressline2">Address Line 2</label>
                 <input
                   type="text"
+                  name="correspondenceaddressline2"
                   id="correspondenceaddressline2"
                   value=${this.editData.CorrespondenceAddressLine2}
                   @input=${(e) =>
@@ -169,33 +177,36 @@ export class UserData extends LitElement {
                   autocomplete="off"
                 />
 
-                <label>Landmark</label>
+                <label for="correspondencelandmark">Landmark</label>
                 <input
                   type="text"
+                  name="correspondencelandmark"
                   id="correspondencelandmark"
                   value=${this.editData.CorrespondenceLandmark}
                   @input=${(e) =>
                     (this.editData.CorrespondenceLandmark = e.target.value)}
                   autocomplete="off"
                 />
-                <label>Country</label>
+                <label for="correspondencecountry">Country</label>
                 <select
                   @input=${(e) =>
                     (this.editData.CorrespondenceCountry = e.target.value)}
                   id="correspondencecountry"
+                  name="correspondencecountry"
                 >
                   <option>${this.editData.CorrespondenceCountry}</option>
                   ${repeat(
-                    this.countries,
+                    country,
                     (items) =>
-                      html`<option class="options">${items.name}</option>`
+                      html`<option class="options">${items.country}</option>`
                   )}
                 </select>
 
-                <label>State</label>
+                <label for="correspondencestate">State</label>
                 <select
                   @input=${(e) =>
                     (this.editData.CorrespondenceState = e.target.value)}
+                  name="correspondencestate"  
                   id="correspondencestate"
                 >
                   <option>${this.editData.CorrespondenceState}</option>
@@ -206,9 +217,10 @@ export class UserData extends LitElement {
                   )}
                 </select>
 
-                <label>City</label>
+                <label for="correspondencecity">City</label>
                 <select
                   id="correspondencecity"
+                  name="correspondencecity"
                   @input=${(e) =>
                     (this.editData.CorrespondenceCity = e.target.value)}
                 >
@@ -220,9 +232,10 @@ export class UserData extends LitElement {
                   )}
                 </select>
 
-                <label>Zip Code</label>
+                <label for="correspondencezipcode">Zip Code</label>
                 <input
                   type="number"
+                  name="correspondencezipcode"
                   @input=${(e) =>
                     (this.editData.CorrespondenceZipCode = e.target.value)}
                   value=${this.editData.CorrespondenceZipCode}
@@ -231,9 +244,10 @@ export class UserData extends LitElement {
               </div>
               <div class="block2">
                 <h3>Permanent Address</h3>
-                <label>Address Line 1</label>
+                <label for="permanentaddressline1">Address Line 1</label>
                 <input
                   type="text"
+                  name="permanentaddressline1"
                   id="permanentaddressline1"
                   value=${this.editData.PermanentAddressLine1}
                   @input=${(e) =>
@@ -241,9 +255,10 @@ export class UserData extends LitElement {
                   autocomplete="off"
                 />
 
-                <label>Address Line 2</label>
+                <label for="permanentaddressline2">Address Line 2</label>
                 <input
                   type="text"
+                  name="permanentaddressline2"
                   id="permanentaddressline2"
                   value=${this.editData.PermanentAddressLine2}
                   @input=${(e) =>
@@ -251,9 +266,10 @@ export class UserData extends LitElement {
                   autocomplete="off"
                 />
 
-                <label>Landmark</label>
+                <label for="permanentlandmark">Landmark</label>
                 <input
                   type="text"
+                  name="permanentlandmark"
                   id="permanentlandmark"
                   value=${this.editData.PermanentLandmark}
                   @input=${(e) =>
@@ -261,24 +277,26 @@ export class UserData extends LitElement {
                   autocomplete="off"
                 />
 
-                <label>Country</label>
+                <label for="permanentcountry">Country</label>
                 <select
                   @input=${(e) =>
                     (this.editData.PermanentCountry = e.target.value)}
+                  name="permanentcountry"  
                   id="permanentcountry"
                 >
                   <option>${this.editData.PermanentCountry}</option>
                   ${repeat(
-                    this.countries,
+                    country,
                     (items) =>
-                      html`<option class="options">${items.name}</option>`
+                      html`<option class="options">${items.country}</option>`
                   )}
                 </select>
 
-                <label>State</label>
+                <label for="permanentstate">State</label>
                 <select
                   @input=${(e) =>
                     (this.editData.PermanentState = e.target.value)}
+                  name="permanentstate"  
                   id="permanentstate"
                 >
                   <option>${this.editData.PermanentState}</option>
@@ -289,11 +307,12 @@ export class UserData extends LitElement {
                   )}
                 </select>
 
-                <label>City</label>
+                <label for="permanentcity">City</label>
                 <select
                   @input=${(e) =>
                     (this.editData.PermanentCity = e.target.value)}
                   id="permanentcity"
+                  name="permanentcity"
                 >
                   <option>${this.editData.PermanentCity}</option>
                   ${repeat(
@@ -303,9 +322,10 @@ export class UserData extends LitElement {
                   )}
                 </select>
 
-                <label>Zip Code</label>
+                <label for="permanentzipcode">Zip Code</label>
                 <input
                   type="number"
+                  name="permanentzipcode"
                   value=${this.editData.PermanentZipCode}
                   @input=${(e) =>
                     (this.editData.PermanentZipCode = e.target.value)}
@@ -317,8 +337,9 @@ export class UserData extends LitElement {
           <h3 id="contact">Contact Details</h3>
           <div class="f-block">
             <div class="blocks">
-              <label>Primary Number</label>
+              <label for="primarynumber">Primary Number</label>
               <input
+                name="primarynumber"    
                 id="primarynumber"
                 value=${this.editData.PrimaryNumber}
                 @input=${(e) => (this.editData.PrimaryNumber = e.target.value)}
@@ -326,9 +347,10 @@ export class UserData extends LitElement {
             </div>
 
             <div class="blocks">
-              <label>Secondary Number</label>
+              <label for="secondarynumber">Secondary Number</label>
               <input
                 id="secondarynumber"
+                name="secondarynumber"
                 value=${this.editData.SecondaryNumber}
                 @input=${(e) =>
                   (this.editData.SecondaryNumber = e.target.value)}
@@ -336,8 +358,9 @@ export class UserData extends LitElement {
             </div>
 
             <div class="blocks">
-              <label>Emergency Number</label>
+              <label for="emergencynumber">Emergency Number</label>
               <input
+                name="emergencynumber"  
                 id="emergencynumber"
                 value=${this.editData.EmergencyNumber}
                 @input=${(e) =>
@@ -363,7 +386,7 @@ export class UserData extends LitElement {
               <thead>
                 <tr>
                   <th>
-                    Name<button id="sort-btn" @click=${this.sort}>⇵</button>
+                    Name <button id="sort-btn" @click=${this.sort}>⇵</button>
                   </th>
                   <th>Emp Code</th>
                   <th>Email Type</th>
@@ -536,8 +559,7 @@ export class UserData extends LitElement {
   }
 
   static get styles() {
-    return css`\
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+    return css`
       * {
         margin: 0;
         padding: 0;
@@ -578,7 +600,7 @@ export class UserData extends LitElement {
       }
 
       .modal{
-        border:2px solid #1b1818;
+        border:none;
         padding:1em;
         border-radius:10px;
         width:50%;
@@ -586,9 +608,9 @@ export class UserData extends LitElement {
         margin:70px auto;
         /* display:inline-block; */
         overflow-y:scroll;
-        background-image:linear-gradient(45deg, #bbb4b4,#ff1046);
+        background-image:linear-gradient(45deg, #838c91,#5bdcfce3 );
         backdrop-filter:blur(5px);
-        box-shadow:0.4rem .8rem #2c2b2ba3;
+        box-shadow:4px 2px 5px 0.6px #769affa1;
       }
       .modal::-webkit-scrollbar{
         width:0.5rem;
@@ -596,6 +618,7 @@ export class UserData extends LitElement {
       }
       .modal::-webkit-scrollbar-thumb{
           border-radius:.5rem;
+          visibility:hidden;
           background-color:#0004;
         }
 
@@ -604,13 +627,11 @@ export class UserData extends LitElement {
         opacity:.7;
       }
       .form-header{
-          width:100%;
-          height:10%;
           margin-bottom:15px;
-          background-image:linear-gradient(to right, #020202, #3d3b3b,#020202);
+          background:#03265a39;
           text-align:center;
           padding:.4rem 1rem;
-          color:#fff;
+          color:#000000;
           font-family: 'Lora', serif;
           border-top-left-radius:8px;
           border-top-right-radius:8px;
@@ -634,7 +655,8 @@ export class UserData extends LitElement {
         height:30px;
         border:1px solid black;
         border-radius:3px;
-        background:#ffffff96;
+        background:#fff;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
         padding:0px 5px;
       }
       .block2 select{
@@ -642,8 +664,9 @@ export class UserData extends LitElement {
         height:30px;
         border-radius:3px;
         border:1px solid black;
-        background:#ffffff96;
+        background:#fff;
         padding:0px 5px;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
       }
       .block1{
         display:flex;
@@ -655,7 +678,8 @@ export class UserData extends LitElement {
         height:30px;
         border-radius:3px;
         border:1px solid black;
-        background:#ffffff96;
+        background:#fff;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
         padding:0px 5px;
       }
       .block1 select{
@@ -663,8 +687,9 @@ export class UserData extends LitElement {
         height:30px;
         border-radius:3px;
         border:1px solid black;
-        background:#ffffff96;
+        background:#fff;
         padding:0px 5px;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
       }
       .h-block{
         display: flex;
@@ -675,7 +700,8 @@ export class UserData extends LitElement {
         height:30px;
         border:1px solid black;
         border-radius:3px;
-        background:#ffffff96;
+        background:#fff;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
         padding:0px 5px;
       }
       .h1-block{
@@ -687,7 +713,8 @@ export class UserData extends LitElement {
         height:30px;
         border:1px solid black;
         border-radius:3px;
-        background:#ffffff96;
+        background:#fff;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
         padding:0px 5px;
       }
       .h1-block select{
@@ -695,7 +722,8 @@ export class UserData extends LitElement {
         height:30px;
         border:1px solid black;
         border-radius:3px;
-        background:#ffffff96;
+        background:#fff;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
         padding:0px 5px;
       }
       .h2-block{
@@ -707,7 +735,8 @@ export class UserData extends LitElement {
         height:30px;
         border:1px solid black;
         border-radius:3px;
-        background:#ffffff96;
+        background:#fff;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
         padding:0px 5px;
       }
       .blocks{
@@ -731,8 +760,9 @@ export class UserData extends LitElement {
         margin-left:-90px;
         border-radius:3px;
         border:1px solid black;
-        background:#ffffff96;
+        background:#fff;
         padding:0px 5px;
+        box-shadow: 2px 3px 5px 0.1px #3f3f3f;
       }
       .f-block label{
         margin-left:-90px;
@@ -751,6 +781,7 @@ export class UserData extends LitElement {
         font-family: 'Lora', serif;
         /* color:#fff; */
         font-weight:bold;
+        padding:2px;
       }
       #cancel-btn{
           padding:2px;
@@ -759,14 +790,14 @@ export class UserData extends LitElement {
           height:35px;
           font-weight:bold;
           cursor:pointer;
-          color:#fff;
+          color:#000000;
           border-radius:6px;
           font-family: 'Lora', serif;
-          background-image:linear-gradient(to right, #020202, #2c2a2a,#3d3b3b);
+          background-image:linear-gradient(to right,  #60626b88, #5482b3);
         }
         #cancel-btn:hover{
-          color:#ffffff;
-          background-image:linear-gradient(to right, #fa0b0bed, #ff2727e6,#f84c4c);
+          color:#000000;
+          background-image:linear-gradient(to right, #bcc5b9, #f16666e6);
         }
        #save-btn{
           padding:2px;
@@ -775,19 +806,18 @@ export class UserData extends LitElement {
           height:35px;
           font-weight:bold;
           cursor:pointer;
-          color:#fff;
+          color:#000000;
           border-radius:6px;
           font-family: 'Lora', serif;
-          background-image:linear-gradient(to right, #020202, #2c2a2a,#3d3b3b);
+          background-image:linear-gradient(to right, #60626b88, #5482b3);
         }
         #save-btn:hover{
-          color:#ffffff;
-          background-image:linear-gradient(to right, #174b09, #298310,#2aaa10);
+          color:#000000;
+          background-image:linear-gradient(to right, #bcc5b9, #a1d493);
         }
 
-        .main-table{
-          background: url(https://images.unsplash.com/photo-1550684376-efcbd6e3f031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80) center/cover;
-          padding:6px 0px;
+         .main-table{
+          padding:0px 0px;
 
         }
 
@@ -798,28 +828,25 @@ export class UserData extends LitElement {
         }
         main.table{
           margin:0px auto;
-          width:93vw;
-          height:90vh;
-          background-color:#807b7b40;  
+          width:100%;
+          height:91.9vh;
+          background:linear-gradient(90deg,#d9e5eb,#5bdcfce3);
           backdrop-filter:blur(2px);
-          border-radius:0.8rem;
           overflow:hidden;
           border:2px solid #02020275;
         }
 
         .table_header{
-          width:100%;
-          height:10%;
-          background-color:#070707f0;
-          padding:.8rem 1rem;
-          color:#fff;
-          font-family: 'Lora', serif;         
+          padding:25px;
+          color:#000000;
+          font-family: 'Lora', serif; 
+          font-size:20px;       
         }
         .table_body{
           width:97%;
-          max-height:86%;
-          background-color:#ffffffc0;
-          margin:.8rem auto;
+          max-height:82%;
+          background-color:#c7e4f0eb;
+          margin:-16px 19px;
           border-radius:.6rem;
           overflow:auto;
 
@@ -844,17 +871,13 @@ export class UserData extends LitElement {
           position:sticky;
           top:0;
           left:0;
-          background-color:#ff1046;
+          background-color:#090155;
           font-family: 'Lora', serif;
-
+          color:#fff;
 
         }
        tbody tr:nth-child(even){
-          background-color:#00000032;
-        }
-        tbody tr:hover{
-          background-color:#ffffff81;
-
+          background-color:#ffffff;
         }
         tbody tr{
           font-size:14px;
@@ -865,17 +888,21 @@ export class UserData extends LitElement {
           border:none;
           background:none;
           cursor:pointer;
-        }   
+          color:#fff;
+          font-size:18px;
+        }    
     
         #dltbtn{
           padding:2px;
           margin:5px 2px;
           width:100%;
-          background-image:linear-gradient(to right, #f01414f9, #ff2727fb,#ec3939);
+          background:#090155;
           color:#fff;
           cursor:pointer;
           font-family: 'Lora', serif;
           border-radius:6px;
+          border:2px solid #090155;
+          box-shadow:2px 0.9px 6px 0.8px #000000;
         }
         #editbtn{
           padding:2px;
@@ -883,16 +910,20 @@ export class UserData extends LitElement {
           width:100%;
           cursor:pointer;
           color:#fff;
+          background:#090155;
           border-radius:6px;
           font-family: 'Lora', serif;
-          background-image:linear-gradient(to right, #f01414f9, #ff2727fb,#ec3939);
+          border:2px solid #090155;
+          box-shadow:2px 0.9px 6px 0.8px #000000;
         }
         #editbtn:hover{
           background:#d1d1d1;
+          border:none;
           color:#1a7408;
         }
         #dltbtn:hover{
-          color:#ff0000;
+          color:red;
+          border:none;
           background:#d1d1d1;;
         } 
         .address p{

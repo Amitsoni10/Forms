@@ -13,7 +13,6 @@ export class MyElement extends LitElement {
   static get properties() {
     return {
       employeeForm: { type: Object },
-      employeedata:{type:Array},
       emailtype1: { type: String },
       countries: { type: Array },
     };
@@ -21,7 +20,6 @@ export class MyElement extends LitElement {
 
   constructor() {
     super();
-    this.employeedata=[];
     this.countries = [];
     this.emailtype1 = "";
 
@@ -63,9 +61,11 @@ export class MyElement extends LitElement {
     return html`
     <div class="bg-container">
       <div class="container">
+        <header class="header">  
+        <h2>Employee Data Form</h2>
+        </header>
         <div class="container1">
-          <form @submit=${this.submit}>
-            <h2>Employee Data Form</h2>
+          <form @submit=${this.submit} class="form">
             <div class="first">
               <div class="label-container">
                 <label for="name">Name*</label>
@@ -254,9 +254,9 @@ export class MyElement extends LitElement {
                   >
                     <option></option>
                     ${repeat(
-                      this.countries,
+                      country,
                       (items) =>
-                        html`<option class="options">${items.name}</option>`
+                        html`<option class="options">${items.country}</option>`
                     )}
                   </select>
                   <span class="error"></span>
@@ -382,9 +382,9 @@ export class MyElement extends LitElement {
                       ${this.employeeForm.address.permanent.country.value}
                     </option>
                     ${repeat(
-                      this.countries,
+                      country,
                       (items) =>
-                        html`<option class="options">${items.name}</option>`
+                        html`<option class="options">${items.country}</option>`
                     )}
                   </select>
                   <span class="error"></span>
@@ -500,7 +500,7 @@ export class MyElement extends LitElement {
                     ? "boxerror"
                     : ""}"
                   type=""
-                  class="emergencynumber"
+                  name="emergencynumber"
                   id="emergencynumber"
                   placeholder="Enter Emergency Number"
                   @input=${(e) => this.validateForm(e, "emergency")}
@@ -521,16 +521,16 @@ export class MyElement extends LitElement {
     `;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this.loadCountries();
-  }
+  // connectedCallback() {
+  //   super.connectedCallback();
+  //   this.loadCountries();
+  // }
 
-  async loadCountries() {
-    const response = await fetch("https://restcountries.com/v2/all");
-    const data = await response.json();
-    this.countries = data;
-  }
+  // async loadCountries() {
+  //   const response = await fetch("https://restcountries.com/v2/all");
+  //   const data = await response.json();
+  //   this.countries = data;
+  // }
 
   checkbox() {
     const checkBox = this.renderRoot.querySelector("#myCheck");
@@ -1750,20 +1750,13 @@ export class MyElement extends LitElement {
         SecondaryNumber:this.employeeForm.contact.secondary.value,
         EmergencyNumber:this.employeeForm.contact.emergency.value,
       }
-      this.employeedata.push(userdata)
-      localStorage.setItem("MyEmployeeList", JSON.stringify(this.employeedata));
+      const myData = JSON.parse(localStorage.getItem("MyEmployeeList") || "[]")
+      myData.push(userdata)
+      localStorage.setItem("MyEmployeeList", JSON.stringify(myData));
       const form = this.renderRoot.querySelector("form");
-     
-      this.employeeForm.address.correspondence.addressline2.value="",
-      this.employeeForm.address.permanent.addressline1.value="",
-      this.employeeForm.address.permanent.addressline2.value="",
-      this.employeeForm.address.permanent.landmark.value="",
-      this.employeeForm.address.permanent.country.value=""
-      this.employeeForm.address.permanent.state.value="",
-      this.employeeForm.address.permanent.city.value="",
-      this.employeeForm.address.permanent.zipcode.value="",
+
       alert("Form Submitted Successfully");
-      form.reset();
+      form.submit();
       this.requestUpdate();
     
     
@@ -1777,15 +1770,30 @@ export class MyElement extends LitElement {
     return css`
       
       @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
     .bg-container{
-      background-image:radial-gradient(rgba(88, 255, 241, 0.952),rgba(113, 82, 255, 0.973));
+      padding:10px;
+      background-image:linear-gradient(90deg,#838c91,#5bdcfce3);
+    }
+
+    .header{
+      background:#090155;
+      display:inline-block;
+      width:100%;
+      text-align:center;
+      font-size:22px;
+      color:#fff;
+      border-top-left-radius:8px ;
+      border-top-right-radius:8px ;
+      font-family:raleway;
     }
       input,
       select {
         border: 1px solid black;
-        border-radius: 10px;
+        border-radius: 5px;
         font-size: 14px;
-        padding: 2px;
+        padding: 7px;
         text-align: center;
       }
       .first {
@@ -1806,11 +1814,11 @@ export class MyElement extends LitElement {
       }
       .container {
         font-family: "Raleway", sans-serif;
-        border: 3px solid black;
-        margin: 0px auto;
+        border:3px solid #04374e9f;
+        margin: 10px auto;
         border-radius: 12px;
         width: 660px;
-        background-color: radial-gradient(rgba(88, 255, 241, 0.952),rgba(113, 82, 255, 0.973));
+        box-shadow:3px 0.4px 4px 0.9px #012f449f;
       }
       .container1 {
         /* border: 2px solid red; */
@@ -1821,22 +1829,27 @@ export class MyElement extends LitElement {
       }
       .label-container {
         /* border: 2px solid yellow; */
+        font-weight:bolder;
         margin: 0px auto;
         width: 300px;
         display: flex;
         flex-direction: column;
+        font-family:Lato;
       }
       .btn {
         border: 1px solid black;
-        border-radius: 12px;
-        background-color: rgba(89, 236, 89, 0.932);
-        color: black;
-        padding: 3px 30px;
+        border-radius:20px;
+        background:linear-gradient(45deg,#090155,#11e3ff);
+        -webkit-text-fill-color: #fff;
+        padding: 8px 50px;
         font-size: 16px;
         cursor: pointer;
+        font-weight:bold;
+        width:70%;
+        box-shadow:2px 1px 4px 0.6px;
       }
       .btn:hover {
-        background-color: rgba(25, 146, 25, 0.932);
+        background:linear-gradient(45deg,#11e3ff,#090155);
       }
       select {
         text-align: center;
@@ -1852,8 +1865,13 @@ export class MyElement extends LitElement {
       .options {
         color: black;
       }
+      body{
+        margin:0px;
+        padding:0px;
+      }
     `;
   }
 }
 
 window.customElements.define("my-element", MyElement);
+
