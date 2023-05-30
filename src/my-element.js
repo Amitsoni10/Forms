@@ -8,6 +8,12 @@ import {
   city,
 } from "./assets/data";
 import { repeat } from "lit/directives/repeat.js";
+import '@shoelace-style/shoelace/dist/themes/light.css';
+import '@shoelace-style/shoelace/dist/components/input/input.js';
+import '@shoelace-style/shoelace/dist/components/select/select.js';
+import '@shoelace-style/shoelace/dist/components/option/option.js';
+
+
 
 export class MyElement extends LitElement {
   static get properties() {
@@ -138,10 +144,10 @@ export class MyElement extends LitElement {
             >
               <div class="first">
                 <div class="label-container">
-                  <label for="name">Name*</label>
-                  <input
-                    class="${this.employeeForm.name.errorMessage
-                      ? "boxerror"
+                <label for="name">Name*</label>
+                <sl-input required
+                style="${this.employeeForm.name?.errorMessage
+                      ? "border:solid 3px red;"
                       : ""}"
                     type="text"
                     id="name"
@@ -149,8 +155,7 @@ export class MyElement extends LitElement {
                     name="name"
                     @input=${(e) => this.formToggle(e, "name")}
                     autocomplete="off"
-                    required
-                  />
+                     ></sl-input> 
                   <span class="error"
                     >${this.employeeForm.name.errorMessage}</span
                   ><br />
@@ -158,7 +163,7 @@ export class MyElement extends LitElement {
 
                 <div class="label-container">
                   <label for="empcode">Employee Code*</label>
-                  <input
+                  <sl-input
                     class="${this.employeeForm.empCode.errorMessage
                       ? "boxerror"
                       : ""}"
@@ -169,7 +174,7 @@ export class MyElement extends LitElement {
                     placeholder="Enter Employee Code"
                     @input=${(e) => this.formToggle(e, "empCode")}
                     autocomplete="off"
-                  />
+                  ></sl-input>
                   <span class="error"
                     >${this.employeeForm.empCode.errorMessage}</span
                   ><br />
@@ -179,35 +184,36 @@ export class MyElement extends LitElement {
               <div class="first">
                 <div class="label-container">
                   <label for="emailtype">Email Type* </label>
-                  <select
-                    name="emailtype"
+                  <sl-select 
+                  name="emailtype"
                     id="emailtype"
                     required
-                    @input=${(e) => this.emailtypetoggle(e, "emailtype")}
-                  >
-                    <option></option>
-                    ${repeat(
+
+                    @input=${(e) => this.emailtypetoggle(e, "emailtype")}>
+                    <sl-option></sl-option>
+                  ${repeat(
                       emaildata,
                       (items) =>
-                        html`<option class="options">${items.email}</option>`
+                        html`<sl-option>${items.email}</sl-option>`
                     )}
-                  </select>
+                </sl-select>
+                 
                   <span class="error"></span><br />
                 </div>
 
                 <div class="label-container">
                   <label for="email">Email*</label>
-                  <input
-                    type=""
-                    disabled
+                  <sl-input
+                
+                   disabled
                     required
                     id="email"
                     name="email"
                     placeholder="Enter Your Email"
                     @input=${(e) => this.formToggle(e, "email")}
                     autocomplete="off"
-                  />
-                  <span class="error" id="emailerror"
+                  ></sl-input>
+                  <span class="error" 
                     >${this.employeeForm.email.errorMessage}</span
                   ><br />
                 </div>
@@ -615,9 +621,13 @@ export class MyElement extends LitElement {
       this.emailtype = e.target.value;
       this.editData.emailtype = e.target.value;
       this.validateForm(e, type);
+      // this.validateForm(e, "email");]
     } else {
+      console.log("here")
       this.emailtype = e.target.value;
+      console.log(this.emailtype);
       this.validateForm(e, type);
+      // this.validateForm(e, "email");
     }
   }
 
@@ -750,6 +760,7 @@ export class MyElement extends LitElement {
       case "email":
         {
           if (this.emailtype === "Personal") {
+            console.log(e.target.value)
             if (!e.target.value) {
               this.errormessage("email", "Can't be Empty");
             } else if (e.target.value.match(/^[^\s@]+@gmail\.com$/)) {
@@ -758,6 +769,7 @@ export class MyElement extends LitElement {
               this.errormessage("email", "will include '@gmail.com' at last");
             }
           } else if (this.emailtype === "Official") {
+            console.log("in email validation official")
             if (!e.target.value) {
               this.errormessage("email", "Can't be Empty");
             } else if (e.target.value.match(/^[^\s@]+@annalect\.com$/)) {
@@ -1025,7 +1037,7 @@ export class MyElement extends LitElement {
       }
       .container1 {
         /* border: 2px solid red; */
-        text-align: center;
+        text-align: left;
         padding: 10px;
         margin: 10px 10px;
         /* position:relative; */
@@ -1077,9 +1089,8 @@ export class MyElement extends LitElement {
       .options {
         color: black;
       }
-      .boxerror {
-        color: red;
-        border: 2px solid red;
+      .boxerror::part(base):focus-visibile {
+        box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.33);
       }
 
     `;

@@ -41,9 +41,7 @@ export class Navbar extends LitElement {
         #nav-ul{
             display:flex;
             text-decoration:none;
-            margin:0px 10px;
             padding:10px 25px;
-            gap:50px;
         }
          li{
             text-decoration:none;
@@ -59,8 +57,10 @@ export class Navbar extends LitElement {
          }
          #direction{
             display:flex;
-            gap:50px;
-            margin:0px 950px
+            position:absolute;
+            right:20px;
+            top:10px;
+            gap:20px;
          }
          a:hover{
             color:#482fd4;

@@ -82,7 +82,7 @@ export class UserData extends LitElement {
                 ${repeat(
                   this.data,
                   (items, index) => html`<tr>
-                      <td id="namedata">${items.name}</td>
+                    <td id="namedata">${items.name}</td>
                     <td>${items.empCode}</td>
                     <td>${items.emailtype}</td>
                     <td>${items.email}</td>
@@ -191,12 +191,6 @@ export class UserData extends LitElement {
     this.closemodel();
   }
 
-  // saveEdit() {
-  //   this.storeData();
-  //   window.location.reload();
-  //   this.requestUpdate();
-  //   this.closemodel();
-  // }
 
   DeleteConfirmation(items) {
     if (
