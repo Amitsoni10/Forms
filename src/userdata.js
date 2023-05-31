@@ -1,7 +1,8 @@
-import { LitElement, css, html, nothing } from "lit";
+import { LitElement, css, html, nothing,svg } from "lit";
 
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element.js";
+import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
 
 export class UserData extends LitElement {
   static get properties() {
@@ -44,14 +45,15 @@ export class UserData extends LitElement {
       </div>
 
       ${this.editData
-        ? html` <dialog class="modal" id="modal">
+        ? html` <sl-dialog no-header label="Edit Details" style="--width: 70vw;" class="dialog-deny-close" id="modal">
+        
             <my-element
               isEditing
               .editData=${this.editData}
               .data=${this.data}
             ><button id="cancel-btn" @click=${this.closemodel}>Cancel</button></my-element>
             
-          </dialog>`
+          </sl-dialog>`
         : nothing}
 
       <!-- Main Data display  -->
@@ -109,15 +111,7 @@ export class UserData extends LitElement {
                     </td>
 
                     <td>
-                      <p><strong>Primary: </strong>${items.primary}</p>
-                      <br />
-                      <p>
-                        <strong>Secondary: </strong>${items.secondary}
-                      </p>
-                      <br />
-                      <p>
-                        <strong>Emergency: </strong>${items.emergency}
-                      </p>
+                    ${items.primary}, ${items.secondary}, ${items.emergency}
                     </td>
                     <td>
                       <button id="editbtn" @click=${() => this.editItem(index)}>
@@ -126,8 +120,7 @@ export class UserData extends LitElement {
                       <button
                         id="dltbtn"
                         @click=${() => this.DeleteConfirmation(items)}
-                      >
-                        Delete
+                      >Delete
                       </button>
                     </td>
                   </tr> `
@@ -141,13 +134,18 @@ export class UserData extends LitElement {
   }
 
   openmodal() {
-    let modal = this.renderRoot.querySelector("#modal");
-    modal.showModal();
+    let dialog = this.renderRoot.querySelector(".dialog-deny-close");
+    dialog.show();
+    dialog.addEventListener('sl-request-close', event => {
+      if (event.detail.source === 'overlay') {
+        event.preventDefault();
+      }
+    })
   }
   closemodel() {
     this.editData = undefined;
-    // let modal = this.renderRoot.querySelector("#modal");
-    // modal.close();
+    // let dialog = this.renderRoot.querySelector(".dialog-deny-close");
+    // dialog.hide();
     window.location.reload();
   }
   sort() {
@@ -178,7 +176,7 @@ export class UserData extends LitElement {
   editItem(index) {
     this.editingIndex = index;
     const item = this.data[index];
-    console.log(item);
+    // console.log(item);
     this.editData = item;
     requestAnimationFrame(() => {
       this.openmodal();
@@ -253,33 +251,37 @@ export class UserData extends LitElement {
         padding-left: 70px;
       }
 
-      .modal {
+      #modal::part(close-button){
+        display:none;
+      }
+
+      /* #modal {
         border: none;
-        /* padding: 1em; */
+
         border-radius: 10px;
         width: 60%;
         height: 80%;
         margin: 70px auto;
-        /* display:inline-block; */
+
         overflow-y: scroll;
         background-image: linear-gradient(45deg, #838c91, #5bdcfce3);
         backdrop-filter: blur(5px);
         box-shadow: 4px 2px 5px 0.6px #769affa1;
-      }
-      .modal::-webkit-scrollbar {
+      } */
+      /* #modal::-webkit-scrollbar {
         width: 0.5rem;
         height: 0.5rem;
-      }
-      .modal::-webkit-scrollbar-thumb {
+      } */
+      /* #modal::-webkit-scrollbar-thumb {
         border-radius: 0.5rem;
         visibility: hidden;
         background-color: #0004;
-      }
+      } */
 
-      .modal::backdrop {
+      /* #modal::backdrop {
         background: #585555;
         opacity: 0.7;
-      }
+      } */
 
       #cancel-btn {
         border-radius: 2px;

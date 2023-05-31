@@ -12,6 +12,8 @@ import '@shoelace-style/shoelace/dist/themes/light.css';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/select/select.js';
 import '@shoelace-style/shoelace/dist/components/option/option.js';
+import { serialize } from '@shoelace-style/shoelace/dist/utilities/form.js';
+
 
 
 
@@ -132,7 +134,7 @@ export class MyElement extends LitElement {
 
   render() {
     return html`
-      <div class="bg-container">
+    
         <div class="container">
           <header class="header">
             <h2>Employee Data Form</h2>
@@ -144,173 +146,161 @@ export class MyElement extends LitElement {
             >
               <div class="first">
                 <div class="label-container">
-                <label for="name">Name*</label>
+
                 <sl-input required
-                style="${this.employeeForm.name?.errorMessage
-                      ? "border:solid 3px red;"
+                label="Name"
+                class="${this.employeeForm.name.errorMessage
+                      ? "boxerror"
                       : ""}"
                     type="text"
                     id="name"
                     placeholder="Enter Name"
                     name="name"
                     @input=${(e) => this.formToggle(e, "name")}
+                    help-text=${this.employeeForm.name.errorMessage?this.employeeForm.name.errorMessage:""}
                     autocomplete="off"
                      ></sl-input> 
-                  <span class="error"
-                    >${this.employeeForm.name.errorMessage}</span
-                  ><br />
+
                 </div>
 
                 <div class="label-container">
-                  <label for="empcode">Employee Code*</label>
+
                   <sl-input
+                    label="Employee Code"
                     class="${this.employeeForm.empCode.errorMessage
                       ? "boxerror"
                       : ""}"
                     type="text"
                     id="empcode"
-                    name="empcode"
+                    name="empCode"
                     required
                     placeholder="Enter Employee Code"
                     @input=${(e) => this.formToggle(e, "empCode")}
                     autocomplete="off"
+                    help-text=${this.employeeForm.empCode.errorMessage?this.employeeForm.empCode.errorMessage:""}
                   ></sl-input>
-                  <span class="error"
-                    >${this.employeeForm.empCode.errorMessage}</span
-                  ><br />
+ 
                 </div>
               </div>
 
               <div class="first">
                 <div class="label-container">
-                  <label for="emailtype">Email Type* </label>
                   <sl-select 
-                  name="emailtype"
+                  placeholder="Select Email Type"
+                  label="Email Type"
+                    name="emailtype"
                     id="emailtype"
                     required
-
-                    @input=${(e) => this.emailtypetoggle(e, "emailtype")}>
+                    @click=${(e) => this.emailtypetoggle(e, "emailtype")}
+                    >
                     <sl-option></sl-option>
                   ${repeat(
                       emaildata,
                       (items) =>
-                        html`<sl-option>${items.email}</sl-option>`
+                        html`<sl-option value=${items.email} >${items.email}</sl-option>`
                     )}
                 </sl-select>
                  
-                  <span class="error"></span><br />
                 </div>
 
                 <div class="label-container">
-                  <label for="email">Email*</label>
                   <sl-input
-                
+                  placeholder="Enter Your Email"
+                  label="Email"
+                  class="${this.employeeForm.email.errorMessage
+                      ? "boxerror"
+                      : ""}"
                    disabled
                     required
                     id="email"
                     name="email"
-                    placeholder="Enter Your Email"
                     @input=${(e) => this.formToggle(e, "email")}
                     autocomplete="off"
+                    help-text=${this.employeeForm.email.errorMessage?this.employeeForm.email.errorMessage:""}
                   ></sl-input>
-                  <span class="error" 
-                    >${this.employeeForm.email.errorMessage}</span
-                  ><br />
+                 
                 </div>
               </div>
 
               <div class="first">
                 <div class="label-container">
-                  <label for="designation">Choose a Designation* </label>
-                  <select
+                  
+                  <sl-select
+                    placeholder="Select Designation"
+                    label="Designation"
                     name="designation"
                     id="designation"
                     required
                     class="${this.employeeForm.designation.errorMessage
                       ? "boxerror"
                       : ""}"
-                    @input=${(e) => this.formToggle(e, "designation")}
+                    @click=${(e) => this.formToggle(e, "designation")}
                   >
-                    <option></option>
+                    <sl-option></sl-option>
                     ${repeat(
                       designation,
                       (items) =>
-                        html`<option class="options">
+                        html`<sl-option  value=${items.designation}>
                           ${items.designation}
-                        </option>`
+                        </sl-option>`
                     )}
-                  </select>
-                  <span class="error"
-                    >${this.employeeForm.designation.errorMessage}</span
-                  ><br />
+                  </sl-select>
                 </div>
 
                 <div class="label-container">
-                  <label for="department">Choose a Department* </label>
-                  <select
+                  <sl-select
+                    placeholder="Select Designation"
+                    label="Department"
                     name="department"
                     id="department"
                     required
-                    class="${this.employeeForm.department.errorMessage
-                      ? "boxerror"
-                      : ""}"
-                    @input=${(e) => this.formToggle(e, "department")}
+                    @click=${(e) => this.formToggle(e, "department")}
                   >
-                    <option></option>
+                    <sl-option></sl-option>
                     ${repeat(
                       department,
                       (items) =>
-                        html`<option class="options">
+                        html`<sl-option value="${items.department}">
                           ${items.department}
-                        </option>`
+                        </sl-option>`
                     )}
-                  </select>
-                  <span class="error"
-                    >${this.employeeForm.department.errorMessage}</span
-                  >
-
-                  <br />
+                  </sl-select>
                 </div>
               </div>
 
               <div class="address-container">
                 <div class="address">
                   <h3>Correspondence Address</h3>
-                  <label for="correspondenceaddressline1"
-                    >Address Line 1*</label
-                  >
-                  <input
-                    type="text"
+                  <sl-input
+                    placeholder="Enter Your Address"
+                    label="Address Line 1"
                     id="correspondenceaddressline1"
                     name="correspondenceaddressline1"
-                    placeholder="Enter Your Address"
                     class="${this.employeeForm.correspondenceaddressline1
                       .errorMessage
                       ? "boxerror"
                       : ""}"
                     autocomplete="off"
                     required
+                    help-text=${this.employeeForm.correspondenceaddressline1.errorMessage?this.employeeForm.correspondenceaddressline1.errorMessage:""}
                     @input=${(e) =>
                       this.formToggle(e, "correspondenceaddressline1")}
-                  /><span class="error"
-                    >${this.employeeForm.correspondenceaddressline1
-                      .errorMessage}</span
-                  ><br /><br />
+                  ></sl-input>
 
-                  <label for="correspondenceaddressline2">Address Line 2</label>
-                  <input
-                    type="text"
+
+                  <sl-input
+                    label="Address Line 2"
                     id="correspondenceaddressline2"
                     name="correspondenceaddressline2"
                     placeholder="Optional"
                     @input=${(e) =>
                       this.formToggle(e, "correspondenceaddressline2")}
                     autocomplete="off"
-                  /><br /><br />
+                  ></sl-input>
 
-                  <label for="correspondencelandmark">Landmark*</label>
-                  <input
-                    type="text"
+                  
+                  <sl-input
+                    label="Landmark"
                     id="correspondencelandmark"
                     name="correspondencelandmark"
                     placeholder="Enter Landmark"
@@ -322,77 +312,76 @@ export class MyElement extends LitElement {
                     @input=${(e) =>
                       this.formToggle(e, "correspondencelandmark")}
                     autocomplete="off"
-                  />
-                  <span class="error"
-                    >${this.employeeForm.correspondencelandmark
-                      .errorMessage}</span
-                  ><br /><br />
+                    help-text=${this.employeeForm.correspondencelandmark.errorMessage?this.employeeForm.correspondencelandmark.errorMessage:""}
+                  ></sl-input>
 
-                  <label for="correspondencecountry">Country*</label>
-                  <select
+
+                  <sl-select
+                    placeholder="Select Country"
+                    label="Country"
                     id="correspondencecountry"
                     name="correspondencecountry"
                     required
-                    @input=${(e) => this.formToggle(e, "correspondencecountry")}
+                    @click=${(e) => this.formToggle(e, "correspondencecountry")}
                   >
-                    <option></option>
+                    <sl-option></sl-option>
                     ${repeat(
                       country,
                       (items) =>
-                        html`<option class="options">${items.country}</option>`
+                        html`<sl-option value=${items.country}>${items.country}</sl-option>`
                     )}
-                  </select>
-                  <span class="error"></span><br /><br />
+                  </sl-select>
 
-                  <label for="correspondencestate">State*</label>
-                  <select
-                    @input=${(e) => this.formToggle(e, "correspondencestate")}
+
+
+                  <sl-select
+                    placeholder="Select State"
+                    label="State"
+                    @click=${(e) => this.formToggle(e, "correspondencestate")}
                     id="correspondencestate"
                     name="correspondencestate"
                     required
                   >
-                    <option></option>
+                    <sl-option></sl-option>
                     ${repeat(
                       state,
                       (items) =>
-                        html`<option class="options">${items.state}</option>`
+                        html`<sl-option value=${items.state}>${items.state}</sl-option>`
                     )}
-                  </select>
-                  <span class="error"></span><br /><br />
+                  </sl-select>
 
-                  <label for="correspondencecity">City*</label>
-                  <select
-                    @input=${(e) => this.formToggle(e, "correspondencecity")}
+
+                  <sl-select
+                    placeholder="Select City"
+                    label="City"
+                    @click=${(e) => this.formToggle(e, "correspondencecity")}
                     id="correspondencecity"
                     name="correspondencecity"
                     required
                   >
-                    <option></option>
+                    <sl-option></sl-option>
                     ${repeat(
                       city,
                       (items) =>
-                        html`<option class="options">${items.city}</option>`
+                        html`<sl-option value=${items.city}>${items.city}</sl-option>`
                     )}
-                  </select>
-                  <span class="error"></span><br /><br />
+                  </sl-select>
 
-                  <label for="correspondencezipcode">Zip Code*</label>
-                  <input
+
+                  <sl-input
+                    label="Zip Code"
                     @input=${(e) => this.formToggle(e, "correspondencezipcode")}
                     id="correspondencezipcode"
                     name="correspondencezipcode"
                     placeholder="Enter Zipcode"
                     autocomplete="off"
                     required
+                    help-text=${this.employeeForm.correspondencezipcode.errorMessage?this.employeeForm.correspondencezipcode.errorMessage:""}
                     class="${this.employeeForm.correspondencezipcode
                       .errorMessage
                       ? "boxerror"
                       : ""}"
-                  />
-                  <span class="error"
-                    >${this.employeeForm.correspondencezipcode
-                      .errorMessage}</span
-                  ><br /><br />
+                  ></sl-input>
                 </div>
 
                 <div>
@@ -415,8 +404,8 @@ export class MyElement extends LitElement {
                 <div class="address">
                   <div class="label-container">
                     <h3>Permanent Address</h3>
-                    <label for="permanentaddressline1">Address Line 1</label>
-                    <input
+                    <sl-input
+                      label="Address Line 1"
                       value=${this.employee.permanentaddressline1}
                       @input=${(e) =>
                         this.formToggle(e, "permanentaddressline1")}
@@ -425,12 +414,12 @@ export class MyElement extends LitElement {
                       name="permanentaddressline1"
                       placeholder="Enter Your Address"
                       autocomplete="off"
-                    /><span class="error"></span><br /><br />
+                    ></sl-input>
                   </div>
 
                   <div class="label-container">
-                    <label for="permanentaddressline2">Address Line 2</label>
-                    <input
+                    <sl-input
+                      label="Address Line 2"
                       value=${this.employee.permanentaddressline2}
                       @input=${(e) =>
                         this.formToggle(e, "permanentaddressline2")}
@@ -439,12 +428,12 @@ export class MyElement extends LitElement {
                       name="permanentaddressline2"
                       placeholder="Optional"
                       autocomplete="off"
-                    /><br /><br />
+                    ></sl-input>
                   </div>
 
                   <div class="label-container">
-                    <label for="permanentlandmark">Landmark</label>
-                    <input
+                    <sl-input
+                      label="Landmark"
                       value=${this.employee.permanentlandmark}
                       @input=${(e) => this.formToggle(e, "permanentlandmark")}
                       type="text"
@@ -452,84 +441,84 @@ export class MyElement extends LitElement {
                       name="permanentlandmark"
                       placeholder="Enter Landmark"
                       autocomplete="off"
-                    />
-                    <span class="error"></span><br /><br />
+                    ></sl-input>
                   </div>
 
                   <div class="label-container">
-                    <label for="permanentcountry">Country</label>
-                    <select
-                      @input=${(e) => this.formToggle(e, "permanentcountry")}
+                    <sl-select
+                      label="Country"
+                      placeholder="Select Country"
+                      @click=${(e) => this.formToggle(e, "permanentcountry")}
                       name="permanentcountry"
                       id="permanentcountry"
+                      value=${this.employee.permanentcountry}
                     >
-                      <option class="options">
-                        ${this.employee.permanentcountry}
-                      </option>
+                      <sl-option >
+                       
+                      </sl-option>
                       ${repeat(
                         country,
                         (items) =>
-                          html`<option class="options">
+                          html`<sl-option value=${items.country}>
                             ${items.country}
-                          </option>`
+                          </sl-option>`
                       )}
-                    </select>
-                    <span class="error"></span>
+                    </sl-select>
 
-                    <br /><br />
                   </div>
 
                   <div class="label-container">
-                    <label for="permanentstate">State</label>
-                    <select
-                      @input=${(e) => this.formToggle(e, "permanentstate")}
+  
+                    <sl-select
+                    label="State"
+                      placeholder="Select State"
+                      @click=${(e) => this.formToggle(e, "permanentstate")}
                       id="permanentstate"
                       name="permanentstate"
+                      value=${this.employee.permanentstate}
                     >
-                      <option class="options">
-                        ${this.employee.permanentstate}
-                      </option>
+                      <sl-option >
+
+                      </sl-option>
                       ${repeat(
                         state,
                         (items) =>
-                          html`<option class="options">${items.state}</option>`
+                          html`<sl-option value=${items.state}>${items.state}</sl-option>`
                       )}
-                    </select>
-                    <span class="error"></span>
-                    <br /><br />
+                    </sl-select>
+
                   </div>
 
                   <div class="label-container">
-                    <label for="permanentcity">City</label>
-                    <select
-                      @input=${(e) => this.formToggle(e, "permanentcity")}
+
+                    <sl-select
+                     label="City"
+                     placeholder="Select City"
+                      @click=${(e) => this.formToggle(e, "permanentcity")}
                       name="permanentcity"
                       id="permanentcity"
+                      value=${this.employee.permanentcity} 
                     >
-                      <option class="options">
-                        ${this.employee.permanentcity}
-                      </option>
+                      <sl-option >          
+                      </sl-option>
                       ${repeat(
                         city,
                         (items) =>
-                          html` <option class="options">${items.city}</option>`
+                          html` <sl-option value=${items.city}>${items.city}</sl-option>`
                       )}
-                    </select>
-                    <span class="error"></span>
-                    <br /><br />
+                    </sl-select>
                   </div>
 
                   <div class="label-container">
-                    <label for="permanentzipcode">Zip Code</label>
-                    <input
+                    <sl-input
+                      label="Zip Code"
                       value=${this.employee.permanentzipcode}
                       @input=${(e) => this.formToggle(e, "permanentzipcode")}
                       id="permanentzipcode"
                       name="permanentzipcode"
                       placeholder="Enter Zipcode"
                       autocomplete="off"
-                    />
-                    <span class="error"></span><br /><br />
+                    ></sl-input>
                   </div>
                 </div>
               </div>
@@ -537,60 +526,56 @@ export class MyElement extends LitElement {
               <h3>Contact Information</h3>
               <div class="contact">
                 <div class="label-container">
-                  <label for="primarynumber">Primary Number*</label>
-                  <input
+                  <sl-input
+                    label="Primary Number"
                     class="${this.employeeForm.primary.errorMessage
                       ? "boxerror"
                       : ""}"
-                    type=""
                     id="primarynumber"
-                    name="primarynumber"
+                    name="primary"
                     placeholder="Enter Primary Number"
                     required
                     @input=${(e) => this.formToggle(e, "primary")}
                     autocomplete="off"
-                  />
-                  <span class="error"
-                    >${this.employeeForm.primary.errorMessage}</span
-                  ><br />
+                    help-text=${this.employeeForm.primary.errorMessage?this.employeeForm.primary.errorMessage:""}
+           
+                  ></sl-input>
                 </div>
 
                 <div class="label-container">
-                  <label for="secondarynumber">Secondary Number*</label>
-                  <input
+                  <sl-input
+                    label="Secondary Number"
                     class="${this.employeeForm.secondary.errorMessage
                       ? "boxerror"
                       : ""}"
-                    type=""
-                    name="secondarynumber"
+                    
+                    name="secondary"
                     id="secondarynumber"
                     placeholder="Enter Secondary Number"
                     required
                     @input=${(e) => this.formToggle(e, "secondary")}
                     autocomplete="off"
-                  />
-                  <span class="error"
-                    >${this.employeeForm.secondary.errorMessage}</span
-                  ><br />
+                    help-text=${this.employeeForm.secondary.errorMessage?this.employeeForm.secondary.errorMessage:""}
+                  ></sl-input>
                 </div>
 
                 <div class="label-container">
-                  <label for="emergencynumber">Emergency Number*</label>
-                  <input
+
+                  <sl-input
+                    label="Emergency Number"
                     class="${this.employeeForm.emergency.errorMessage
                       ? "boxerror"
                       : ""}"
-                    type=""
-                    name="emergencynumber"
+                    
+                    name="emergency"
                     id="emergencynumber"
                     placeholder="Enter Emergency Number"
                     required
                     @input=${(e) => this.formToggle(e, "emergency")}
                     autocomplete="off"
-                  />
-                  <span class="error"
-                    >${this.employeeForm.emergency.errorMessage}</span
-                  ><br />
+                    help-text=${this.employeeForm.emergency.errorMessage?this.employeeForm.emergency.errorMessage:""}
+                  ></sl-input>
+
                 </div>
               </div>
               <p>* Please Fill All Mandatory Fields</p>
@@ -602,7 +587,7 @@ export class MyElement extends LitElement {
             </form>
           </div>
         </div>
-      </div>
+      
     `;
   }
 
@@ -612,6 +597,7 @@ export class MyElement extends LitElement {
       this.validateForm(e, type);
     } else {
       this.employee[type] = e.target.value;
+      console.log(e.target.value)
       this.validateForm(e, type);
     }
   }
@@ -621,13 +607,11 @@ export class MyElement extends LitElement {
       this.emailtype = e.target.value;
       this.editData.emailtype = e.target.value;
       this.validateForm(e, type);
-      // this.validateForm(e, "email");]
+      this.validateForm(e, "email");
     } else {
-      console.log("here")
       this.emailtype = e.target.value;
-      console.log(this.emailtype);
       this.validateForm(e, type);
-      // this.validateForm(e, "email");
+      this.validateForm(e, "email");
     }
   }
 
@@ -780,6 +764,8 @@ export class MyElement extends LitElement {
                 "will include '@annalect.com' at last"
               );
             }
+          }else if (this.emailtype === "") {
+            this.errormessage("email", "");
           }
         }
         break;
@@ -901,35 +887,13 @@ export class MyElement extends LitElement {
       this.employeeForm.correspondencelandmark.isValidName === true &&
       this.employeeForm.correspondencezipcode.isValidName === true
     ) {
-      let userdata = {
-        name: this.employee.name,
-        empCode: this.employee.empCode,
-        emailtype: this.emailtype,
-        email: this.employee.email,
-        designation: this.employee.designation,
-        department: this.employee.department,
-        correspondenceaddressline1: this.employee.correspondenceaddressline1,
-        correspondenceaddressline2: this.employee.correspondenceaddressline2,
-        correspondencelandmark: this.employee.correspondencelandmark,
-        correspondencecountry: this.employee.correspondencecountry,
-        correspondencestate: this.employee.correspondencestate,
-        correspondencecity: this.employee.correspondencecity,
-        correspondencezipcode: this.employee.correspondencezipcode,
-        permanentaddressline1: this.employee.permanentaddressline1,
-        permanentaddressline2: this.employee.permanentaddressline2,
-        permanentlandmark: this.employee.permanentlandmark,
-        permanentcountry: this.employee.permanentcountry,
-        permanentstate: this.employee.permanentstate,
-        permanentcity: this.employee.permanentcity,
-        permanentzipcode: this.employee.permanentzipcode,
-        primary: this.employee.primary,
-        secondary: this.employee.secondary,
-        emergency: this.employee.emergency,
-      };
+      
+      const form = this.renderRoot.querySelector("form");
+      const userdata = serialize(form);
       const myData = JSON.parse(localStorage.getItem("MyEmployeeList") || "[]");
       myData.push(userdata);
       localStorage.setItem("MyEmployeeList", JSON.stringify(myData));
-      const form = this.renderRoot.querySelector("form");
+      
 
       alert("Form Submitted Successfully");
       form.submit();
@@ -941,21 +905,31 @@ export class MyElement extends LitElement {
     return css`
     *{
       font-family: "Raleway", sans-serif;
-   }
+     }
 
       .bg-container {
-        padding: 10px;
-        /* background-image: linear-gradient(90deg, #838c91, #5bdcfce3); */
+       padding: 10px;
+       background-image: linear-gradient(90deg, #838c91, #5bdcfce3);
       }
-      .bg-container {
-       background-color: #e3e5e6;
-       background-image: linear-gradient(9deg, transparent 40%, #97e5f8e1 50%);
-       background-size: 60px 90px;
-        background-repeat: repeat;
-}
+      .container {
+        font-family: "Raleway", sans-serif;
+        border: 3px solid #04374e9f;
+        margin: 10px auto;
+        border-radius: 12px;
+        width: 70%;
+        box-shadow: 3px 0.4px 4px 0.9px #012f449f;
+        background:#c7e4f0eb;
+      }
+      .container1 {
+        /* border: 2px solid red; */
+        /* text-align: left; */
+        padding: 10px;
+        margin: 10px 10px;
+        /* position:relative; */
+      }
+
 
       
-
       .header {
         background: #090155;
         display: inline-block;
@@ -966,33 +940,55 @@ export class MyElement extends LitElement {
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
       }
-      .first input,
-      .first select {
-        border: 1px solid black;
-        border-radius: 5px;
-        font-size: 14px;
-        padding: 7px;
-        text-align: center;
-      }
-      .contact input {
-        border: 1px solid black;
-        border-radius: 5px;
-        font-size: 14px;
-        font-weight: lighter;;
-        padding: 7px;
-        text-align: center;
-      }
       .first {
         display: flex;
-        gap: 5px;
+        gap: 65px;
       }
-      .first label{
-        padding:5px;
+      .first sl-input,
+      .first sl-select {
+        /* border: 1px solid black; */
+        border-radius: 5px;
+        font-size: 14px;
+        /* gap:100px; */
+        /* margin-right:0px; */
+        width:110%;
+        padding: 7px;
+        /* text-align: left; */
+      }
+      .first .label-container {
+        /* border: 2px solid yellow; */
+        /* font-weight: bolder; */
+        /* margin: 0px auto; */
+        /* gap:100px; */
+        width: 400px;
+        /* display: flex; */
+        /* flex-direction: column; */
+        font-family: "Lato";
       }
       .contact {
         display: flex;
-        gap: 8px;
+        /* gap: 30px; */
       }
+      .contact sl-input {
+        /* border: 1px solid black; */
+        /* border-radius: 5px; */
+        /* font-size: 14px; */
+        /* font-weight: lighter; */
+        padding-right:95px;
+        width:120%;
+        /* text-align: left; */
+      }
+      
+      .contact .label-container {
+        /* border: 2px solid yellow; */
+        /* font-weight: bolder; */
+        /* margin: 0px auto; */
+        /* width: 300px; */
+        /* display: flex;
+        flex-direction: column; */
+      }
+
+
       .address-container {
         /* border: 2px solid black; */
         padding: 0px;
@@ -1003,65 +999,33 @@ export class MyElement extends LitElement {
         /* margin: 10px; */
         width: 100%;
       }
-      .address input {
+      .address sl-input {
         /* border: 2px solid yellow; */
         display: inline-block;
-        width: 96%;
+        width: 100%;
         margin:5px 0px;
-        border: 1px solid black;
-        border-radius: 5px;
+        /* border: 1px solid black; */
+        /* border-radius: 5px; */
         font-size: 14px;
         padding: 7px;
-        text-align: center;x
+        /* text-align: center; */
         
       }
-      .address select {
+      .address sl-select {
         margin:5px 0px;
-        border: 2px solid yellow;
-        display: inline-block;
-        width: 98.5%;
-        border: 1px solid black;
-        border-radius: 5px;
+        /* border: 2px solid yellow; */
+        /* display: inline-block; */
+        width: 100%;
+        /* border: 1px solid black; */
+        /* border-radius: 5px; */
         font-size: 14px;
         padding: 7px;
-        text-align: center;
+        /* text-align: center; */
       }
-      .container {
-        font-family: "Raleway", sans-serif;
-        border: 3px solid #04374e9f;
-        margin: 10px auto;
-        border-radius: 12px;
-        width: 660px;
-        box-shadow: 3px 0.4px 4px 0.9px #012f449f;
-        background:#c7e4f0eb;
-      }
-      .container1 {
-        /* border: 2px solid red; */
-        text-align: left;
-        padding: 10px;
-        margin: 10px 10px;
-        /* position:relative; */
-      }
-      .first .label-container {
-        /* border: 2px solid yellow; */
-        font-weight: bolder;
-        margin: 0px auto;
-        width: 300px;
-        display: flex;
-        flex-direction: column;
-        font-family: Lato;
-      }
-      .contact .label-container {
-        /* border: 2px solid yellow; */
-        font-weight: bolder;
-        margin: 0px auto;
-        width: 300px;
-        display: flex;
-        flex-direction: column;
-      }
-      .contact label{
-        padding:6px;
-      }
+
+
+
+      
       .btn {
         border-radius: 2px;
         width:80%;
@@ -1078,19 +1042,24 @@ export class MyElement extends LitElement {
       .btn:hover {
         background: linear-gradient(45deg, #11e3ff, #090155);
       }
-      select {
-        text-align: center;
-      }
-      .error {
-        color: red;
-        font-size: 14px;
-      }
 
-      .options {
-        color: black;
-      }
-      .boxerror::part(base):focus-visibile {
+
+
+      .boxerror::part(base) {
+        border-color: var(--sl-color-danger-600);
         box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.33);
+      }
+      .boxerror::part(form-control-label) {
+        color: var(--sl-color-danger-500);
+      }
+      sl-input::part(form-control-label){
+        padding-bottom:5px;
+      }
+      sl-select::part(form-control-label){
+        padding-bottom:5px;
+      }
+      .boxerror::part(form-control-help-text) {
+        color: var(--sl-color-danger-500);
       }
 
     `;
