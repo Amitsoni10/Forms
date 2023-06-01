@@ -1,8 +1,8 @@
-import { LitElement, css, html, nothing,svg } from "lit";
+import { LitElement, css, html, nothing, svg } from "lit";
 
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element.js";
-import '@shoelace-style/shoelace/dist/components/dialog/dialog.js';
+import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
 
 export class UserData extends LitElement {
   static get properties() {
@@ -45,15 +45,15 @@ export class UserData extends LitElement {
       </div>
 
       ${this.editData
-        ? html` <sl-dialog no-header label="Edit Details" style="--width: 70vw;" class="dialog-deny-close" id="modal">
-        
-            <my-element
-              isEditing
-              .editData=${this.editData}
-              .data=${this.data}
-            ><button id="cancel-btn" @click=${this.closemodel}>Cancel</button></my-element>
-            
-          </sl-dialog>`
+        ? html` <dialog class="modal" id="modal">
+            <my-element isEditing .editData=${this.editData} .data=${this.data}
+              ><button slot="next" id="cancel-btn" @click=${this.closemodel}>
+                Cancel</button
+              ><button id="cancel-btn" @click=${this.closemodel}>
+                Cancel
+              </button></my-element
+            >
+          </dialog>`
         : nothing}
 
       <!-- Main Data display  -->
@@ -91,36 +91,34 @@ export class UserData extends LitElement {
 
                     <td>${items.designation}</td>
                     <td>${items.department}</td>
-                    <td >
+                    <td>
                       ${items.correspondenceaddressline1},
                       ${items.correspondenceaddressline2},
                       ${items.correspondencelandmark},
                       ${items.correspondencecountry},
-                      ${items.correspondencestate},
-                      ${items.correspondencecity},
+                      ${items.correspondencestate}, ${items.correspondencecity},
                       ${items.correspondencezipcode}
                     </td>
-                    <td >
+                    <td>
                       ${items.permanentaddressline1},
                       ${items.permanentaddressline2},
-                      ${items.permanentlandmark},
-                      ${items.permanentcountry},
-                      ${items.permanentstate},
-                      ${items.permanentcity},
+                      ${items.permanentlandmark}, ${items.permanentcountry},
+                      ${items.permanentstate}, ${items.permanentcity},
                       ${items.permanentzipcode}
                     </td>
 
                     <td>
-                    ${items.primary}, ${items.secondary}, ${items.emergency}
+                      ${items.primary}, ${items.secondary}, ${items.emergency}
                     </td>
-                    <td>
+                    <td id="buttontd">
                       <button id="editbtn" @click=${() => this.editItem(index)}>
-                        Edit
+                      <img title="Edit" src="./src/edit.png" height=20px width=20px>
                       </button>
                       <button
                         id="dltbtn"
                         @click=${() => this.DeleteConfirmation(items)}
-                      >Delete
+                      >
+                        <img title="Delete" src="./src/delete.png" height=20px width=25px>
                       </button>
                     </td>
                   </tr> `
@@ -134,25 +132,19 @@ export class UserData extends LitElement {
   }
 
   openmodal() {
-    let dialog = this.renderRoot.querySelector(".dialog-deny-close");
-    dialog.show();
-    dialog.addEventListener('sl-request-close', event => {
-      if (event.detail.source === 'overlay') {
-        event.preventDefault();
-      }
-    })
+    let dialog = this.renderRoot.querySelector(".modal");
+    dialog.showModal();
+
   }
   closemodel() {
     this.editData = undefined;
-    // let dialog = this.renderRoot.querySelector(".dialog-deny-close");
-    // dialog.hide();
     window.location.reload();
   }
   sort() {
     this.sortAscending = !this.sortAscending;
     this.data.sort((a, b) => {
-      const nameA = a.Name.toLowerCase();
-      const nameB = b.Name.toLowerCase();
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
       return this.sortAscending
         ? nameA.localeCompare(nameB)
         : nameB.localeCompare(nameA);
@@ -176,7 +168,6 @@ export class UserData extends LitElement {
   editItem(index) {
     this.editingIndex = index;
     const item = this.data[index];
-    // console.log(item);
     this.editData = item;
     requestAnimationFrame(() => {
       this.openmodal();
@@ -188,7 +179,6 @@ export class UserData extends LitElement {
     this.requestUpdate();
     this.closemodel();
   }
-
 
   DeleteConfirmation(items) {
     if (
@@ -247,90 +237,86 @@ export class UserData extends LitElement {
         color: black;
       }
 
-      .form {
-        padding-left: 70px;
-      }
-
-      #modal::part(close-button){
-        display:none;
-      }
-
-      /* #modal {
+      #modal {
         border: none;
 
         border-radius: 10px;
-        width: 60%;
-        height: 80%;
-        margin: 70px auto;
+        width: 70%;
+        height: 92%;
+        margin: 30px auto;
 
         overflow-y: scroll;
         background-image: linear-gradient(45deg, #838c91, #5bdcfce3);
         backdrop-filter: blur(5px);
-        box-shadow: 4px 2px 5px 0.6px #769affa1;
-      } */
-      /* #modal::-webkit-scrollbar {
-        width: 0.5rem;
-        height: 0.5rem;
-      } */
+        box-shadow: 4px 2px 5px 0.6px #6589ebdf;
+      }
+      #modal::-webkit-scrollbar {
+        width: 0rem;
+        height: 0rem;
+      }
       /* #modal::-webkit-scrollbar-thumb {
         border-radius: 0.5rem;
         visibility: hidden;
         background-color: #0004;
       } */
 
-      /* #modal::backdrop {
-        background: #585555;
+      #modal::backdrop {
+        background: #8385f0d5;
         opacity: 0.7;
-      } */
+      }
 
       #cancel-btn {
-        border-radius: 2px;
-        margin:15px 0px;
-        width:80%;
-        background: linear-gradient(45deg, #090155, #11e3ff);
-        -webkit-text-fill-color: #fff;
-        padding: 15px 50px;
-        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 45px;
+        max-width: 200px;
+        width: 100%;
+        border: none;
+        outline: none;
+        color: #fff;
+        border-radius: 5px;
         cursor: pointer;
-        font-weight: bold;
-        border:none;
-        outline:none;
-        box-shadow: 2px 1px 4px 0.6px;
+        margin-left: 12px;
+        font-size: 16px;
+        font-weight: 500;
+        font-family: 'PT Serif', serif;
+        background-color: #3263e9;
+        transition: all 0.3s linear;
       }
       #cancel-btn:hover {
-        background: linear-gradient(45deg, #11e3ff, #090155);
+        background-color: #1238a1;
       }
 
-
-      .main-table {
-        padding: 0px 0px;
-      }
 
       table,
       th,
       td {
-        padding: 1rem;
+        padding: .8rem;
         border-collapse: collapse;
       }
       main.table {
         margin: 0px auto;
         width: 100%;
         height: 91.9vh;
-        background: linear-gradient(90deg, #d9e5eb, #5bdcfce3);
-        backdrop-filter: blur(2px);
-        overflow: hidden;
+        /* background:#5a83f3f0; */
+        background: linear-gradient(90deg, #d9e5eb, #5a83f3f0);
+        /* backdrop-filter: blur(2px); */
+        /* overflow: hidden; */
         border: 2px solid #02020275;
       }
 
       .table_header {
-        padding: 25px;
+        padding-bottom: 25px;
+        padding-top: 10px;
+        padding-left:25px;
         color: #000000;
-        font-family: "Lora", serif;
+        font-family: "Raleway", sans-serif;
         font-size: 20px;
       }
       .table_body {
         width: 97%;
-        max-height: 82%;
+        max-height: 88%;
         background-color: #c7e4f0eb;
         margin: -16px 19px;
         border-radius: 0.6rem;
@@ -359,13 +345,19 @@ export class UserData extends LitElement {
         font-family: "Lora", serif;
         color: #fff;
       }
-      tbody tr:nth-child(even) {
+      /* tbody tr:nth-child(even) {
         background-color: #ffffff;
-      }
+      } */
       tbody tr {
-        font-size: 14px;
-        font-family: "Lora", serif;
+        font-size: 15px;
+        font-family: 'PT Serif', serif;
+        background-color:#ffffff;
       }
+      tbody tr:hover{
+        /* overflow:hidden; */
+        /* transform:scale(1.01); */
+      }
+
       #sort-btn {
         border: none;
         background: none;
@@ -374,42 +366,24 @@ export class UserData extends LitElement {
         font-size: 18px;
       }
 
-      #dltbtn {
-        padding: 2px;
-        margin: 5px 2px;
-        width: 100%;
-        background: #090155;
-        color: #fff;
+      #dltbtn,#editbtn {
+        background:none;
+        border:none;
+        outline:none;
         cursor: pointer;
-        font-family: "Lora", serif;
-        border-radius: 6px;
-        border: 2px solid #090155;
-        box-shadow: 2px 0.9px 6px 0.8px #000000;
       }
-      #editbtn {
-        padding: 2px;
-        margin: 5px 2px;
-        width: 100%;
-        cursor: pointer;
-        color: #fff;
-        background: #090155;
-        border-radius: 6px;
-        font-family: "Lora", serif;
-        border: 2px solid #090155;
-        box-shadow: 2px 0.9px 6px 0.8px #000000;
+
+      #editbtn:hover,#dltbtn:hover {
+        transform:scale(1.09);
       }
-      #editbtn:hover {
-        background: #d1d1d1;
-        border: none;
-        color: #1a7408;
-      }
-      #dltbtn:hover {
-        color: red;
-        border: none;
-        background: #d1d1d1;
+     
+      #buttontd{
+        display:flex;
+        margin-top:20px;
+        gap:7px;
       }
       #namedata {
-        font-weight: bold;
+        font-weight: 600;
       }
     `;
   }
