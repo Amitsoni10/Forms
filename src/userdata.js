@@ -112,13 +112,23 @@ export class UserData extends LitElement {
                     </td>
                     <td id="buttontd">
                       <button id="editbtn" @click=${() => this.editItem(index)}>
-                      <img title="Edit" src="./src/edit.png" height=20px width=20px>
+                        <img
+                          title="Edit"
+                          src="./src/edit.png"
+                          height="20px"
+                          width="20px"
+                        />
                       </button>
                       <button
                         id="dltbtn"
                         @click=${() => this.DeleteConfirmation(items)}
                       >
-                        <img title="Delete" src="./src/delete.png" height=20px width=25px>
+                        <img
+                          title="Delete"
+                          src="./src/delete.png"
+                          height="20px"
+                          width="25px"
+                        />
                       </button>
                     </td>
                   </tr> `
@@ -134,7 +144,6 @@ export class UserData extends LitElement {
   openmodal() {
     let dialog = this.renderRoot.querySelector(".modal");
     dialog.showModal();
-
   }
   closemodel() {
     this.editData = undefined;
@@ -162,7 +171,9 @@ export class UserData extends LitElement {
     let alertbox = this.renderRoot.querySelector("#alertbox");
     alertbox.classList.remove("invisible");
     alertbox.classList.add("visible");
-    this.requestUpdate();
+    setTimeout(() => {
+      window.location.reload();
+    }, 700);
   }
 
   editItem(index) {
@@ -183,7 +194,7 @@ export class UserData extends LitElement {
   DeleteConfirmation(items) {
     if (
       confirm(
-        `WARNING!!!!!!!!!!!!!!!\nAre you sure you want to delete? ${items.Name}'s Data\nThis Action will delete the data permanently!!`
+        `WARNING!!!!!!!!!!!!!!!\nAre you sure you want to delete? ${items.name}'s Data\nThis Action will delete the data permanently!!`
       )
     ) {
       this.deleteItem(items);
@@ -217,17 +228,20 @@ export class UserData extends LitElement {
 
       .alert {
         text-align: center;
-        padding: 20px;
-        background-color: #d30606;
+        padding: 15px;
+        font-size:22px;
+        font-weight:300;
+        font-family: "Raleway", sans-serif;
+        background-color: #ff2020f6;
         color: white;
       }
 
       .closebtn {
         margin-left: 15px;
         color: white;
-        font-weight: bold;
+        font-weight: 400;
         float: right;
-        font-size: 22px;
+        font-size: 40px;
         line-height: 20px;
         cursor: pointer;
         transition: 0.3s;
@@ -239,12 +253,10 @@ export class UserData extends LitElement {
 
       #modal {
         border: none;
-
         border-radius: 10px;
         width: 70%;
         height: 92%;
         margin: 30px auto;
-
         overflow-y: scroll;
         background-image: linear-gradient(45deg, #838c91, #5bdcfce3);
         backdrop-filter: blur(5px);
@@ -254,11 +266,6 @@ export class UserData extends LitElement {
         width: 0rem;
         height: 0rem;
       }
-      /* #modal::-webkit-scrollbar-thumb {
-        border-radius: 0.5rem;
-        visibility: hidden;
-        background-color: #0004;
-      } */
 
       #modal::backdrop {
         background: #8385f0d5;
@@ -266,50 +273,44 @@ export class UserData extends LitElement {
       }
 
       #cancel-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: 45px;
         max-width: 200px;
         width: 100%;
-        border: none;
-        outline: none;
-        color: #fff;
+        border: 1px solid #3263e9;
+        color: #000000;
         border-radius: 5px;
-        cursor: pointer;
         margin-left: 12px;
-        font-size: 16px;
+        cursor: pointer;
+        font-size: 18px;
         font-weight: 500;
-        font-family: 'PT Serif', serif;
-        background-color: #3263e9;
-        transition: all 0.3s linear;
+        font-family: "PT Serif", serif;
+        background-color: #fff;
       }
       #cancel-btn:hover {
-        background-color: #1238a1;
+        background-color: #a2bbff89;
       }
-
+      #cancel-btn:active {
+        background-color: #678cf3a7;
+      }
 
       table,
       th,
       td {
-        padding: .8rem;
+        padding: 0.8rem;
         border-collapse: collapse;
       }
       main.table {
         margin: 0px auto;
         width: 100%;
         height: 91.9vh;
-        /* background:#5a83f3f0; */
         background: linear-gradient(90deg, #d9e5eb, #5a83f3f0);
-        /* backdrop-filter: blur(2px); */
-        /* overflow: hidden; */
         border: 2px solid #02020275;
       }
 
       .table_header {
         padding-bottom: 25px;
         padding-top: 10px;
-        padding-left:25px;
+        padding-left: 25px;
         color: #000000;
         font-family: "Raleway", sans-serif;
         font-size: 20px;
@@ -341,23 +342,18 @@ export class UserData extends LitElement {
         position: sticky;
         top: 0;
         left: 0;
-        background-color: #090155;
+        background-color: #0b0069;
         font-family: "Lora", serif;
+        font-weight:400;
         color: #fff;
       }
-      /* tbody tr:nth-child(even) {
-        background-color: #ffffff;
-      } */
+
       tbody tr {
         font-size: 15px;
-        font-family: 'PT Serif', serif;
-        background-color:#ffffff;
+        font-family: "PT Serif", serif;
+        background-color: #ffffff;
       }
-      tbody tr:hover{
-        /* overflow:hidden; */
-        /* transform:scale(1.01); */
-      }
-
+      /* 090155 */
       #sort-btn {
         border: none;
         background: none;
@@ -366,21 +362,23 @@ export class UserData extends LitElement {
         font-size: 18px;
       }
 
-      #dltbtn,#editbtn {
-        background:none;
-        border:none;
-        outline:none;
+      #dltbtn,
+      #editbtn {
+        background: none;
+        border: none;
+        outline: none;
         cursor: pointer;
       }
 
-      #editbtn:hover,#dltbtn:hover {
-        transform:scale(1.09);
+      #editbtn:hover,
+      #dltbtn:hover {
+        transform: scale(1.09);
       }
-     
-      #buttontd{
-        display:flex;
-        margin-top:20px;
-        gap:7px;
+
+      #buttontd {
+        display: flex;
+        margin-top: 20px;
+        gap: 7px;
       }
       #namedata {
         font-weight: 600;

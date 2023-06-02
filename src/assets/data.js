@@ -1,23 +1,23 @@
 export const department = [
     // {department:""},
-    {department:"Information-Technology"},
-    {department:"Marketing-Science"},
-    {department:"Media-Services"},
+    {department:"Information_Technology"},
+    {department:"Marketing_Science"},
+    {department:"Media_Services"},
 
 ]
 
 export const designation = [
     // {designation:""},
     {designation:"Director"},
-    {designation:"Associate-Director"},
-    {designation:"Lead-Engineering"},
+    {designation:"Associate_Director"},
+    {designation:"Lead_Engineering"},
     {designation:"Manager"},
-    {designation:"Associate-Manager"},
-    {designation:"Senior-Manager"},
-    {designation:"Senior-Associate"},
+    {designation:"Associate_Manager"},
+    {designation:"Senior_Manager"},
+    {designation:"Senior_Associate"},
     {designation:"Associate"},
-    {designation:"Junior-Associate"},
-    {designation:"Graduate-Trainee"},
+    {designation:"Junior_Associate"},
+    {designation:"Graduate_Trainee"},
 
 ]
 
@@ -45,7 +45,7 @@ export const state=[
     // {state:""},
     {state:"Delhi"},
     {state:"Mumbai"},
-    {state:"Uttar-Pradesh"},
+    {state:"Uttar_Pradesh"},
     {state:"Gujarat"},
     {state:"Bihar"},
     {state:"Uttarakhand"},
@@ -56,6 +56,6 @@ export const state=[
 ]
 export const city=[
     // {city:""},
-    {city:"New-Delhi"},
+    {city:"New_Delhi"},
     {city:"Delhi"},
 ]

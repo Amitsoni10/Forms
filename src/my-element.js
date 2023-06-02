@@ -130,15 +130,21 @@ export class MyElement extends LitElement {
     }
   }
 
-  nextBtnEdit(){
+  nextBtnEdit(e) {
+    let form = this.renderRoot.querySelector("form");
+    form.reportValidity();
+    e.preventDefault();
     let first = this.renderRoot.querySelector(".first");
     let second = this.renderRoot.querySelector(".second");
     first.classList.add("invisible");
     second.classList.remove("invisible");
     second.classList.add("visible");
-
   }
-  nextBtn() {
+  nextBtn(e) {
+    let form = this.renderRoot.querySelector("form");
+    form.reportValidity();
+    e.preventDefault();
+    console.log("nxt after deafuat");
     let first = this.renderRoot.querySelector(".first");
     let second = this.renderRoot.querySelector(".second");
 
@@ -153,10 +159,11 @@ export class MyElement extends LitElement {
       this.employee.secondary &&
       this.employee.emergency
     ) {
+      console.log("in nxt");
       first.classList.add("invisible");
       second.classList.remove("invisible");
       second.classList.add("visible");
-    } 
+    }
   }
 
   backBtn() {
@@ -176,7 +183,7 @@ export class MyElement extends LitElement {
             ${this.isEditing ? "Update Details" : "Registration Form"}
           </header>
 
-          <form @submit=${!this.isEditing ? this.submit : this.saveEdit}>
+          <form>
             <div class="form first">
               <div class="details personal">
                 <span class="title">Personal Details</span>
@@ -198,7 +205,6 @@ export class MyElement extends LitElement {
                         help-text=${this.employeeForm.name.errorMessage
                           ? this.employeeForm.name.errorMessage
                           : ""}
-                        autocomplete="off"
                       ></sl-input>
                     </div>
 
@@ -234,7 +240,6 @@ export class MyElement extends LitElement {
                         id="email"
                         name="email"
                         @input=${(e) => this.formToggle(e, "email")}
-                        autocomplete="off"
                         help-text=${this.employeeForm.email.errorMessage
                           ? this.employeeForm.email.errorMessage
                           : ""}
@@ -255,7 +260,6 @@ export class MyElement extends LitElement {
                         required
                         placeholder="Enter Employee Code"
                         @input=${(e) => this.formToggle(e, "empCode")}
-                        autocomplete="off"
                         help-text=${this.employeeForm.empCode.errorMessage
                           ? this.employeeForm.empCode.errorMessage
                           : ""}
@@ -321,7 +325,6 @@ export class MyElement extends LitElement {
                         placeholder="Enter Primary Number"
                         required
                         @input=${(e) => this.formToggle(e, "primary")}
-                        autocomplete="off"
                         help-text=${this.employeeForm.primary.errorMessage
                           ? this.employeeForm.primary.errorMessage
                           : ""}
@@ -339,7 +342,6 @@ export class MyElement extends LitElement {
                         placeholder="Enter Secondary Number"
                         required
                         @input=${(e) => this.formToggle(e, "secondary")}
-                        autocomplete="off"
                         help-text=${this.employeeForm.secondary.errorMessage
                           ? this.employeeForm.secondary.errorMessage
                           : ""}
@@ -357,7 +359,6 @@ export class MyElement extends LitElement {
                         placeholder="Enter Emergency Number"
                         required
                         @input=${(e) => this.formToggle(e, "emergency")}
-                        autocomplete="off"
                         help-text=${this.employeeForm.emergency.errorMessage
                           ? this.employeeForm.emergency.errorMessage
                           : ""}
@@ -366,27 +367,27 @@ export class MyElement extends LitElement {
                   </div>
                   <div class="blocks">
                     <div class="warningDiv">
-                      ${this.isEditing?"":"* Please fill all the mandatory inputs to go to next page"}
-                      
+                      ${this.isEditing
+                        ? ""
+                        : "* Please fill all the mandatory inputs to go to next page"}
                     </div>
-                        </div>              
-                  
+                  </div>
                 </div>
 
-
                 <div class="buttons">
-                  ${this.isEditing?html`<button type="button" class="nextBtn" @click=${this.nextBtnEdit}>
-                    <span class="btnText">Next</span>
-                  </button>`:html`<button class="nextBtn" @click=${this.nextBtn}>
-                    <span class="btnText">Next</span>
-                  </button>`}
+                  ${this.isEditing
+                    ? html`<button class="nextBtn" @click=${this.nextBtnEdit}>
+                        <span class="btnText">Next</span>
+                      </button>`
+                    : html`<button class="nextBtn" @click=${this.nextBtn}>
+                        <span class="btnText">Next</span>
+                      </button>`}
                   <slot name="next"></slot>
-                  </div>
-                  
+                </div>
               </div>
             </div>
 
-            <div class="form second invisible">
+            <div class="form second invisible ">
               <div class="details correspondence">
                 <span class="title">Correspondence Address</span>
 
@@ -402,7 +403,6 @@ export class MyElement extends LitElement {
                           .errorMessage
                           ? "boxerror"
                           : ""}"
-                        autocomplete="off"
                         required
                         help-text=${this.employeeForm.correspondenceaddressline1
                           .errorMessage
@@ -422,7 +422,6 @@ export class MyElement extends LitElement {
                         placeholder="Optional"
                         @input=${(e) =>
                           this.formToggle(e, "correspondenceaddressline2")}
-                        autocomplete="off"
                       ></sl-input>
                     </div>
 
@@ -439,7 +438,6 @@ export class MyElement extends LitElement {
                           : ""}"
                         @input=${(e) =>
                           this.formToggle(e, "correspondencelandmark")}
-                        autocomplete="off"
                         help-text=${this.employeeForm.correspondencelandmark
                           .errorMessage
                           ? this.employeeForm.correspondencelandmark
@@ -523,7 +521,6 @@ export class MyElement extends LitElement {
                         id="correspondencezipcode"
                         name="correspondencezipcode"
                         placeholder="Enter Zipcode"
-                        autocomplete="off"
                         required
                         help-text=${this.employeeForm.correspondencezipcode
                           .errorMessage
@@ -571,7 +568,6 @@ export class MyElement extends LitElement {
                         id="permanentaddressline1"
                         name="permanentaddressline1"
                         placeholder="Enter Your Address"
-                        autocomplete="off"
                       ></sl-input>
                     </div>
 
@@ -585,7 +581,6 @@ export class MyElement extends LitElement {
                         id="permanentaddressline2"
                         name="permanentaddressline2"
                         placeholder="Optional"
-                        autocomplete="off"
                       ></sl-input>
                     </div>
 
@@ -598,7 +593,6 @@ export class MyElement extends LitElement {
                         id="permanentlandmark"
                         name="permanentlandmark"
                         placeholder="Enter Landmark"
-                        autocomplete="off"
                       ></sl-input>
                     </div>
                   </div>
@@ -674,7 +668,6 @@ export class MyElement extends LitElement {
                         id="permanentzipcode"
                         name="permanentzipcode"
                         placeholder="Enter Zipcode"
-                        autocomplete="off"
                       ></sl-input>
                     </div>
                   </div>
@@ -684,10 +677,18 @@ export class MyElement extends LitElement {
                     <span class="btnText">Previous</span>
                   </button>
                   ${!this.isEditing
-                    ? html`<button class="btn" type="submit">
+                    ? html`<button
+                        type="submit"
+                        @click=${this.submit}
+                        class="btn"
+                      >
                         <span class="btnText">Submit</span>
                       </button>`
-                    : html`<button class="btn" type="submit">
+                    : html`<button
+                        class="btn"
+                        type="submit"
+                        @click=${this.saveEdit}
+                      >
                         <span class="btnText">Update</span>
                       </button>`}
                   <slot></slot>
@@ -723,8 +724,15 @@ export class MyElement extends LitElement {
   }
 
   saveEdit(e) {
+    let form = this.renderRoot.querySelector("form");
+    form.reportValidity();
     e.preventDefault();
     if (
+      this.editData.designation &&
+      this.editData.department &&
+      this.editData.correspondencecountry &&
+      this.editData.correspondencestate &&
+      this.editData.correspondencecity &&
       this.employeeForm.name.errorMessage === "" &&
       this.employeeForm.email.errorMessage === "" &&
       this.employeeForm.empCode.errorMessage === "" &&
@@ -981,8 +989,10 @@ export class MyElement extends LitElement {
   }
 
   submit(e) {
+    // console.log("in submit");
+    let form = this.renderRoot.querySelector("form");
+    form.reportValidity();
     e.preventDefault();
-
     if (
       this.employeeForm.name.isValidName === true &&
       this.employeeForm.email.isValidName === true &&
@@ -999,8 +1009,6 @@ export class MyElement extends LitElement {
       const myData = JSON.parse(localStorage.getItem("MyEmployeeList") || "[]");
       myData.push(userdata);
       localStorage.setItem("MyEmployeeList", JSON.stringify(myData));
-
-      window.location.reload();
       alert("Form Submitted Successfully");
       form.submit();
       this.requestUpdate();
@@ -1009,14 +1017,13 @@ export class MyElement extends LitElement {
 
   static get styles() {
     return css`
-
       .body-container {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
         background: linear-gradient(45deg, #b3d5e5, #5a83f3f0);
-        padding:10px;
+        padding: 10px;
       }
       .container {
         position: relative;
@@ -1034,7 +1041,6 @@ export class MyElement extends LitElement {
         font-weight: 600;
         color: #333;
         font-family: "Raleway", sans-serif;
-
       }
       .container header::before {
         content: "";
@@ -1054,9 +1060,7 @@ export class MyElement extends LitElement {
       .container form {
         position: relative;
         margin-top: 16px;
-        /* max-height: 490px; */
         background-color: #fff;
-        /* overflow-y:scroll; */
       }
 
       .visible {
@@ -1077,68 +1081,58 @@ export class MyElement extends LitElement {
         margin-bottom: 8px;
         font-size: 20px;
         font-weight: 600;
-        /* margin:6px 0; */
         color: #333;
-        font-family: 'PT Serif', serif;
+        font-family: "PT Serif", serif;
       }
       .container form .fields {
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        /* gap:40px; */
       }
       form .fields .input-field {
         display: flex;
         flex-direction: column;
         width: calc(100% / 3);
-
-        /* width:100%; */
         margin: 4px 0;
       }
       .input-field sl-input {
-        font-family: 'Lora', serif;
+        font-family: "Lora", serif;
         padding: 0 15px;
       }
       .input-field sl-select {
-        font-family: 'Lora', serif;
+        font-family: "Lora", serif;
         padding: 0 15px;
       }
       .container form .nextBtn,
       .backBtn,
       .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         height: 45px;
         max-width: 200px;
         width: 100%;
-        border: none;
-        outline: none;
-        color: #fff;
+        border: 1px solid #3263e9;
+        color: #000000;
         border-radius: 5px;
         margin: 25px 0;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 500;
-        font-family: 'PT Serif', serif;
-        background-color: #3263e9;
-        transition: all 0.2s linear;
+        font-family: "PT Serif", serif;
+        background-color: #fff;
       }
-      /* .container form .nextBtn,
-      .container form .backBtn {
-        font-size: 14px;
-        font-weight: 400;
-      } */
-      form .nextBtn:hover {
-        background-color: #1238a1;
+
+      form .nextBtn:hover,
+      .backBtn:hover,
+      .btn:hover {
+        background-color: #a2bbff89;
       }
-      .backBtn:hover{
-        background-color: #1238a1;
+
+      form .nextBtn:active,
+      .backBtn:active,
+      .btn:active {
+        background-color: #678cf3a7;
       }
-      .btn:hover{
-        background-color: #1238a1;
-      }
+
       form .buttons {
         display: flex;
         align-items: center;
@@ -1148,14 +1142,13 @@ export class MyElement extends LitElement {
         margin-right: 14px;
       }
       .warningDiv {
-        font-family: 'Lora', serif;
+        font-family: "Lora", serif;
         font-size: 16px;
         color: #ff0000;
       }
       .checkbox {
-        /* margin-left:10px; */
-        font-family: 'Lora', serif;
-        color: #2853c9;
+        font-family: "Lora", serif;
+        color: #ff4848;
         margin-right: 10px;
         margin-bottom: 10px;
         font-size: 18px;
@@ -1163,13 +1156,6 @@ export class MyElement extends LitElement {
       #myCheck {
         margin-bottom: 10px;
       }
-
-      /* sl-input::part(base){
-        background-color:#d3cdcdb0;
-      }
-      sl-select::part(base){
-        background-color:#d3cdcdb0;
-      } */
       .boxerror::part(base) {
         border-color: var(--sl-color-danger-600);
         box-shadow: 0 0 0 3px rgba(255, 99, 71, 0.33);
@@ -1180,18 +1166,16 @@ export class MyElement extends LitElement {
       sl-input::part(form-control-label) {
         margin-bottom: 5px;
         margin-left: 2px;
-   
       }
       sl-select::part(form-control-label) {
         margin-bottom: 5px;
         margin-left: 2px;
-   
       }
       sl-input::part(form-control-help-text) {
-        margin-top: 5px ;
+        margin-top: 5px;
       }
       sl-select::part(form-control-help-text) {
-        margin-top: 5px ;
+        margin-top: 5px;
       }
       .boxerror::part(form-control-help-text) {
         color: var(--sl-color-danger-500);
