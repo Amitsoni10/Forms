@@ -821,7 +821,7 @@ export class MyElement extends LitElement {
           } else if (e.target.value.length > 7) {
             this.errormessage(
               "empCode",
-              "Emp code should be of 6 digit and 1 alphabet only (i.e-1234A56)"
+              "Emp code should be of 6 digit and 1 capital alphabet only (i.e-1234A56)"
             );
           } else if (
             e.target.value.match(/[A-Z]{1}[0-9]{6}/) ||
@@ -836,7 +836,7 @@ export class MyElement extends LitElement {
           } else {
             this.errormessage(
               "empCode",
-              "Emp code should be of 6 digit and 1 alphabet only (i.e-1234A56)"
+              "Emp code should be of 6 digit and 1 capital alphabet only (i.e-1234A56)"
             );
           }
         }
