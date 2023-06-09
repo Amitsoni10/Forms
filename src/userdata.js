@@ -1,8 +1,10 @@
-import { LitElement, css, html, nothing, svg } from "lit";
+import { LitElement, css, html, nothing } from "lit";
 
 import { repeat } from "lit/directives/repeat.js";
 import "./my-element.js";
-import "@shoelace-style/shoelace/dist/components/dialog/dialog.js";
+import "@shoelace-style/shoelace/dist/components/tree/tree.js";
+import "@shoelace-style/shoelace/dist/components/tree-item/tree-item.js";
+import "@shoelace-style/shoelace/dist/components/tooltip/tooltip.js";
 
 export class UserData extends LitElement {
   static get properties() {
@@ -56,87 +58,112 @@ export class UserData extends LitElement {
           </dialog>`
         : nothing}
 
-      <!-- Main Data display  -->
-      <div class="main-table">
-        <main class="table">
-          <section class="table_header">
+      <div class="main-container">
+        <div class="container1">
+          <section class="header">
             <h1>Employee Details</h1>
           </section>
-          <section class="table_body">
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    Name <button id="sort-btn" @click=${this.sort}>⇵</button>
-                  </th>
-                  <th>Emp Code</th>
-                  <th>Email Type</th>
-                  <th>Email</th>
-                  <th>Designation</th>
-                  <th>Department</th>
-                  <th>Correspondence Address</th>
-                  <th>Permanent Address</th>
-                  <th>Contact Details</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${repeat(
-                  this.data,
-                  (items, index) => html`<tr>
-                    <td id="namedata">${items.name}</td>
-                    <td>${items.empCode}</td>
-                    <td>${items.emailtype}</td>
-                    <td>${items.email}</td>
+          <div class="sortBtn">
+            <button @click=${this.sort}>Sort ⇵</button>
+          </div>
+          <div class="container">
+            ${repeat(
+              this.data,
+              (items, index) => html`
+                <sl-tree selection="leaf" class="custom-icons">
+                  <sl-icon
+                    class="expand"
+                    name="plus-square"
+                    slot="expand-icon"
+                  ></sl-icon>
+                  <sl-icon
+                    class="expand"
+                    name="dash-square"
+                    slot="collapse-icon"
+                  ></sl-icon>
 
-                    <td>${items.designation}</td>
-                    <td>${items.department}</td>
-                    <td>
-                      ${items.correspondenceaddressline1},
-                      ${items.correspondenceaddressline2},
-                      ${items.correspondencelandmark},
-                      ${items.correspondencecountry},
-                      ${items.correspondencestate}, ${items.correspondencecity},
-                      ${items.correspondencezipcode}
-                    </td>
-                    <td>
-                      ${items.permanentaddressline1},
-                      ${items.permanentaddressline2},
-                      ${items.permanentlandmark}, ${items.permanentcountry},
-                      ${items.permanentstate}, ${items.permanentcity},
-                      ${items.permanentzipcode}
-                    </td>
+                  <sl-tree-item >
+                    <strong class="title">${items.name}</strong>
 
-                    <td>
-                      ${items.primary}, ${items.secondary}, ${items.emergency}
-                    </td>
-                    <td id="buttontd">
-                      <button id="editbtn" @click=${() => this.editItem(index)}>
-                        <img
-                          title="Edit"
-                          src="./src/edit.png"
-                          height="20px"
-                          width="20px"
-                        />
-                      </button>
+                    <sl-tooltip content="Edit" placement="top">
                       <button
-                        id="dltbtn"
+                        class="editBtn"
+                        @click=${() => this.editItem(index)}
+                      >
+                        <sl-icon name="pencil-square"></sl-icon></button
+                    ></sl-tooltip>
+                    <sl-tooltip content="Delete" placement="top">
+                      <button
+                        class="deleteBtn"
                         @click=${() => this.DeleteConfirmation(items)}
                       >
-                        <img
-                          title="Delete"
-                          src="./src/delete.png"
-                          height="20px"
-                          width="25px"
-                        />
-                      </button>
-                    </td>
-                  </tr> `
-                )}
-              </tbody>
-            </table>
-          </section>
-        </main>
+                        <sl-icon name="trash"></sl-icon></button
+                    ></sl-tooltip>
+
+                    <sl-tree-item class="base"
+                      ><strong>Name :</strong
+                      ><strong class="inner"
+                        >${items.name}</strong
+                      ></sl-tree-item
+                    >
+                    <sl-tree-item class="base"
+                      ><strong>Email :</strong
+                      ><strong class="inner">
+                        ${items.email} (${items.emailtype})</strong
+                      ></sl-tree-item
+                    >
+                    <sl-tree-item class="base"
+                      ><strong>Employee Code :</strong>
+                      <strong class="inner"
+                        >${items.empCode}</strong
+                      ></sl-tree-item
+                    >
+                    <sl-tree-item class="base"
+                      ><strong>Designation :</strong>
+                      <strong class="inner"
+                        >${items.designation}</strong
+                      ></sl-tree-item
+                    >
+                    <sl-tree-item class="base"
+                      ><strong>Department :</strong>
+                      <strong class="inner"
+                        >${items.department}
+                      </strong></sl-tree-item
+                    >
+                    <sl-tree-item class="base"
+                      ><strong>Correspondence Address :</strong>
+                      <strong class="inner"
+                        >${items.correspondenceaddressline1},
+                        ${items.correspondencelandmark},
+                        ${items.correspondencecountry},
+                        ${items.correspondencestate},
+                        ${items.correspondencecity},
+                        ${items.correspondencezipcode}</strong
+                      ></sl-tree-item
+                    >
+                    <sl-tree-item class="base"
+                      ><strong>Permanent :</strong>
+                      <strong class="inner"
+                        >${items.permanentaddressline1},
+                        ${items.permanentlandmark}, ${items.permanentcountry},
+                        ${items.permanentstate}, ${items.permanentcity},
+                        ${items.permanentzipcode}</strong
+                      >
+                    </sl-tree-item>
+
+                    <sl-tree-item class="base"
+                      ><strong>Contact Details :</strong>
+                      <strong class="inner"
+                        >${items.primary}, ${items.secondary},
+                        ${items.emergency}</strong
+                      ></sl-tree-item
+                    >
+                  </sl-tree-item> </sl-tree
+                ><br />
+              `
+            )}
+          </div>
+        </div>
       </div>
     `;
   }
@@ -218,6 +245,148 @@ export class UserData extends LitElement {
         padding: 0;
         box-sizing: border-box;
       }
+      .custom-icons sl-tree-item::part(expand-button) {
+        rotate: none;
+      }
+
+      .main-container {
+        padding-top: 20px;
+        height: 91.9vh;
+        /* background-color:#d1d5db; */
+        background-color:#4949747b;
+        /* background-image: linear-gradient(45deg,#60a5fa, #bfdbfe); */
+      }
+      .container1 {
+        margin: 0px 300px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 2px 10px 5px rgba(0, 0, 0, 0.2);
+      }
+      .container {
+        position: relative;
+        background-color: #fff;
+        margin: 0px 20px;
+        max-height: 420px;
+        margin-top: 10px;
+        overflow-y: scroll;
+      }
+      .container::-webkit-scrollbar {
+        width: 0rem;
+        height: 0rem;
+      }
+      .sortBtn button {
+        height: 35px;
+        width: 120px;
+        border: none;
+        color: #fff;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-left: 20px;
+        cursor: pointer;
+        font-size: 18px;
+        font-family: "Roboto";
+        font-weight: 500;
+        background-color: #1d4ed8;
+        letter-spacing: 0.03em;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+      }
+      .sortBtn button:hover {
+        background-color: #fff;
+        color: #1d4ed8;
+        border: 1px solid #1d4ed8;
+        -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+      }
+      .sortBtn button:active {
+        background-color: #678cf3a7;
+      }
+      .deleteBtn {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        background-color: #f3f4f6;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 23px;
+        color: #000000;
+      }
+      .editBtn {
+        position: absolute;
+        right: 50px;
+        top: 5px;
+        background-color: #f3f4f6;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 23px;
+        color: #000000;
+      }
+      .editBtn:hover,
+      .deleteBtn:hover {
+        transform: scale(1.4);
+      }
+      .expand {
+        color: #000000;
+      }
+      strong {
+        margin-right: 5px;
+        font-family: "Roboto";
+        letter-spacing: 0.03em;
+      }
+      strong.inner {
+        font-family: "Roboto";
+        font-weight: 500;
+      }
+
+      .title {
+        font-family: "Roboto";
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+      }
+
+      sl-tree::part(base) {
+        /* background-color: #f0fdfa; */
+        /* background-image:linear-gradient(to right,#c3faed,#f0fdfa ); */
+        background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 );
+        border:none;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+
+      sl-tree-item::part(base) {
+        color: #000000;
+      }
+      sl-tooltip::part(base) {
+        -webkit-text-fill-color: #fff;
+      }
+      .base {
+        /* background-color: #f0fdfa; */
+        background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 );
+        -webkit-text-fill-color: #000000;
+        font-family: "Roboto";
+        font-weight: 400;
+      }
+      .header {
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        color: #fff;
+        font-family: "Raleway";
+        font-weight: 700;
+        font-size: 20px;
+        text-align: center;
+        background-color: #1d4ed8;
+      }
 
       .invisible {
         display: none;
@@ -229,8 +398,8 @@ export class UserData extends LitElement {
       .alert {
         text-align: center;
         padding: 15px;
-        font-size:22px;
-        font-weight:300;
+        font-size: 22px;
+        font-weight: 300;
         font-family: "Raleway", sans-serif;
         background-color: #ff2020f6;
         color: white;
@@ -276,112 +445,34 @@ export class UserData extends LitElement {
         height: 45px;
         max-width: 200px;
         width: 100%;
-        border: 1px solid #3263e9;
-        color: #000000;
         border-radius: 5px;
         margin-left: 12px;
+        border: 1px solid #3263e9;
+        color: #000000;
+
+        border: none;
+        color: #fff;
         cursor: pointer;
         font-size: 18px;
+        font-family: "Roboto";
         font-weight: 500;
-        font-family: "PT Serif", serif;
-        background-color: #fff;
+        background-color: #1d4ed8;
+        letter-spacing: 0.05em;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
       }
       #cancel-btn:hover {
-        background-color: #a2bbff89;
+        background-color: #fff;
+        color: #1d4ed8;
+        border: 1px solid #1d4ed8;
+        -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
       }
       #cancel-btn:active {
         background-color: #678cf3a7;
-      }
-
-      table,
-      th,
-      td {
-        padding: 0.8rem;
-        border-collapse: collapse;
-      }
-      main.table {
-        margin: 0px auto;
-        width: 100%;
-        height: 91.9vh;
-        background: linear-gradient(90deg, #d9e5eb, #5a83f3f0);
-        border: 2px solid #02020275;
-      }
-
-      .table_header {
-        padding-bottom: 25px;
-        padding-top: 10px;
-        padding-left: 25px;
-        color: #000000;
-        font-family: "Raleway", sans-serif;
-        font-size: 20px;
-      }
-      .table_body {
-        width: 97%;
-        max-height: 88%;
-        background-color: #c7e4f0eb;
-        margin: -16px 19px;
-        border-radius: 0.6rem;
-        overflow: auto;
-      }
-      .table_body::-webkit-scrollbar {
-        width: 0rem;
-        height: 0rem;
-      }
-      .table_body::-webkit-scrollbar-thumb {
-        border-radius: 0.5rem;
-        background-color: #0004;
-        visibility: hidden;
-      }
-      .table_body:hover::-webkit-scrollbar-thumb {
-        visibility: visible;
-      }
-      table {
-        width: 100%;
-      }
-      thead th {
-        position: sticky;
-        top: 0;
-        left: 0;
-        background-color: #0b0069;
-        font-family: "Lora", serif;
-        font-weight:400;
-        color: #fff;
-      }
-
-      tbody tr {
-        font-size: 15px;
-        font-family: "PT Serif", serif;
-        background-color: #ffffff;
-      }
-      /* 090155 */
-      #sort-btn {
-        border: none;
-        background: none;
-        cursor: pointer;
-        color: #fff;
-        font-size: 18px;
-      }
-
-      #dltbtn,
-      #editbtn {
-        background: none;
-        border: none;
-        outline: none;
-        cursor: pointer;
-      }
-
-      #editbtn:hover,
-      #dltbtn:hover {
-        transform: scale(1.09);
-      }
-
-      #buttontd {
-        display: flex;
-        margin-top: 20px;
-        gap: 7px;
-      }
-      #namedata {
-        font-weight: 600;
       }
     `;
   }

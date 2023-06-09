@@ -48,10 +48,14 @@ export class Navbar extends LitElement {
             list-style-type:none;
             font-size:20px;
             color:white;
+            font-family:"Raleway";
+        font-weight:500;
          }
          a{
             text-decoration:none;
             color:white;
+            font-family:"Raleway";
+        font-weight:500;
          
             
          }

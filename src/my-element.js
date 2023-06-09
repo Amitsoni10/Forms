@@ -13,6 +13,10 @@ import "@shoelace-style/shoelace/dist/components/input/input.js";
 import "@shoelace-style/shoelace/dist/components/select/select.js";
 import "@shoelace-style/shoelace/dist/components/option/option.js";
 import "@shoelace-style/shoelace/dist/components/alert/alert.js";
+import "@shoelace-style/shoelace/dist/components/spinner/spinner.js";
+import "@shoelace-style/shoelace/dist/components/alert/alert.js";
+import "@shoelace-style/shoelace/dist/components/icon/icon.js";
+import "@shoelace-style/shoelace/dist/components/checkbox/checkbox.js";
 import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
 
 export class MyElement extends LitElement {
@@ -46,11 +50,6 @@ export class MyElement extends LitElement {
         isValidName: false,
         errorMessage: "",
       },
-      correspondenceaddressline2: {
-        value: "",
-        isValidName: false,
-        errorMessage: "",
-      },
       correspondencelandmark: {
         value: "",
         isValidName: false,
@@ -70,11 +69,6 @@ export class MyElement extends LitElement {
       },
 
       permanentaddressline1: {
-        value: "",
-        isValidName: false,
-        errorMessage: "",
-      },
-      permanentaddressline2: {
         value: "",
         isValidName: false,
         errorMessage: "",
@@ -103,14 +97,12 @@ export class MyElement extends LitElement {
         "#designation": "designation",
         "#department": "department",
         "#correspondenceaddressline1": "correspondenceaddressline1",
-        "#correspondenceaddressline2": "correspondenceaddressline2",
         "#correspondencelandmark": "correspondencelandmark",
         "#correspondencecountry": "correspondencecountry",
         "#correspondencestate": "correspondencestate",
         "#correspondencecity": "correspondencecity",
         "#correspondencezipcode": "correspondencezipcode",
         "#permanentaddressline1": "permanentaddressline1",
-        "#permanentaddressline2": "permanentaddressline2",
         "#permanentlandmark": "permanentlandmark",
         "#permanentcountry": "permanentcountry",
         "#permanentstate": "permanentstate",
@@ -130,60 +122,21 @@ export class MyElement extends LitElement {
     }
   }
 
-  nextBtnEdit(e) {
-    let form = this.renderRoot.querySelector("form");
-    form.reportValidity();
-    e.preventDefault();
-    let first = this.renderRoot.querySelector(".first");
-    let second = this.renderRoot.querySelector(".second");
-    first.classList.add("invisible");
-    second.classList.remove("invisible");
-    second.classList.add("visible");
-  }
-  nextBtn(e) {
-    let form = this.renderRoot.querySelector("form");
-    form.reportValidity();
-    e.preventDefault();
-    console.log("nxt after deafuat");
-    let first = this.renderRoot.querySelector(".first");
-    let second = this.renderRoot.querySelector(".second");
-
-    if (
-      this.employee.name &&
-      this.employee.empCode &&
-      this.employee.email &&
-      this.emailtype &&
-      this.employee.department &&
-      this.employee.designation &&
-      this.employee.primary &&
-      this.employee.secondary &&
-      this.employee.emergency
-    ) {
-      console.log("in nxt");
-      first.classList.add("invisible");
-      second.classList.remove("invisible");
-      second.classList.add("visible");
-    }
-  }
-
-  backBtn() {
-    let first = this.renderRoot.querySelector(".first");
-    let second = this.renderRoot.querySelector(".second");
-    second.classList.remove("visible");
-    second.classList.add("invisible");
-    first.classList.remove("invisible");
-    first.classList.add("visible");
-  }
-
   render() {
     return html`
       <div class="body-container">
         <div class="container">
+          <sl-spinner
+            style="font-size: 7rem; --track-width: 8px; --indicator-color: #2563eb; --track-color: #dbeafe;"
+            class="spinner invisible"
+          ></sl-spinner>
           <header>
             ${this.isEditing ? "Update Details" : "Registration Form"}
           </header>
 
           <form>
+            <hr />
+
             <div class="form first">
               <div class="details personal">
                 <span class="title">Personal Details</span>
@@ -199,7 +152,7 @@ export class MyElement extends LitElement {
                           : ""}"
                         type="text"
                         id="name"
-                        placeholder="Enter Name"
+                        placeholder="Enter Your Name"
                         name="name"
                         @input=${(e) => this.formToggle(e, "name")}
                         help-text=${this.employeeForm.name.errorMessage
@@ -210,14 +163,13 @@ export class MyElement extends LitElement {
 
                     <div class="input-field">
                       <sl-select
-                        placeholder="Select Email Type"
-                        label="Email Type"
+                        placeholder="--Select--"
+                        label="Choose Email Type"
                         name="emailtype"
                         id="emailtype"
                         required
                         @click=${(e) => this.emailtypetoggle(e, "emailtype")}
                       >
-                        <sl-option></sl-option>
                         ${repeat(
                           emaildata,
                           (items) =>
@@ -268,14 +220,13 @@ export class MyElement extends LitElement {
 
                     <div class="input-field">
                       <sl-select
-                        placeholder="Select Designation"
-                        label="Designation"
+                        placeholder="--Select--"
+                        label="Choose Designation"
                         name="designation"
                         id="designation"
                         required
                         @click=${(e) => this.formToggle(e, "designation")}
                       >
-                        <sl-option></sl-option>
                         ${repeat(
                           designation,
                           (items) =>
@@ -288,14 +239,13 @@ export class MyElement extends LitElement {
 
                     <div class="input-field">
                       <sl-select
-                        placeholder="Select Department"
-                        label="Department"
+                        placeholder="--Select--"
+                        label="Choose Department"
                         name="department"
                         id="department"
                         required
                         @click=${(e) => this.formToggle(e, "department")}
                       >
-                        <sl-option></sl-option>
                         ${repeat(
                           department,
                           (items) =>
@@ -365,29 +315,35 @@ export class MyElement extends LitElement {
                       ></sl-input>
                     </div>
                   </div>
-                  <div class="blocks">
-                    <div class="warningDiv">
-                      ${this.isEditing
-                        ? ""
-                        : "* Please fill all the mandatory inputs to go to next page"}
-                    </div>
-                  </div>
                 </div>
-
-                <div class="buttons">
-                  ${this.isEditing
-                    ? html`<button class="nextBtn" @click=${this.nextBtnEdit}>
-                        <span class="btnText">Next</span>
-                      </button>`
-                    : html`<button class="nextBtn" @click=${this.nextBtn}>
-                        <span class="btnText">Next</span>
-                      </button>`}
-                  <slot name="next"></slot>
-                </div>
+              </div>
+              <div class="blocks"></div>
+              <div class="buttons">
+                ${this.isEditing
+                  ? html`<button class="nextBtn" @click=${this.nextBtnEdit}>
+                      <span class="btnText">Next</span>
+                    </button>`
+                  : html`<button class="nextBtn" @click=${this.nextBtn}>
+                      <span class="btnText">Next</span>
+                    </button>`}
+                <slot name="next"></slot>
+                <sl-alert
+                  class="alert"
+                  id="nextAlert"
+                  duration="2000"
+                  closable
+                  variant="danger"
+                >
+                  <sl-icon slot="icon" name="info-circle"></sl-icon>
+                  <strong
+                    >Please fill all the mandatory inputs correctly to go to
+                    next page</strong
+                  ><br />
+                </sl-alert>
               </div>
             </div>
 
-            <div class="form second invisible ">
+            <div class="form second invisible">
               <div class="details correspondence">
                 <span class="title">Correspondence Address</span>
 
@@ -396,7 +352,7 @@ export class MyElement extends LitElement {
                     <div class="input-field">
                       <sl-input
                         placeholder="Enter Your Address"
-                        label="Address Line 1"
+                        label="Address"
                         id="correspondenceaddressline1"
                         name="correspondenceaddressline1"
                         class="${this.employeeForm.correspondenceaddressline1
@@ -409,19 +365,10 @@ export class MyElement extends LitElement {
                           ? this.employeeForm.correspondenceaddressline1
                               .errorMessage
                           : ""}
-                        @input=${(e) =>
-                          this.formToggle(e, "correspondenceaddressline1")}
-                      ></sl-input>
-                    </div>
-
-                    <div class="input-field">
-                      <sl-input
-                        label="Address Line 2"
-                        id="correspondenceaddressline2"
-                        name="correspondenceaddressline2"
-                        placeholder="Optional"
-                        @input=${(e) =>
-                          this.formToggle(e, "correspondenceaddressline2")}
+                        @input=${(e) => {
+                          this.formToggle(e, "correspondenceaddressline1");
+                          this.toggleCheckbox();
+                        }}
                       ></sl-input>
                     </div>
 
@@ -436,8 +383,10 @@ export class MyElement extends LitElement {
                           .errorMessage
                           ? "boxerror"
                           : ""}"
-                        @input=${(e) =>
-                          this.formToggle(e, "correspondencelandmark")}
+                        @input=${(e) => {
+                          this.formToggle(e, "correspondencelandmark");
+                          this.toggleCheckbox();
+                        }}
                         help-text=${this.employeeForm.correspondencelandmark
                           .errorMessage
                           ? this.employeeForm.correspondencelandmark
@@ -445,20 +394,19 @@ export class MyElement extends LitElement {
                           : ""}
                       ></sl-input>
                     </div>
-                  </div>
 
-                  <div class="blocks">
                     <div class="input-field">
                       <sl-select
-                        placeholder="Select Country"
-                        label="Country"
+                        placeholder="--Select--"
+                        label="Choose Country"
                         id="correspondencecountry"
                         name="correspondencecountry"
                         required
-                        @click=${(e) =>
-                          this.formToggle(e, "correspondencecountry")}
+                        @click=${(e) => {
+                          this.formToggle(e, "correspondencecountry");
+                          this.toggleCheckbox();
+                        }}
                       >
-                        <sl-option></sl-option>
                         ${repeat(
                           country,
                           (items) =>
@@ -468,18 +416,21 @@ export class MyElement extends LitElement {
                         )}
                       </sl-select>
                     </div>
+                  </div>
 
+                  <div class="blocks">
                     <div class="input-field">
                       <sl-select
-                        placeholder="Select State"
-                        label="State"
-                        @click=${(e) =>
-                          this.formToggle(e, "correspondencestate")}
+                        placeholder="--Select--"
+                        label="Choose State"
+                        @click=${(e) => {
+                          this.formToggle(e, "correspondencestate");
+                          this.toggleCheckbox();
+                        }}
                         id="correspondencestate"
                         name="correspondencestate"
                         required
                       >
-                        <sl-option></sl-option>
                         ${repeat(
                           state,
                           (items) =>
@@ -492,15 +443,16 @@ export class MyElement extends LitElement {
 
                     <div class="input-field">
                       <sl-select
-                        placeholder="Select City"
-                        label="City"
-                        @click=${(e) =>
-                          this.formToggle(e, "correspondencecity")}
+                        placeholder="--Select--"
+                        label="Choose City"
+                        @click=${(e) => {
+                          this.formToggle(e, "correspondencecity");
+                          this.toggleCheckbox();
+                        }}
                         id="correspondencecity"
                         name="correspondencecity"
                         required
                       >
-                        <sl-option></sl-option>
                         ${repeat(
                           city,
                           (items) =>
@@ -510,14 +462,14 @@ export class MyElement extends LitElement {
                         )}
                       </sl-select>
                     </div>
-                  </div>
 
-                  <div class="blocks">
                     <div class="input-field">
                       <sl-input
-                        label="Zip Code"
-                        @input=${(e) =>
-                          this.formToggle(e, "correspondencezipcode")}
+                        label="Zip"
+                        @input=${(e) => {
+                          this.formToggle(e, "correspondencezipcode");
+                          this.toggleCheckbox();
+                        }}
                         id="correspondencezipcode"
                         name="correspondencezipcode"
                         placeholder="Enter Zipcode"
@@ -533,34 +485,28 @@ export class MyElement extends LitElement {
                       ></sl-input>
                     </div>
                   </div>
-
-                  <div class="blocks">
-                    ${!this.isEditing
-                      ? html`<label class="checkbox" for="myCheck"
-                            ><u
-                              >Permanent Address same as Correspondence
-                              Address:</u
-                            ></label
-                          >
-                          <input
-                            type="checkbox"
-                            id="myCheck"
-                            name="myCheck"
-                            @click=${this.checkbox}
-                          /><br />`
-                      : ""}
-                  </div>
                 </div>
               </div>
 
               <div class="details permanent">
                 <span class="title">Permanent Address</span>
 
+                <div class="blocks">
+                  ${!this.isEditing
+                    ? html`<sl-checkbox
+                        class="checkbox"
+                        disabled
+                        @sl-change=${this.checkbox}
+                        >Same as correspondence</sl-checkbox
+                      >`
+                    : ""}
+                </div>
+
                 <div class="fields">
                   <div class="blocks">
                     <div class="input-field">
                       <sl-input
-                        label="Address Line 1"
+                        label="Address"
                         value=${this.employee.permanentaddressline1}
                         @input=${(e) =>
                           this.formToggle(e, "permanentaddressline1")}
@@ -568,19 +514,6 @@ export class MyElement extends LitElement {
                         id="permanentaddressline1"
                         name="permanentaddressline1"
                         placeholder="Enter Your Address"
-                      ></sl-input>
-                    </div>
-
-                    <div class="input-field">
-                      <sl-input
-                        label="Address Line 2"
-                        value=${this.employee.permanentaddressline2}
-                        @input=${(e) =>
-                          this.formToggle(e, "permanentaddressline2")}
-                        type="text"
-                        id="permanentaddressline2"
-                        name="permanentaddressline2"
-                        placeholder="Optional"
                       ></sl-input>
                     </div>
 
@@ -595,19 +528,16 @@ export class MyElement extends LitElement {
                         placeholder="Enter Landmark"
                       ></sl-input>
                     </div>
-                  </div>
 
-                  <div class="blocks">
                     <div class="input-field">
                       <sl-select
-                        label="Country"
-                        placeholder="Select Country"
+                        label="Choose Country"
+                        placeholder="--Select--"
                         @click=${(e) => this.formToggle(e, "permanentcountry")}
                         name="permanentcountry"
                         id="permanentcountry"
                         value=${this.employee.permanentcountry}
                       >
-                        <sl-option> </sl-option>
                         ${repeat(
                           country,
                           (items) =>
@@ -617,17 +547,18 @@ export class MyElement extends LitElement {
                         )}
                       </sl-select>
                     </div>
+                  </div>
 
+                  <div class="blocks">
                     <div class="input-field">
                       <sl-select
-                        label="State"
-                        placeholder="Select State"
+                        label="Choose State"
+                        placeholder="--Select--"
                         @click=${(e) => this.formToggle(e, "permanentstate")}
                         id="permanentstate"
                         name="permanentstate"
                         value=${this.employee.permanentstate}
                       >
-                        <sl-option> </sl-option>
                         ${repeat(
                           state,
                           (items) =>
@@ -640,14 +571,13 @@ export class MyElement extends LitElement {
 
                     <div class="input-field">
                       <sl-select
-                        label="City"
-                        placeholder="Select City"
+                        label="Choose City"
+                        placeholder="--Select--"
                         @click=${(e) => this.formToggle(e, "permanentcity")}
                         name="permanentcity"
                         id="permanentcity"
                         value=${this.employee.permanentcity}
                       >
-                        <sl-option> </sl-option>
                         ${repeat(
                           city,
                           (items) =>
@@ -657,12 +587,10 @@ export class MyElement extends LitElement {
                         )}
                       </sl-select>
                     </div>
-                  </div>
 
-                  <div class="blocks">
                     <div class="input-field">
                       <sl-input
-                        label="Zip Code"
+                        label="Zip"
                         value=${this.employee.permanentzipcode}
                         @input=${(e) => this.formToggle(e, "permanentzipcode")}
                         id="permanentzipcode"
@@ -672,33 +600,111 @@ export class MyElement extends LitElement {
                     </div>
                   </div>
                 </div>
-                <div class="buttons">
-                  <button type="button" @click=${this.backBtn} class="backBtn">
-                    <span class="btnText">Previous</span>
-                  </button>
-                  ${!this.isEditing
-                    ? html`<button
-                        type="submit"
-                        @click=${this.submit}
-                        class="btn"
-                      >
-                        <span class="btnText">Submit</span>
-                      </button>`
-                    : html`<button
-                        class="btn"
-                        type="submit"
-                        @click=${this.saveEdit}
-                      >
-                        <span class="btnText">Update</span>
-                      </button>`}
-                  <slot></slot>
-                </div>
+              </div>
+              <div class="buttons">
+                <button type="button" @click=${this.backBtn} class="backBtn">
+                  <span class="btnText">Previous</span>
+                </button>
+                ${!this.isEditing
+                  ? html`<button
+                      type="submit"
+                      @click=${this.submit}
+                      class="btn"
+                    >
+                      <span class="btnText">Submit</span>
+                    </button>`
+                  : html`<button
+                      class="btn"
+                      type="submit"
+                      @click=${this.saveEdit}
+                    >
+                      <span class="btnText">Update</span>
+                    </button>`}
+                <slot></slot>
+                <sl-alert
+                  id="submitAlert"
+                  duration="2000"
+                  closable
+                  variant="danger"
+                >
+                  <sl-icon slot="icon" name="info-circle"></sl-icon>
+                  <strong>Please fill all the mandatory inputs correctly</strong
+                  ><br />
+                </sl-alert>
               </div>
             </div>
           </form>
         </div>
       </div>
     `;
+  }
+
+  nextBtnEdit(e) {
+    let form = this.renderRoot.querySelector("form");
+    form.reportValidity();
+    e.preventDefault();
+    let first = this.renderRoot.querySelector(".first");
+    let second = this.renderRoot.querySelector(".second");
+    let spinner = this.renderRoot.querySelector(".spinner");
+    spinner.classList.remove("invisible");
+    spinner.classList.add("visible");
+    setTimeout(() => {
+      first.classList.add("invisible");
+      second.classList.remove("invisible");
+      second.classList.add("visible");
+      spinner.classList.remove("visible");
+      spinner.classList.add("invisible");
+    }, 300);
+  }
+
+  nextBtn(e) {
+    let form = this.renderRoot.querySelector("form");
+    form.reportValidity();
+    e.preventDefault();
+    console.log("nxt after deafuat");
+    let first = this.renderRoot.querySelector(".first");
+    let second = this.renderRoot.querySelector(".second");
+    let spinner = this.renderRoot.querySelector(".spinner");
+
+    if (
+      this.employeeForm.name.isValidName === true &&
+      this.employeeForm.email.isValidName === true &&
+      this.employeeForm.empCode.isValidName === true &&
+      this.employeeForm.primary.isValidName === true &&
+      this.employeeForm.secondary.isValidName === true &&
+      this.employeeForm.emergency.isValidName === true &&
+      this.employee.department &&
+      this.employee.designation
+    ) {
+      spinner.classList.remove("invisible");
+      spinner.classList.add("visible");
+      setTimeout(() => {
+        first.classList.add("invisible");
+        second.classList.remove("invisible");
+        second.classList.add("visible");
+        spinner.classList.remove("visible");
+        spinner.classList.add("invisible");
+      }, 300);
+    } else {
+      let alert = this.renderRoot.querySelector("#nextAlert");
+      alert.show();
+    }
+  }
+
+  backBtn() {
+    let first = this.renderRoot.querySelector(".first");
+    let second = this.renderRoot.querySelector(".second");
+    let spinner = this.renderRoot.querySelector(".spinner");
+    spinner.classList.remove("invisible");
+    spinner.classList.add("visible");
+    setTimeout(() => {
+      second.classList.remove("visible");
+      second.classList.add("invisible");
+      first.classList.remove("invisible");
+      first.classList.add("visible");
+      spinner.classList.remove("visible");
+      spinner.classList.add("invisible");
+    }, 300);
   }
 
   formToggle(e, type) {
@@ -751,13 +757,33 @@ export class MyElement extends LitElement {
     }
   }
 
+  toggleCheckbox() {
+    console.log("entered");
+    if (
+      this.employeeForm.correspondenceaddressline1.isValidName === true &&
+      this.employeeForm.correspondencelandmark.isValidName === true &&
+      this.employeeForm.correspondencezipcode.isValidName === true &&
+      this.employee.correspondencecountry &&
+      this.employee.correspondencestate &&
+      this.employee.correspondencecity
+    ) {
+      let checkBox = this.renderRoot.querySelector(".checkbox");
+      checkBox.disabled = false;
+      this.checkbox();
+    } else {
+      console.log("error");
+      let checkBox = this.renderRoot.querySelector(".checkbox");
+      checkBox.disabled = true;
+    }
+  }
+
   checkbox() {
-    const checkBox = this.renderRoot.querySelector("#myCheck");
-    if (checkBox.checked == true) {
+    let checkBox = this.renderRoot.querySelector(".checkbox");
+
+    if (checkBox.checked) {
+      console.log("chekced");
       this.employee.permanentaddressline1 =
         this.employee.correspondenceaddressline1;
-      this.employee.permanentaddressline2 =
-        this.employee.correspondenceaddressline2;
       this.employee.permanentlandmark = this.employee.correspondencelandmark;
       this.employee.permanentcountry = this.employee.correspondencecountry;
       this.employee.permanentstate = this.employee.correspondencestate;
@@ -767,7 +793,6 @@ export class MyElement extends LitElement {
     } else {
       console.log("not cliced");
       this.employee.permanentaddressline1 = "";
-      this.employee.permanentaddressline2 = "";
       this.employee.permanentlandmark = "";
       this.employee.permanentcountry = "";
       this.employee.permanentstate = "";
@@ -798,193 +823,82 @@ export class MyElement extends LitElement {
   }
 
   validateForm(e, type) {
-    switch (type) {
-      // Validation For Name
-      case "name":
-        {
-          if (!e.target.value || e.target.value.length > 40) {
-            this.errormessage(
-              "name",
-              "Please provide a valid name and length can't exceed 40 characters"
-            );
-          } else {
-            this.errormessage_true("name", "");
-          }
-        }
-        break;
+    const value = e.target.value;
 
-      // Validation for EmpCode
-      case "empCode":
-        {
-          if (!e.target.value) {
-            this.errormessage("empCode", "Can't be Empty");
-          } else if (e.target.value.length > 7) {
-            this.errormessage(
-              "empCode",
-              "Emp code should be of 6 digit and 1 capital alphabet only (i.e-1234A56)"
-            );
-          } else if (
-            e.target.value.match(/[A-Z]{1}[0-9]{6}/) ||
-            e.target.value.match(/[0-9][A-Z]{1}[0-9]{5}/) ||
-            e.target.value.match(/[0-9]{2}[A-Z]{1}[0-9]{4}/) ||
-            e.target.value.match(/[0-9]{3}[A-Z]{1}[0-9]{3}/) ||
-            e.target.value.match(/[0-9]{4}[A-Z]{1}[0-9]{2}/) ||
-            e.target.value.match(/[0-9]{5}[A-Z]{1}[0-9]/) ||
-            e.target.value.match(/[0-9]{6}[A-Z]{1}/)
-          ) {
-            this.errormessage_true("empCode", "");
-          } else {
-            this.errormessage(
-              "empCode",
-              "Emp code should be of 6 digit and 1 capital alphabet only (i.e-1234A56)"
-            );
-          }
-        }
-        break;
+    const errorMessages = {
+      name: {
+        condition: value.length > 40,
+        message: "Length can't exceed 40 characters",
+      },
+      empCode: {
+        condition:
+          value.length > 7 ||
+          !(
+            value.match(/[A-Z]{1}[0-9]{6}/) ||
+            value.match(/[0-9][A-Z]{1}[0-9]{5}/) ||
+            value.match(/[0-9]{2}[A-Z]{1}[0-9]{4}/) ||
+            value.match(/[0-9]{3}[A-Z]{1}[0-9]{3}/) ||
+            value.match(/[0-9]{4}[A-Z]{1}[0-9]{2}/) ||
+            value.match(/[0-9]{5}[A-Z]{1}[0-9]/) ||
+            value.match(/[0-9]{6}[A-Z]{1}/)
+          ),
+        message:
+          "Emp code should be of 6 digit and 1 capital alphabet only (i.e-1234A56)",
+      },
+      emailtype: {
+        condition: true,
+        message: "",
+      },
+      email: {
+        condition:
+          (this.emailtype === "Personal" || this.emailtype === "Official") &&
+          (this.emailtype === "Personal"
+            ? !value.match(/^[^\s@]+@gmail\.com$/)
+            : !value.match(/^[^\s@]+@annalect\.com$/)),
+        message:
+          this.emailtype === "Personal"
+            ? "Domain should be- '@gmail.com'"
+            : "Domain should be '@annalect.com'",
+      },
+      correspondenceaddressline1: {
+        condition: value.length > 80,
+        message: "Length can't exceed 80 characters",
+      },
+      correspondencelandmark: {
+        condition: value.length > 50,
+        message: "Length can't exceed 50 characters",
+      },
+      correspondencezipcode: {
+        condition: value.length !== 6 || !value.match(/[0-9]{6}/),
+        message: "Can be of only 6 digit",
+      },
+      primary: {
+        condition: value.length !== 10 || !value.match(/[0-9]{10}/),
+        message: "Can be of only 10 digit",
+      },
+      secondary: {
+        condition: value.length !== 10 || !value.match(/[0-9]{10}/),
+        message: "Can be of only 10 digit",
+      },
+      emergency: {
+        condition: value.length !== 10 || !value.match(/[0-9]{10}/),
+        message: "Can be of only 10 digit",
+      },
+    };
 
-      // Validation for emailtype
-      case "emailtype":
-        {
-          if (this.emailtype === "Personal") {
-            this.renderRoot.querySelector("#email").disabled = false;
-          } else if (this.emailtype === "Official") {
-            this.renderRoot.querySelector("#email").disabled = false;
-          } else {
-            this.renderRoot.querySelector("#email").disabled = true;
-          }
-        }
-        break;
+    if (type === "emailtype") {
+      const emailField = this.renderRoot.querySelector("#email");
+      emailField.disabled = !(
+        this.emailtype === "Personal" || this.emailtype === "Official"
+      );
+    }
 
-      // Validation for Email
-      case "email":
-        {
-          if (this.emailtype === "Personal") {
-            console.log(e.target.value);
-            if (!e.target.value) {
-              this.errormessage("email", "Can't be Empty");
-            } else if (e.target.value.match(/^[^\s@]+@gmail\.com$/)) {
-              this.errormessage_true("email", "");
-            } else {
-              this.errormessage("email", "will include '@gmail.com' at last");
-            }
-          } else if (this.emailtype === "Official") {
-            console.log("in email validation official");
-            if (!e.target.value) {
-              this.errormessage("email", "Can't be Empty");
-            } else if (e.target.value.match(/^[^\s@]+@annalect\.com$/)) {
-              this.errormessage_true("email", "");
-            } else {
-              this.errormessage(
-                "email",
-                "will include '@annalect.com' at last"
-              );
-            }
-          } else if (this.emailtype === "") {
-            this.errormessage("email", "");
-          }
-        }
-        break;
-
-      // validation for correspondence address line 1
-      case "correspondenceaddressline1":
-        {
-          if (!e.target.value || e.target.value.length > 80) {
-            this.errormessage(
-              "correspondenceaddressline1",
-              "Please enter a valid address and can't exceed length of 80 character"
-            );
-          } else {
-            this.errormessage_true("correspondenceaddressline1", "");
-          }
-        }
-        break;
-
-      // validation for correspondence landmark
-      case "correspondencelandmark":
-        {
-          if (!e.target.value || e.target.value.length > 50) {
-            this.errormessage(
-              "correspondencelandmark",
-              "Please enter a valid landmark and can't exceed lenght of 50 character"
-            );
-          } else {
-            this.errormessage_true("correspondencelandmark", "");
-          }
-        }
-        break;
-
-      // validation for correspondence zipcode
-      case "correspondencezipcode":
-        {
-          if (!e.target.value) {
-            this.errormessage("correspondencezipcode", "Can't be Empty");
-          } else if (
-            e.target.value.length > 6 ||
-            e.target.value.length < 6 ||
-            !e.target.value.match(/[0-9]{6}/)
-          ) {
-            this.errormessage(
-              "correspondencezipcode",
-              "Have to be Only of 6 digit"
-            );
-          } else if (e.target.value.match(/[0-9]{6}/)) {
-            this.errormessage_true("correspondencezipcode", "");
-          }
-        }
-        break;
-
-      // validation for primary number
-      case "primary":
-        {
-          if (!e.target.value) {
-            this.errormessage("primary", "Can't be Empty");
-          } else if (
-            e.target.value.length > 10 ||
-            e.target.value.length < 10 ||
-            !e.target.value.match(/[0-9]{10}/)
-          ) {
-            this.errormessage("primary", "Can Be Only Of 10 Digit");
-          } else if (e.target.value.match(/[0-9]{10}/)) {
-            this.errormessage_true("primary", "");
-          }
-        }
-        break;
-
-      // Validation for secondary number
-      case "secondary":
-        {
-          if (!e.target.value) {
-            this.errormessage("secondary", "Can't be Empty");
-          } else if (
-            e.target.value.length > 10 ||
-            e.target.value.length < 10 ||
-            !e.target.value.match(/[0-9]{10}/)
-          ) {
-            this.errormessage("secondary", "Can Be Only Of 10 Digit");
-          } else if (e.target.value.match(/[0-9]{10}/)) {
-            this.errormessage_true("secondary", "");
-          }
-        }
-        break;
-
-      // Validation for emergency number
-      case "emergency":
-        {
-          if (!e.target.value) {
-            this.errormessage("emergency", "Can't be Empty");
-          } else if (
-            e.target.value.length > 10 ||
-            e.target.value.length < 10 ||
-            !e.target.value.match(/[0-9]{10}/)
-          ) {
-            this.errormessage("emergency", "Can Be Only Of 10 Digit");
-          } else if (e.target.value.match(/[0-9]{10}/)) {
-            this.errormessage_true("emergency", "");
-          }
-        }
-        break;
-      default:
-        return;
+    if (!value) {
+      this.errormessage(type, "Can't be empty");
+    } else if (errorMessages[type].condition) {
+      this.errormessage(type, errorMessages[type].message);
+    } else {
+      this.errormessage_true(type, "");
     }
   }
 
@@ -1002,7 +916,12 @@ export class MyElement extends LitElement {
       this.employeeForm.emergency.isValidName === true &&
       this.employeeForm.correspondenceaddressline1.isValidName === true &&
       this.employeeForm.correspondencelandmark.isValidName === true &&
-      this.employeeForm.correspondencezipcode.isValidName === true
+      this.employeeForm.correspondencezipcode.isValidName === true &&
+      this.employee.designation &&
+      this.employee.department &&
+      this.employee.correspondencecountry &&
+      this.employee.correspondencecity &&
+      this.employee.correspondencestate
     ) {
       const formData = this.renderRoot.querySelector("form");
       const userdata = serialize(formData);
@@ -1012,6 +931,9 @@ export class MyElement extends LitElement {
       alert("Form Submitted Successfully");
       form.submit();
       this.requestUpdate();
+    } else {
+      let alert = this.renderRoot.querySelector("#submitAlert");
+      alert.show();
     }
   }
 
@@ -1019,11 +941,21 @@ export class MyElement extends LitElement {
     return css`
       .body-container {
         min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(45deg, #b3d5e5, #5a83f3f0);
+        background-color: #f0f2f5;
         padding: 10px;
+        position: relative;
+        background-image: linear-gradient(45deg, #b3d5e5 0%, #5a83f3f0 44%);
+      }
+      .body-container:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 500px;
+        background: url(https://media.geeksforgeeks.org/wp-content/uploads/20200326181026/wave3.png);
+        background-size: cover;
+        background-repeat: no-repeat;
       }
       .container {
         position: relative;
@@ -1032,34 +964,39 @@ export class MyElement extends LitElement {
         padding: 30px;
         margin: 0px 15px;
         width: 100%;
-        background-color: #fff;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+        box-shadow: 0px 2px 10px 8px rgba(0, 0, 0, 0.2);
+        margin: 20px auto;
       }
+      .container .spinner {
+        position: absolute;
+        top: 50%;
+        right: 50%;
+        z-index: 2;
+      }
+
       .container header {
         position: relative;
+        text-align: center;
         font-size: 25px;
-        font-weight: 600;
-        color: #333;
-        font-family: "Raleway", sans-serif;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-radius: 2px;
+        background-color: #1d4ed8;
+        color: #fff;
+        font-family: "Raleway";
+        font-weight: 700;
+        letter-spacing: 0.05em;
       }
-      .container header::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -2px;
-        height: 3px;
-        width: 25px;
-        border-radius: 8px;
-        background-color: #4070f4;
-      }
+
       .blocks {
         display: flex;
         width: 100%;
-        margin: 12px 0;
+        margin-top: 14px;
       }
       .container form {
         position: relative;
-        margin-top: 16px;
+        margin-top: 18px;
         background-color: #fff;
       }
 
@@ -1070,39 +1007,48 @@ export class MyElement extends LitElement {
         display: none;
       }
 
-      .container form .details {
-        /* margin-top:30px; */
+      .container form .details.personal {
+        margin-top: 20px;
+        padding: 20px 10px;
+        background-color: #b1dcf040;
+        border-radius: 4px;
       }
       .container form .details.contact {
-        /* margin-top:10px; */
+        margin-top: 40px;
+        padding: 20px 10px;
+        background-color: #b1dcf040;
+        border-radius: 4px;
+      }
+      .container form .details.correspondence {
+        margin-top: 20px;
+        padding: 20px 10px;
+        background-color: #b1dcf040;
+        border-radius: 4px;
+      }
+      .container form .details.permanent {
+        margin-top: 40px;
+        padding: 20px 10px;
+        background-color: #b1dcf040;
+        border-radius: 4px;
       }
       .container form .title {
         display: block;
+        margin-left: 15px;
         margin-bottom: 8px;
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 19px;
         color: #333;
-        font-family: "PT Serif", serif;
+        font-family: "Roboto";
+        font-weight: 500;
       }
       .container form .fields {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
         flex-wrap: wrap;
       }
       form .fields .input-field {
         display: flex;
         flex-direction: column;
-        width: calc(100% / 3);
+        width: 100%;
         margin: 4px 0;
-      }
-      .input-field sl-input {
-        font-family: "Lora", serif;
-        padding: 0 15px;
-      }
-      .input-field sl-select {
-        font-family: "Lora", serif;
-        padding: 0 15px;
       }
       .container form .nextBtn,
       .backBtn,
@@ -1110,21 +1056,31 @@ export class MyElement extends LitElement {
         height: 45px;
         max-width: 200px;
         width: 100%;
-        border: 1px solid #3263e9;
-        color: #000000;
+        border: none;
+        color: #fff;
         border-radius: 5px;
         margin: 25px 0;
         cursor: pointer;
         font-size: 18px;
+        font-family: "Roboto";
         font-weight: 500;
-        font-family: "PT Serif", serif;
-        background-color: #fff;
+        background-color: #1d4ed8;
+        letter-spacing: 0.05em;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
       }
 
       form .nextBtn:hover,
       .backBtn:hover,
       .btn:hover {
-        background-color: #a2bbff89;
+        background-color: #fff;
+        color: #1d4ed8;
+        border: 1px solid #1d4ed8;
+        -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
       }
 
       form .nextBtn:active,
@@ -1148,13 +1104,20 @@ export class MyElement extends LitElement {
       }
       .checkbox {
         font-family: "Lora", serif;
-        color: #ff4848;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        font-size: 18px;
+        color: #000000;
+        margin-right: 8px;
+        margin-bottom: 9px;
+        margin-left: 15px;
+        font-size: 16px;
+        font-family: Roboto;
+        font-weight: 500;
+        margin-top: 10px;
       }
       #myCheck {
-        margin-bottom: 10px;
+        margin-top: 6px;
+      }
+      #submitAlert {
+        margin-left: 20px;
       }
       .boxerror::part(base) {
         border-color: var(--sl-color-danger-600);
@@ -1164,21 +1127,36 @@ export class MyElement extends LitElement {
         color: var(--sl-color-danger-500);
       }
       sl-input::part(form-control-label) {
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         margin-left: 2px;
+        font-family: "Roboto";
+        font-weight: 500;
       }
       sl-select::part(form-control-label) {
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         margin-left: 2px;
+        font-family: "Roboto";
+        font-weight: 500;
       }
       sl-input::part(form-control-help-text) {
         margin-top: 5px;
+        font-family: "Roboto";
       }
       sl-select::part(form-control-help-text) {
         margin-top: 5px;
       }
       .boxerror::part(form-control-help-text) {
         color: var(--sl-color-danger-500);
+      }
+      sl-input::part(form-control) {
+        padding: 0 15px;
+      }
+      sl-select::part(form-control) {
+        padding: 0 15px;
+      }
+      sl-option::part(form-control) {
+        font-family: "Roboto";
+        padding: 0 15px;
       }
     `;
   }
