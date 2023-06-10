@@ -67,7 +67,7 @@ export class Navbar extends LitElement {
             gap:20px;
          }
          a:hover{
-            color:#482fd4;
+            color:#f97316;
          }
         `
     }

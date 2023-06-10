@@ -125,13 +125,14 @@ export class MyElement extends LitElement {
   render() {
     return html`
       <div class="body-container">
+
         <div class="container">
           <sl-spinner
             style="font-size: 7rem; --track-width: 8px; --indicator-color: #2563eb; --track-color: #dbeafe;"
             class="spinner invisible"
           ></sl-spinner>
           <header>
-            ${this.isEditing ? "Update Details" : "Registration Form"}
+            ${this.isEditing ? "UPDATE DETAILS" : "REGISTRATION FORM"}
           </header>
 
           <form>
@@ -139,7 +140,7 @@ export class MyElement extends LitElement {
 
             <div class="form first">
               <div class="details personal">
-                <span class="title">Personal Details</span>
+                <span class="title"><sl-icon class="icon" name="person-workspace"></sl-icon> PERSONAL DETAILS</span>
 
                 <div class="fields">
                   <div class="blocks">
@@ -260,7 +261,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="details contact">
-                <span class="title">Contact Details</span>
+                <span class="title"><sl-icon class="icon" name="telephone"></sl-icon> CONTACT DETAILS</span>
 
                 <div class="fields">
                   <div class="blocks">
@@ -345,7 +346,7 @@ export class MyElement extends LitElement {
 
             <div class="form second invisible">
               <div class="details correspondence">
-                <span class="title">Correspondence Address</span>
+                <span class="title"><sl-icon class="icon" name="house-add"></sl-icon> CORRESPONDENCE ADDRESS</span>
 
                 <div class="fields">
                   <div class="blocks">
@@ -489,7 +490,7 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="details permanent">
-                <span class="title">Permanent Address</span>
+                <span class="title"><sl-icon class="icon" name="house-add"></sl-icon> PERMANENT ADDRESS</span>
 
                 <div class="blocks">
                   ${!this.isEditing
@@ -1039,6 +1040,9 @@ export class MyElement extends LitElement {
         color: #333;
         font-family: "Roboto";
         font-weight: 500;
+      }
+     .container form .title .icon{
+        font-size:16px;
       }
       .container form .fields {
         display: flex;

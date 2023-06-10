@@ -59,13 +59,19 @@ export class UserData extends LitElement {
         : nothing}
 
       <div class="main-container">
+        <div>
+          <img src="./src/registration.png"/>
+        </div>
         <div class="container1">
           <section class="header">
-            <h1>Employee Details</h1>
-          </section>
-          <div class="sortBtn">
+            <div class="heading">
+            <u><h1>Employee Details</u></h1>
+      </div>
+            <div class="sortBtn">
             <button @click=${this.sort}>Sort ⇵</button>
           </div>
+          </section>
+          
           <div class="container">
             ${repeat(
               this.data,
@@ -85,21 +91,16 @@ export class UserData extends LitElement {
                   <sl-tree-item >
                     <strong class="title">${items.name}</strong>
 
-                    <sl-tooltip content="Edit" placement="top">
-                      <button
-                        class="editBtn"
-                        @click=${() => this.editItem(index)}
-                      >
-                        <sl-icon name="pencil-square"></sl-icon></button
-                    ></sl-tooltip>
-                    <sl-tooltip content="Delete" placement="top">
-                      <button
-                        class="deleteBtn"
-                        @click=${() => this.DeleteConfirmation(items)}
-                      >
-                        <sl-icon name="trash"></sl-icon></button
-                    ></sl-tooltip>
+                    <sl-tooltip hoist content="Edit" placement="top">
+                        <sl-icon  class="editBtn"
+                        @click=${() => this.editItem(index)} name="pencil-square"></sl-icon>
 
+                  </sl-tooltip>
+                    <sl-tooltip hoist content="Delete" placement="top">
+                        <sl-icon class="deleteBtn"
+                        @click=${() => this.DeleteConfirmation(items)} name="trash"></sl-icon>
+                  </sl-tooltip>
+                  
                     <sl-tree-item class="base"
                       ><strong>Name :</strong
                       ><strong class="inner"
@@ -250,23 +251,29 @@ export class UserData extends LitElement {
       }
 
       .main-container {
-        padding-top: 20px;
-        height: 91.9vh;
+        padding-top: 10px;
+        /* padding-bottom: 20px; */
+        min-height: 91.9vh;
+        display:flex;
         /* background-color:#d1d5db; */
-        background-color:#4949747b;
-        /* background-image: linear-gradient(45deg,#60a5fa, #bfdbfe); */
+        /* background-color:#9292ca7b; */
+        background-image: linear-gradient(45deg,#80a9d1 29.4%, #c1dcf7 0%);
       }
       .container1 {
-        margin: 0px 300px;
-        background-color: #fff;
+        /* margin: 0px 100px; */
+        margin-left:15px;
+        margin-right:60px;
+        /* background-color: #fff; */
         border-radius: 8px;
-        box-shadow: 0px 2px 10px 5px rgba(0, 0, 0, 0.2);
+        width:100%;
+        max-height:500px;
+        /* box-shadow: 0px 2px 10px 5px rgba(0, 0, 0, 0.2); */
       }
       .container {
         position: relative;
-        background-color: #fff;
+        background-color: none;
         margin: 0px 20px;
-        max-height: 420px;
+        max-height: 390px;
         margin-top: 10px;
         overflow-y: scroll;
       }
@@ -280,13 +287,13 @@ export class UserData extends LitElement {
         border: none;
         color: #fff;
         border-radius: 5px;
-        margin-top: 10px;
-        margin-left: 20px;
+        margin-top: 15px;
+        margin-left: 379px;
         cursor: pointer;
         font-size: 18px;
         font-family: "Roboto";
         font-weight: 500;
-        background-color: #1d4ed8;
+        background-color: #8b5cf6;
         letter-spacing: 0.03em;
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
@@ -295,43 +302,43 @@ export class UserData extends LitElement {
       }
       .sortBtn button:hover {
         background-color: #fff;
-        color: #1d4ed8;
-        border: 1px solid #1d4ed8;
+        color: #8b5cf6;
+        border: 1px solid #8b5cf6;
         -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
         -moz-box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
         box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
       }
       .sortBtn button:active {
-        background-color: #678cf3a7;
+        background-color: #aa8af3;
       }
       .deleteBtn {
         position: absolute;
         right: 10px;
         top: 5px;
-        background-color: #f3f4f6;
+        /* background-color: #f97316; */
         border: none;
         outline: none;
         cursor: pointer;
         font-size: 23px;
-        color: #000000;
+        color: #fff;
       }
       .editBtn {
         position: absolute;
         right: 50px;
         top: 5px;
-        background-color: #f3f4f6;
+        /* background-color: #f97316; */
         border: none;
         outline: none;
         cursor: pointer;
         font-size: 23px;
-        color: #000000;
+        color: #fff;
       }
       .editBtn:hover,
       .deleteBtn:hover {
-        transform: scale(1.4);
+        transform: scale(1.2);
       }
       .expand {
-        color: #000000;
+        color: #fff;
       }
       strong {
         margin-right: 5px;
@@ -351,41 +358,51 @@ export class UserData extends LitElement {
       }
 
       sl-tree::part(base) {
-        /* background-color: #f0fdfa; */
+        background-color: #f97316;
         /* background-image:linear-gradient(to right,#c3faed,#f0fdfa ); */
-        background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 );
+        /* background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 ); */
         border:none;
-        border: 1px solid #000000;
+        box-shadow: 4px 2px 5px 0.1px #fff7ed;
         border-radius: 4px;
         padding-top: 12px;
-        padding-bottom: 12px;
+        padding-bottom: 6px;
+        
       }
 
 
       sl-tree-item::part(base) {
-        color: #000000;
+        color: #fff;
       }
       sl-tooltip::part(base) {
         -webkit-text-fill-color: #fff;
       }
       .base {
-        /* background-color: #f0fdfa; */
-        background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 );
+        background-color: #fff7ed;
+        /* background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 ); */
         -webkit-text-fill-color: #000000;
         font-family: "Roboto";
         font-weight: 400;
       }
       .header {
-        padding-bottom: 10px;
-        padding-top: 10px;
+        display:flex;
+      }
+      .heading{
+        padding-bottom: 15px;
+        padding-top: 15px;
+        margin-left:20px;
         border-top-right-radius: 8px;
         border-top-left-radius: 8px;
-        color: #fff;
+        color: #3b0764;
+       
         font-family: "Raleway";
         font-weight: 700;
         font-size: 20px;
-        text-align: center;
-        background-color: #1d4ed8;
+        /* text-align: center; */
+        background-color: none;
+      }
+      h1{
+        -webkit-text-stroke-width: 0.8px;
+  -webkit-text-stroke-color: #8f7f9c;
       }
 
       .invisible {
