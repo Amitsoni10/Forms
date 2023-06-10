@@ -14,6 +14,7 @@ export class UserData extends LitElement {
       countries: { type: Array },
       editData: { type: Object },
       sortAscending: { type: Boolean },
+      updateData:{type:String},
     };
   }
 
@@ -39,12 +40,12 @@ export class UserData extends LitElement {
 
   render() {
     return html`
-      <div id="alertbox" class="invisible">
-        <div class="alert">
-          <span class="closebtn" @click=${this.toggleAlert}>&times;</span>
-          <strong>Data Deleted Successfully!!!</strong>
-        </div>
-      </div>
+            <div class="alertDiv">
+        <sl-alert  class="alert" variant="danger" duration="1500" closable>
+      <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+      <strong>Your data has been deleted succesfully !</strong>
+    </sl-alert></div>
+      
 
       ${this.editData
         ? html` <dialog class="modal" id="modal">
@@ -189,19 +190,12 @@ export class UserData extends LitElement {
     this.requestUpdate();
   }
 
-  toggleAlert() {
-    let alertbox = this.renderRoot.querySelector("#alertbox");
-    alertbox.classList.remove("visible");
-    alertbox.classList.add("invisible");
-  }
-
   alert() {
-    let alertbox = this.renderRoot.querySelector("#alertbox");
-    alertbox.classList.remove("invisible");
-    alertbox.classList.add("visible");
+    let alert = this.renderRoot.querySelector(".alert");
+    alert.show();
     setTimeout(() => {
       window.location.reload();
-    }, 700);
+    },1500);
   }
 
   editItem(index) {
@@ -252,22 +246,16 @@ export class UserData extends LitElement {
 
       .main-container {
         padding-top: 10px;
-        /* padding-bottom: 20px; */
         min-height: 91.9vh;
         display:flex;
-        /* background-color:#d1d5db; */
-        /* background-color:#9292ca7b; */
         background-image: linear-gradient(45deg,#80a9d1 29.4%, #c1dcf7 0%);
       }
       .container1 {
-        /* margin: 0px 100px; */
         margin-left:15px;
         margin-right:60px;
-        /* background-color: #fff; */
         border-radius: 8px;
         width:100%;
         max-height:500px;
-        /* box-shadow: 0px 2px 10px 5px rgba(0, 0, 0, 0.2); */
       }
       .container {
         position: relative;
@@ -359,8 +347,6 @@ export class UserData extends LitElement {
 
       sl-tree::part(base) {
         background-color: #f97316;
-        /* background-image:linear-gradient(to right,#c3faed,#f0fdfa ); */
-        /* background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 ); */
         border:none;
         box-shadow: 4px 2px 5px 0.1px #fff7ed;
         border-radius: 4px;
@@ -378,7 +364,6 @@ export class UserData extends LitElement {
       }
       .base {
         background-color: #fff7ed;
-        /* background-image:linear-gradient(to right,#e5e7eb,#f3f4f6 ); */
         -webkit-text-fill-color: #000000;
         font-family: "Roboto";
         font-weight: 400;
@@ -392,12 +377,10 @@ export class UserData extends LitElement {
         margin-left:20px;
         border-top-right-radius: 8px;
         border-top-left-radius: 8px;
-        color: #3b0764;
-       
+        color: #3b0764;    
         font-family: "Raleway";
         font-weight: 700;
         font-size: 20px;
-        /* text-align: center; */
         background-color: none;
       }
       h1{
@@ -405,21 +388,12 @@ export class UserData extends LitElement {
   -webkit-text-stroke-color: #8f7f9c;
       }
 
-      .invisible {
-        display: none;
-      }
-      .visible {
-        display: block;
-      }
-
-      .alert {
-        text-align: center;
-        padding: 15px;
-        font-size: 22px;
-        font-weight: 300;
-        font-family: "Raleway", sans-serif;
-        background-color: #ff2020f6;
-        color: white;
+      .alertDiv {
+        width:50%;
+        position:absolute;
+        top:2%;
+        left:26%;
+        z-index:2;
       }
 
       .closebtn {
