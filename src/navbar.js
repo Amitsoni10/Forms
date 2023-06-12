@@ -20,7 +20,7 @@ export class Navbar extends LitElement {
                 <li>Annalect</li>
                 <div id="direction">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="UserData.html">UserData</a></li>
+                <li><a href="UserData.html">Userdata</a></li>
             </div>
             </ul>
         </nav>

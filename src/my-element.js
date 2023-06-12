@@ -125,6 +125,18 @@ export class MyElement extends LitElement {
   render() {
     return html`
       <div class="body-container">
+        <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
 
         <div class="container">
           <sl-spinner
@@ -140,7 +152,10 @@ export class MyElement extends LitElement {
 
             <div class="form first">
               <div class="details personal">
-                <span class="title"><sl-icon class="icon" name="person-workspace"></sl-icon> PERSONAL DETAILS</span>
+                <span class="title"
+                  ><sl-icon class="icon" name="person-workspace"></sl-icon>
+                  PERSONAL DETAILS</span
+                >
 
                 <div class="fields">
                   <div class="blocks">
@@ -261,7 +276,10 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="details contact">
-                <span class="title"><sl-icon class="icon" name="telephone"></sl-icon> CONTACT DETAILS</span>
+                <span class="title"
+                  ><sl-icon class="icon" name="telephone"></sl-icon> CONTACT
+                  DETAILS</span
+                >
 
                 <div class="fields">
                   <div class="blocks">
@@ -346,7 +364,10 @@ export class MyElement extends LitElement {
 
             <div class="form second invisible">
               <div class="details correspondence">
-                <span class="title"><sl-icon class="icon" name="house-add"></sl-icon> CORRESPONDENCE ADDRESS</span>
+                <span class="title"
+                  ><sl-icon class="icon" name="house-add"></sl-icon>
+                  CORRESPONDENCE ADDRESS</span
+                >
 
                 <div class="fields">
                   <div class="blocks">
@@ -490,7 +511,10 @@ export class MyElement extends LitElement {
               </div>
 
               <div class="details permanent">
-                <span class="title"><sl-icon class="icon" name="house-add"></sl-icon> PERMANENT ADDRESS</span>
+                <span class="title"
+                  ><sl-icon class="icon" name="house-add"></sl-icon> PERMANENT
+                  ADDRESS</span
+                >
 
                 <div class="blocks">
                   ${!this.isEditing
@@ -858,7 +882,7 @@ export class MyElement extends LitElement {
             : !value.match(/^[^\s@]+@annalect\.com$/)),
         message:
           this.emailtype === "Personal"
-            ? "Domain should be- '@gmail.com'"
+            ? "Domain should be '@gmail.com'"
             : "Domain should be '@annalect.com'",
       },
       correspondenceaddressline1: {
@@ -940,32 +964,139 @@ export class MyElement extends LitElement {
 
   static get styles() {
     return css`
-      .body-container {
-        min-height: 100vh;
-        background-color: #f0f2f5;
-        padding: 10px;
-        position: relative;
-        background-image: linear-gradient(45deg, #b3d5e5 0%, #5a83f3f0 44%);
+      * {
+        padding: 0;
+        margin: 0;
       }
-      .body-container:before {
-        content: "";
+
+      .circles {
         position: absolute;
-        bottom: 0;
+        top: 0;
         left: 0;
         width: 100%;
-        height: 500px;
-        background: url(https://media.geeksforgeeks.org/wp-content/uploads/20200326181026/wave3.png);
-        background-size: cover;
-        background-repeat: no-repeat;
+        height: 100%;
+        overflow: hidden;
       }
+
+      .circles li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate 25s linear infinite;
+        bottom: -150px;
+      }
+
+      .circles li:nth-child(1) {
+        left: 10%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+
+      .circles li:nth-child(2) {
+        left: 10%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 2s;
+        animation-duration: 12s;
+      }
+
+      .circles li:nth-child(3) {
+        left: 85%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 4s;
+      }
+
+      .circles li:nth-child(4) {
+        left: 2%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 0s;
+        animation-duration: 18s;
+      }
+
+      .circles li:nth-child(5) {
+        left: 90%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 0s;
+      }
+
+      .circles li:nth-child(6) {
+        left: 95%;
+        width: 110px;
+        height: 110px;
+        animation-delay: 3s;
+      }
+
+      .circles li:nth-child(7) {
+        left: 35%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 7s;
+      }
+
+      .circles li:nth-child(8) {
+        left: 50%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 15s;
+        animation-duration: 45s;
+      }
+
+      .circles li:nth-child(9) {
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        animation-delay: 2s;
+        animation-duration: 35s;
+      }
+
+      .circles li:nth-child(10) {
+        left: 85%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 0s;
+        animation-duration: 11s;
+      }
+
+      @keyframes animate {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+          border-radius: 0;
+        }
+
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+          border-radius: 50%;
+        }
+      }
+
+      .body-container {
+        /* min-height: 100vh; */
+        padding: 10px;
+        position: relative;
+        /* background-image: linear-gradient(45deg,#d8b4fe 10%,#a855f7 46% ,#9333ea 85%); */
+        background: #4e54c8;
+        background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+        /* width: 100%; */
+        min-height: 100vh;
+      }
+
       .container {
         position: relative;
         max-width: 900px;
         border-radius: 6px;
-        padding: 30px;
+        padding: 25px;
         margin: 0px 15px;
-        width: 100%;
-        background-color: #ffffff;
+        /* width: 100%; */
+        background-color: #f3f4f6;
         box-shadow: 0px 2px 10px 8px rgba(0, 0, 0, 0.2);
         margin: 20px auto;
       }
@@ -982,8 +1113,15 @@ export class MyElement extends LitElement {
         font-size: 25px;
         padding-top: 12px;
         padding-bottom: 12px;
-        border-radius: 2px;
-        background-color: #1d4ed8;
+        border: 3px outset #172554;
+        border-radius: 5px;
+        /* background-color: #1d4ed8; */
+        background-image: linear-gradient(
+          225deg,
+          #60a5fa 5%,
+          #1d4ed8 30%,
+          #172554 99%
+        );
         color: #fff;
         font-family: "Raleway";
         font-weight: 700;
@@ -998,7 +1136,7 @@ export class MyElement extends LitElement {
       .container form {
         position: relative;
         margin-top: 18px;
-        background-color: #fff;
+        background-color: #f3f4f6;
       }
 
       .visible {
@@ -1011,25 +1149,25 @@ export class MyElement extends LitElement {
       .container form .details.personal {
         margin-top: 20px;
         padding: 20px 10px;
-        background-color: #b1dcf040;
+        background-color: #dbeafe;
         border-radius: 4px;
       }
       .container form .details.contact {
         margin-top: 40px;
         padding: 20px 10px;
-        background-color: #b1dcf040;
+        background-color: #dbeafe;
         border-radius: 4px;
       }
       .container form .details.correspondence {
         margin-top: 20px;
         padding: 20px 10px;
-        background-color: #b1dcf040;
+        background-color: #dbeafe;
         border-radius: 4px;
       }
       .container form .details.permanent {
         margin-top: 40px;
         padding: 20px 10px;
-        background-color: #b1dcf040;
+        background-color: #dbeafe;
         border-radius: 4px;
       }
       .container form .title {
@@ -1041,8 +1179,8 @@ export class MyElement extends LitElement {
         font-family: "Roboto";
         font-weight: 500;
       }
-     .container form .title .icon{
-        font-size:16px;
+      .container form .title .icon {
+        font-size: 16px;
       }
       .container form .fields {
         display: flex;
@@ -1101,13 +1239,8 @@ export class MyElement extends LitElement {
       .backBtn {
         margin-right: 14px;
       }
-      .warningDiv {
-        font-family: "Lora", serif;
-        font-size: 16px;
-        color: #ff0000;
-      }
       .checkbox {
-        font-family: "Lora", serif;
+        font-family: "Roboto";
         color: #000000;
         margin-right: 8px;
         margin-bottom: 9px;
@@ -1151,6 +1284,8 @@ export class MyElement extends LitElement {
       }
       .boxerror::part(form-control-help-text) {
         color: var(--sl-color-danger-500);
+        font-family: "Roboto";
+        font-weight: 400;
       }
       sl-input::part(form-control) {
         padding: 0 15px;
@@ -1161,6 +1296,30 @@ export class MyElement extends LitElement {
       sl-option::part(form-control) {
         font-family: "Roboto";
         padding: 0 15px;
+      }
+      sl-input::part(base) {
+        border: 1px solid #1f2937;
+        background-color: #f9fafb;
+        box-shadow: 0px 2px 3px 0px #1f2937;
+      }
+      sl-select::part(combobox) {
+        border: 1px solid #1f2937;
+        background-color: #f9fafb;
+        box-shadow: 0px 2px 3px 0px #1f2937;
+      }
+      sl-input::part(input) {
+        font-family: "Roboto";
+        color: #000;
+        font-size: 15px;
+      }
+      sl-select::part(display-input) {
+        font-family: "Roboto";
+        color: #000;
+        font-size: 15px;
+      }
+      sl-option::part(base) {
+        font-family: "Roboto";
+        font-size: 14px;
       }
     `;
   }
