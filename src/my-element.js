@@ -17,6 +17,7 @@ import "@shoelace-style/shoelace/dist/components/spinner/spinner.js";
 import "@shoelace-style/shoelace/dist/components/alert/alert.js";
 import "@shoelace-style/shoelace/dist/components/icon/icon.js";
 import "@shoelace-style/shoelace/dist/components/checkbox/checkbox.js";
+import '@shoelace-style/shoelace/dist/components/progress-bar/progress-bar.js';
 import { serialize } from "@shoelace-style/shoelace/dist/utilities/form.js";
 
 export class MyElement extends LitElement {
@@ -29,6 +30,17 @@ export class MyElement extends LitElement {
       isEditing: { type: Boolean },
       editData: { type: Object },
       data: { type: Array },
+      progress: { type: Number },
+      progress1: { type: Number },
+      progress2: { type: Number },
+      progress3: { type: Number },
+      progress4: { type: Number },
+      progress5: { type: Number },
+      progress6: { type: Number },
+      progress7: { type: Number },
+      progress8: { type: Number },
+      progress9: { type: Number },
+      progress10: { type: Number },
     };
   }
 
@@ -38,6 +50,17 @@ export class MyElement extends LitElement {
     this.emailtype = "";
     this.isEditing = false;
     this.employee = {};
+    this.progress = 0;
+    this.progress1 = 0;
+    this.progress2 = 0;
+    this.progress3 = 0;
+    this.progress4 = 0;
+    this.progress5 = 0;
+    this.progress6 = 0;
+    this.progress7 = 0;
+    this.progress8 = 0;
+    this.progress9 = 0;
+    this.progress10 = 0;
 
     this.employeeForm = {
       name: { value: "", isValidName: false, errorMessage: "" },
@@ -148,7 +171,7 @@ export class MyElement extends LitElement {
           </header>
 
           <form>
-            <hr />
+            ${!this.isEditing?html`<sl-progress-bar value=${this.progress} label="Progress Bar">${this.progress}%</sl-progress-bar>`:""}
 
             <div class="form first">
               <div class="details personal">
@@ -170,7 +193,10 @@ export class MyElement extends LitElement {
                         id="name"
                         placeholder="Enter Your Name"
                         name="name"
-                        @input=${(e) => this.formToggle(e, "name")}
+                        @input=${(e) => {
+                          this.formToggle(e, "name");
+                          this.barOne();
+                          }}
                         help-text=${this.employeeForm.name.errorMessage
                           ? this.employeeForm.name.errorMessage
                           : ""}
@@ -184,7 +210,8 @@ export class MyElement extends LitElement {
                         name="emailtype"
                         id="emailtype"
                         required
-                        @click=${(e) => this.emailtypetoggle(e, "emailtype")}
+                        @click=${(e) => {this.emailtypetoggle(e, "emailtype")
+                      this.barTwo()}}
                       >
                         ${repeat(
                           emaildata,
@@ -207,7 +234,8 @@ export class MyElement extends LitElement {
                         required
                         id="email"
                         name="email"
-                        @input=${(e) => this.formToggle(e, "email")}
+                        @input=${(e) => {this.formToggle(e, "email")
+                      this.barThree();}}
                         help-text=${this.employeeForm.email.errorMessage
                           ? this.employeeForm.email.errorMessage
                           : ""}
@@ -227,7 +255,8 @@ export class MyElement extends LitElement {
                         name="empCode"
                         required
                         placeholder="Enter Employee Code"
-                        @input=${(e) => this.formToggle(e, "empCode")}
+                        @input=${(e) => {this.formToggle(e, "empCode")
+                      this.barFour()}}
                         help-text=${this.employeeForm.empCode.errorMessage
                           ? this.employeeForm.empCode.errorMessage
                           : ""}
@@ -293,7 +322,8 @@ export class MyElement extends LitElement {
                         name="primary"
                         placeholder="Enter Primary Number"
                         required
-                        @input=${(e) => this.formToggle(e, "primary")}
+                        @input=${(e) => {this.formToggle(e, "primary")
+                      this.barFive();}}
                         help-text=${this.employeeForm.primary.errorMessage
                           ? this.employeeForm.primary.errorMessage
                           : ""}
@@ -310,7 +340,8 @@ export class MyElement extends LitElement {
                         id="secondarynumber"
                         placeholder="Enter Secondary Number"
                         required
-                        @input=${(e) => this.formToggle(e, "secondary")}
+                        @input=${(e) => {this.formToggle(e, "secondary")
+                      this.barSix();}}
                         help-text=${this.employeeForm.secondary.errorMessage
                           ? this.employeeForm.secondary.errorMessage
                           : ""}
@@ -327,7 +358,8 @@ export class MyElement extends LitElement {
                         id="emergencynumber"
                         placeholder="Enter Emergency Number"
                         required
-                        @input=${(e) => this.formToggle(e, "emergency")}
+                        @input=${(e) => {this.formToggle(e, "emergency")
+                      this.barSeven();}}
                         help-text=${this.employeeForm.emergency.errorMessage
                           ? this.employeeForm.emergency.errorMessage
                           : ""}
@@ -390,6 +422,7 @@ export class MyElement extends LitElement {
                         @input=${(e) => {
                           this.formToggle(e, "correspondenceaddressline1");
                           this.toggleCheckbox();
+                          this.barEight();
                         }}
                       ></sl-input>
                     </div>
@@ -408,6 +441,7 @@ export class MyElement extends LitElement {
                         @input=${(e) => {
                           this.formToggle(e, "correspondencelandmark");
                           this.toggleCheckbox();
+                          this.barNine();
                         }}
                         help-text=${this.employeeForm.correspondencelandmark
                           .errorMessage
@@ -491,6 +525,7 @@ export class MyElement extends LitElement {
                         @input=${(e) => {
                           this.formToggle(e, "correspondencezipcode");
                           this.toggleCheckbox();
+                          this.barTen();
                         }}
                         id="correspondencezipcode"
                         name="correspondencezipcode"
@@ -664,6 +699,70 @@ export class MyElement extends LitElement {
     `;
   }
 
+  barOne() {
+    this.progress1 = this.employeeForm.name.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barTwo() {
+    this.progress2 = this.emailtype ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barThree() {
+    this.progress3 = this.employeeForm.email.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barFour() {
+    this.progress4 = this.employeeForm.empCode.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barFive() {
+    this.progress5 = this.employeeForm.primary.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barSix() {
+    this.progress6 = this.employeeForm.secondary.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barSeven() {
+    this.progress7 = this.employeeForm.emergency.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barEight() {
+    this.progress8 = this.employeeForm.correspondenceaddressline1.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barNine() {
+    this.progress9 = this.employeeForm.correspondencelandmark.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  
+  barTen() {
+    this.progress10 = this.employeeForm.correspondencezipcode.isValidName ? 10 : 0;
+    this.finalprogress();
+  }
+  finalprogress() {
+    this.progress =
+      Number(this.progress1) +
+      Number(this.progress2) +
+      Number(this.progress3) +
+      Number(this.progress4) +
+      Number(this.progress5) +
+      Number(this.progress6) +
+      Number(this.progress7) +
+      Number(this.progress8) +
+      Number(this.progress9) +
+      Number(this.progress10);
+    console.log(this.progress);
+  }
+
   nextBtnEdit(e) {
     let form = this.renderRoot.querySelector("form");
     form.reportValidity();
@@ -794,7 +893,7 @@ export class MyElement extends LitElement {
     ) {
       let checkBox = this.renderRoot.querySelector(".checkbox");
       checkBox.disabled = false;
-      this.checkbox();
+      // this.checkbox();
     } else {
       console.log("error");
       let checkBox = this.renderRoot.querySelector(".checkbox");
@@ -874,6 +973,7 @@ export class MyElement extends LitElement {
         condition: true,
         message: "",
       },
+
       email: {
         condition:
           (this.emailtype === "Personal" || this.emailtype === "Official") &&
@@ -920,9 +1020,12 @@ export class MyElement extends LitElement {
 
     if (!value) {
       this.errormessage(type, "Can't be empty");
+    }else if(type==="designation" || type==="department" || type==="correspondencecountry" || type==="correspondencestate" || type==="correspondencecity" || type==="permanentaddressline1" || type==="permanentlandmark" || type==="permanentzipcode" || type==="permanentcountry" || type==="permanentstate" || type==="permanentcity"){
+      this.errormessage_true(type, "");
     } else if (errorMessages[type].condition) {
       this.errormessage(type, errorMessages[type].message);
-    } else {
+    } 
+      else {
       this.errormessage_true(type, "");
     }
   }
@@ -968,6 +1071,19 @@ export class MyElement extends LitElement {
         padding: 0;
         margin: 0;
       }
+
+      sl-progress-bar::part(base){
+      border-radius:0px;
+      background:#dbeafe;
+    }
+      sl-progress-bar::part(indicator){
+        background-image: linear-gradient(
+          225deg,
+          #60a5fa 5%,
+          #1d4ed8 30%,
+          #172554 99%
+        );
+    }
 
       .circles {
         position: absolute;
